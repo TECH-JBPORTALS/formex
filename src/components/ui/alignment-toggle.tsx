@@ -39,6 +39,7 @@ export function AlignmentToggle() {
     <ToolbarToggleGroup value={alignment} type="single">
       {items.map((item) => (
         <ToolbarToggleItem
+          tooltip={`Align ${item.value}`}
           key={item.value}
           value={item.value}
           onClick={() => {
