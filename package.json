@@ -10,9 +10,17 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@platejs/basic-nodes": "^52.0.11",
+    "@radix-ui/react-toolbar": "^1.1.11",
+    "class-variance-authority": "^0.7.1",
+    "lucide-react": "^0.576.0",
     "next": "16.1.6",
+    "platejs": "^52.3.2",
+    "radix-ui": "^1.4.3",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "tailwind-merge": "^3.5.0",
+    "tailwind-scrollbar-hide": "^4.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",

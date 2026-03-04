@@ -12,7 +12,8 @@
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "useEditorconfig": true
   },
   "linter": {
     "enabled": true,
@@ -33,5 +34,15 @@
         "organizeImports": "on"
       }
     }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "tab"
+    },
+    "assist": {
+      "enabled": true
+    },
+    "linter": { "enabled": true }
   }
 }
