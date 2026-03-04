@@ -6,16 +6,9 @@ import { Plate, usePlateEditor } from "platejs/react";
 import { Editor, EditorContainer } from "@/components/ui/editor";
 import { FixedToolbar } from "@/components/ui/fixed-toolbar";
 import { MarkToolbarButton } from "@/components/ui/mark-toolbar-button";
-import { BasicNodesKit } from "./editor/plugins/basic-nodes-kit";
 import { ToolbarButton, ToolbarGroup } from "./ui/toolbar";
-import {
-  AlignCenter,
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
-  AlignStartVertical,
-} from "lucide-react";
-import { BasicTextAlignKit } from "./editor/plugins/basic-text-align-kit";
+import { AlignmentToggle } from "./ui/alignment-toggle";
+import { EditorKit } from "./editor/editor-kit";
 
 const initialValue: Value = [
   {
@@ -26,7 +19,7 @@ const initialValue: Value = [
 
 export default function FormDocEditor() {
   const editor = usePlateEditor({
-    plugins: [...BasicTextAlignKit, ...BasicNodesKit], // Add the mark plugins
+    plugins: EditorKit, // Add the mark plugins
     value: initialValue, // Set initial content
   });
 
@@ -64,48 +57,15 @@ export default function FormDocEditor() {
             H4
           </ToolbarButton>
         </ToolbarGroup>
-        <ToolbarButton
-          onClick={() => {
-            editor.tf.textAlign.setNodes("start");
-            editor.tf.focus();
-          }}
-          tooltip="Align Left"
-        >
-          <AlignLeft />
-        </ToolbarButton>
-        <ToolbarButton
-          onClick={() => {
-            editor.tf.textAlign.setNodes("center");
-            editor.tf.focus();
-          }}
-          tooltip="Align Center"
-        >
-          <AlignCenter />
-        </ToolbarButton>
-        <ToolbarButton
-          onClick={() => {
-            editor.tf.textAlign.setNodes("right");
-            editor.tf.focus();
-          }}
-          tooltip="Align Right"
-        >
-          <AlignRight />
-        </ToolbarButton>
-        <ToolbarButton
-          onClick={() => {
-            editor.tf.textAlign.setNodes("justify");
-            editor.tf.focus();
-          }}
-          tooltip="Align Justify"
-        >
-          <AlignJustify />
-        </ToolbarButton>
+        <AlignmentToggle />
       </FixedToolbar>
-      {/* Provides editor context */}
-      <EditorContainer className="h-svh">
-        {/* Styles the editor area */}
-        <Editor placeholder="Type your amazing content here..." />
-      </EditorContainer>
+      <div className="w-full flex flex-col items-center bg-zinc-100">
+        {/* Provides editor context */}
+        <EditorContainer className="h-svh w-1/2 shadow-md bg-white">
+          {/* Styles the editor area */}
+          <Editor placeholder="Type your amazing content here..." />
+        </EditorContainer>
+      </div>
     </Plate>
   );
 }
