@@ -1,11 +1,10 @@
 "use client";
 
-import * as React from "react";
-
 import * as ToolbarPrimitive from "@radix-ui/react-toolbar";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { type VariantProps, cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
+import * as React from "react";
 
 import {
   DropdownMenuLabel,
@@ -226,10 +225,10 @@ export function ToolbarSplitButtonSecondary({
   size,
   variant,
   ...props
-}: React.ComponentPropsWithoutRef<"span"> &
+}: React.ComponentPropsWithoutRef<"button"> &
   VariantProps<typeof dropdownArrowVariants>) {
   return (
-    <span
+    <button
       className={cn(
         dropdownArrowVariants({
           size,
@@ -239,30 +238,27 @@ export function ToolbarSplitButtonSecondary({
         className,
       )}
       onClick={(e) => e.stopPropagation()}
-      role="button"
       {...props}
     >
       <ChevronDown className="size-3.5 text-muted-foreground" data-icon />
-    </span>
+    </button>
   );
 }
 
-export const ToolbarToggleItem = withTooltip(
-  ({
-    className,
-    size = "sm",
-    variant,
-    ...props
-  }: React.ComponentProps<typeof ToolbarPrimitive.ToggleItem> &
-    VariantProps<typeof toolbarButtonVariants>) => {
-    return (
-      <ToolbarPrimitive.ToggleItem
-        className={cn(toolbarButtonVariants({ size, variant }), className)}
-        {...props}
-      />
-    );
-  },
-);
+export function ToolbarToggleItem({
+  className,
+  size = "sm",
+  variant,
+  ...props
+}: React.ComponentProps<typeof ToolbarPrimitive.ToggleItem> &
+  VariantProps<typeof toolbarButtonVariants>) {
+  return (
+    <ToolbarPrimitive.ToggleItem
+      className={cn(toolbarButtonVariants({ size, variant }), className)}
+      {...props}
+    />
+  );
+}
 
 export function ToolbarGroup({
   children,

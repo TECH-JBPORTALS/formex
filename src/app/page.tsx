@@ -1,5 +1,11 @@
-import FormDocEditor from "@/components/form-doc-editor";
+import { Toaster } from "sonner";
+import { PlateEditor } from "@/components/editor/plate-editor";
 
 export default function Home() {
-  return <FormDocEditor />;
+  return (
+    <div className="h-screen w-full">
+      <PlateEditor />
+      <Toaster />
+    </div>
+  );
 }
