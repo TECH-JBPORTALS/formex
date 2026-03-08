@@ -1,5 +1,5 @@
 import { initTRPC } from "@trpc/server";
-import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
+import z, { ZodError } from "zod";
 import { db } from "./db";
 
 export const createTRPCContext = async () => {
@@ -14,7 +14,21 @@ export type Context = Awaited<ReturnType<typeof createTRPCContext>>;
  * Initialization of tRPC backend
  * Should be done only once per backend!
  */
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create({
+  errorFormatter(opts) {
+    const { shape, error } = opts;
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError:
+          error.code === "BAD_REQUEST" && error.cause instanceof ZodError
+            ? z.treeifyError(error.cause)
+            : null,
+      },
+    };
+  },
+});
 
 /**
  * Export reusable router and procedure helpers

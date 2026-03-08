@@ -9,4 +9,6 @@ export const templateRouter = createRouter({
       .returning()
       .then((r) => r[0]),
   ),
+
+  list: publicProcedure.query(({ ctx }) => ctx.db.query.template.findMany()),
 });
