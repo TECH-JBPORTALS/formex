@@ -9,19 +9,16 @@ import { BasicBlocksKit } from "@/components/editor/plugins/basic-blocks-kit";
 import { BasicMarksKit } from "@/components/editor/plugins/basic-marks-kit";
 import { BlockMenuKit } from "@/components/editor/plugins/block-menu-kit";
 import { BlockPlaceholderKit } from "@/components/editor/plugins/block-placeholder-kit";
-import { CalloutKit } from "@/components/editor/plugins/callout-kit";
 import { ColumnKit } from "@/components/editor/plugins/column-kit";
 import { CursorOverlayKit } from "@/components/editor/plugins/cursor-overlay-kit";
 import { DateKit } from "@/components/editor/plugins/date-kit";
 import { DndKit } from "@/components/editor/plugins/dnd-kit";
 import { DocxKit } from "@/components/editor/plugins/docx-kit";
-import { EmojiKit } from "@/components/editor/plugins/emoji-kit";
 import { ExitBreakKit } from "@/components/editor/plugins/exit-break-kit";
 import { FixedToolbarKit } from "@/components/editor/plugins/fixed-toolbar-kit";
 import { FloatingToolbarKit } from "@/components/editor/plugins/floating-toolbar-kit";
 import { FontKit } from "@/components/editor/plugins/font-kit";
 import { LineHeightKit } from "@/components/editor/plugins/line-height-kit";
-import { LinkKit } from "@/components/editor/plugins/link-kit";
 import { ListKit } from "@/components/editor/plugins/list-kit";
 import { MarkdownKit } from "@/components/editor/plugins/markdown-kit";
 import { SlashKit } from "@/components/editor/plugins/slash-kit";
@@ -35,10 +32,8 @@ export const EditorKit = [
   ...TableKit,
   ...ToggleKit,
   ...TocKit,
-  ...CalloutKit,
   ...ColumnKit,
   ...DateKit,
-  ...LinkKit,
 
   // Marks
   ...BasicMarksKit,
@@ -57,7 +52,6 @@ export const EditorKit = [
   ...CursorOverlayKit,
   ...BlockMenuKit,
   ...DndKit,
-  ...EmojiKit,
   ...ExitBreakKit,
   TrailingBlockPlugin,
 

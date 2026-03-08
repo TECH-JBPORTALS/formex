@@ -225,10 +225,10 @@ export function ToolbarSplitButtonSecondary({
   size,
   variant,
   ...props
-}: React.ComponentPropsWithoutRef<"button"> &
+}: React.ComponentPropsWithoutRef<"span"> &
   VariantProps<typeof dropdownArrowVariants>) {
   return (
-    <button
+    <span
       className={cn(
         dropdownArrowVariants({
           size,
@@ -238,10 +238,11 @@ export function ToolbarSplitButtonSecondary({
         className,
       )}
       onClick={(e) => e.stopPropagation()}
+      role="button"
       {...props}
     >
       <ChevronDown className="size-3.5 text-muted-foreground" data-icon />
-    </button>
+    </span>
   );
 }
 

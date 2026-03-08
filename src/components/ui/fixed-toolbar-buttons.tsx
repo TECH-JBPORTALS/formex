@@ -24,9 +24,7 @@ import {
   IndentToolbarButton,
   OutdentToolbarButton,
 } from "./indent-toolbar-button";
-import { InsertToolbarButton } from "./insert-toolbar-button";
 import { LineHeightToolbarButton } from "./line-height-toolbar-button";
-import { LinkToolbarButton } from "./link-toolbar-button";
 import {
   BulletedListToolbarButton,
   NumberedListToolbarButton,
@@ -34,7 +32,6 @@ import {
 } from "./list-toolbar-button";
 import { MarkToolbarButton } from "./mark-toolbar-button";
 import { MediaToolbarButton } from "./media-toolbar-button";
-import { ModeToolbarButton } from "./mode-toolbar-button";
 import { MoreToolbarButton } from "./more-toolbar-button";
 import { TableToolbarButton } from "./table-toolbar-button";
 import { ToggleToolbarButton } from "./toggle-toolbar-button";
@@ -62,7 +59,6 @@ export function FixedToolbarButtons() {
           </ToolbarGroup>
 
           <ToolbarGroup>
-            <InsertToolbarButton />
             <TurnIntoToolbarButton />
             <FontSizeToolbarButton />
           </ToolbarGroup>
@@ -116,15 +112,11 @@ export function FixedToolbarButtons() {
           </ToolbarGroup>
 
           <ToolbarGroup>
-            <LinkToolbarButton />
             <TableToolbarButton />
           </ToolbarGroup>
 
           <ToolbarGroup>
             <MediaToolbarButton nodeType={KEYS.img} />
-            <MediaToolbarButton nodeType={KEYS.video} />
-            <MediaToolbarButton nodeType={KEYS.audio} />
-            <MediaToolbarButton nodeType={KEYS.file} />
           </ToolbarGroup>
 
           <ToolbarGroup>
@@ -145,10 +137,6 @@ export function FixedToolbarButtons() {
         <MarkToolbarButton nodeType={KEYS.highlight} tooltip="Highlight">
           <HighlighterIcon />
         </MarkToolbarButton>
-      </ToolbarGroup>
-
-      <ToolbarGroup>
-        <ModeToolbarButton />
       </ToolbarGroup>
     </div>
   );

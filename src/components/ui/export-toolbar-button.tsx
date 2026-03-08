@@ -23,7 +23,7 @@ import { BaseEditorKit } from "@/components/editor/editor-base-kit";
 
 import { EditorStatic } from "./editor-static";
 import { ToolbarButton } from "./toolbar";
-import { DocxExportKit } from "@/components/editor/plugins/docx-export-kit";
+// import { DocxExportKit } from "@/components/editor/plugins/docx-export-kit";
 
 const siteUrl = "https://platejs.org";
 
@@ -152,7 +152,7 @@ export function ExportToolbarButton(props: DropdownMenuProps) {
 
   const exportToWord = async () => {
     const blob = await exportToDocx(editor.children, {
-      editorPlugins: [...BaseEditorKit, ...DocxExportKit] as SlatePlugin[],
+      editorPlugins: [...BaseEditorKit] as SlatePlugin[],
     });
 
     const url = URL.createObjectURL(blob);
