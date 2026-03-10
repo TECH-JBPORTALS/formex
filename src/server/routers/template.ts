@@ -7,7 +7,7 @@ export const templateRouter = createRouter({
   new: publicProcedure.mutation(({ ctx }) =>
     ctx.db
       .insert(template)
-      .values({ title: "Untitled" })
+      .values({ title: "Untitled", updatedAt: null })
       .returning()
       .then((r) => r[0]),
   ),
