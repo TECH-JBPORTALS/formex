@@ -1,20 +1,9 @@
 "use client";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2, MoreHorizontalIcon, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { MoreHorizontalIcon, Pencil, Trash2, Loader2 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "../ui/dialog";
+import { useTRPC } from "../../trpc/client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,10 +15,21 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useTRPC } from "../../trpc/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface ProgramActionsProps {
   id: string;
@@ -37,13 +37,13 @@ interface ProgramActionsProps {
 }
 
 export function ProgramActions({ id, name }: ProgramActionsProps) {
-  const trpc        = useTRPC();
+  const trpc = useTRPC();
   const queryClient = useQueryClient();
 
-  const [renameOpen, setRenameOpen]   = useState(false);
-  const [newName, setNewName]         = useState(name);
+  const [renameOpen, setRenameOpen] = useState(false);
+  const [newName, setNewName] = useState(name);
   const [renameError, setRenameError] = useState("");
-  const [deleteOpen, setDeleteOpen]   = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const update = useMutation(
     trpc.program.update.mutationOptions({
@@ -70,8 +70,14 @@ export function ProgramActions({ id, name }: ProgramActionsProps) {
 
   function handleRename() {
     const trimmed = newName.trim();
-    if (!trimmed) { setRenameError("Program name cannot be empty."); return; }
-    if (trimmed === name) { setRenameOpen(false); return; }
+    if (!trimmed) {
+      setRenameError("Program name cannot be empty.");
+      return;
+    }
+    if (trimmed === name) {
+      setRenameOpen(false);
+      return;
+    }
     update.mutate({ id, name: trimmed });
   }
 
@@ -80,13 +86,13 @@ export function ProgramActions({ id, name }: ProgramActionsProps) {
       {/* ── Three-dot menu ── */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button
+          <Button
             className="ml-auto flex h-6 w-6 items-center justify-center rounded opacity-0 group-hover/item:opacity-100 hover:bg-accent"
             onClick={(e) => e.stopPropagation()}
           >
             <MoreHorizontalIcon className="h-3.5 w-3.5" />
             <span className="sr-only">Program options</span>
-          </button>
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="right" align="start">
           <DropdownMenuItem onClick={openRename}>
@@ -114,21 +120,38 @@ export function ProgramActions({ id, name }: ProgramActionsProps) {
             <Input
               id="rename-input"
               value={newName}
-              onChange={(e) => { setNewName(e.target.value); if (renameError) setRenameError(""); }}
-              onKeyDown={(e) => { if (e.key === "Enter") handleRename(); if (e.key === "Escape") setRenameOpen(false); }}
+              onChange={(e) => {
+                setNewName(e.target.value);
+                if (renameError) setRenameError("");
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleRename();
+                if (e.key === "Escape") setRenameOpen(false);
+              }}
               autoFocus
               disabled={update.isPending}
             />
-            {renameError && <p className="text-xs text-destructive">{renameError}</p>}
+            {renameError && (
+              <p className="text-xs text-destructive">{renameError}</p>
+            )}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setRenameOpen(false)} disabled={update.isPending}>
+            <Button
+              variant="outline"
+              onClick={() => setRenameOpen(false)}
+              disabled={update.isPending}
+            >
               Cancel
             </Button>
             <Button onClick={handleRename} disabled={update.isPending}>
               {update.isPending ? (
-                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Saving…</>
-              ) : "Save"}
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving…
+                </>
+              ) : (
+                "Save"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -140,19 +163,27 @@ export function ProgramActions({ id, name }: ProgramActionsProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Branch?</AlertDialogTitle>
             <AlertDialogDescription>
-              <strong>{name}</strong> will be permanently deleted. This action cannot be undone.
+              <strong>{name}</strong> will be permanently deleted. This action
+              cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={remove.isPending}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={remove.isPending}>
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => remove.mutate({ id })}
               disabled={remove.isPending}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {remove.isPending ? (
-                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Deleting…</>
-              ) : "Delete"}
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Deleting…
+                </>
+              ) : (
+                "Delete"
+              )}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

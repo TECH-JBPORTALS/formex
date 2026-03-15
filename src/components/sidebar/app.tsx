@@ -1,9 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { PlusIcon, Loader2 } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Loader2, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { useTRPC } from "../../trpc/client";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import {
   Sidebar,
   SidebarGroup,
@@ -15,18 +27,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../ui/sidebar";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { useTRPC } from "../../trpc/client";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ProgramActions } from "./program-actions";
 
 const formats = [
@@ -36,13 +36,13 @@ const formats = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const trpc        = useTRPC();
+  const trpc = useTRPC();
   const queryClient = useQueryClient();
 
-  const [activeId, setActiveId]       = useState<string | null>(null);
-  const [dialogOpen, setDialogOpen]   = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [programName, setProgramName] = useState("");
-  const [error, setError]             = useState("");
+  const [error, setError] = useState("");
 
   const { data: branches = [], isLoading } = useQuery(
     trpc.program.list.queryOptions(),
@@ -67,7 +67,10 @@ export function AppSidebar() {
 
   function handleSave() {
     const trimmed = programName.trim();
-    if (!trimmed) { setError("Program name cannot be empty."); return; }
+    if (!trimmed) {
+      setError("Program name cannot be empty.");
+      return;
+    }
     create.mutate({ name: trimmed });
   }
 
@@ -83,21 +86,21 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {formats.map((item) => (
-              <SidebarMenuItem key={item.id}>
-                <SidebarMenuButton asChild isActive={pathname === item.href}>
-                  <Link href={item.href}>{item.name}</Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton asChild isActive={pathname === item.href}>
+                    <Link href={item.href}>{item.name}</Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
         <SidebarGroup>
           <SidebarGroupLabel>
-            Branches
+            Programs
             <SidebarGroupAction onClick={openDialog}>
-              <PlusIcon /> <span className="sr-only">Add Branch</span>
+              <PlusIcon /> <span className="sr-only">Add Program</span>
             </SidebarGroupAction>
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -108,7 +111,7 @@ export function AppSidebar() {
                 </div>
               ) : (
                 branches.map((item) => (
-                  <SidebarMenuItem key={item.id} className="group/item">
+                  <SidebarMenuItem key={item.id}>
                     <SidebarMenuButton
                       isActive={activeId === item.id}
                       onClick={() => setActiveId(item.id)}
@@ -128,7 +131,7 @@ export function AppSidebar() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Add New Branch</DialogTitle>
+            <DialogTitle>Add New Program</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-2 py-2">
             <Label htmlFor="program-name">Program Name</Label>
@@ -136,21 +139,36 @@ export function AppSidebar() {
               id="program-name"
               placeholder="e.g. Computer Science & Engg."
               value={programName}
-              onChange={(e) => { setProgramName(e.target.value); if (error) setError(""); }}
-              onKeyDown={(e) => { if (e.key === "Enter") handleSave(); if (e.key === "Escape") setDialogOpen(false); }}
+              onChange={(e) => {
+                setProgramName(e.target.value);
+                if (error) setError("");
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSave();
+                if (e.key === "Escape") setDialogOpen(false);
+              }}
               autoFocus
               disabled={create.isPending}
             />
             {error && <p className="text-xs text-destructive">{error}</p>}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDialogOpen(false)} disabled={create.isPending}>
+            <Button
+              variant="outline"
+              onClick={() => setDialogOpen(false)}
+              disabled={create.isPending}
+            >
               Cancel
             </Button>
             <Button onClick={handleSave} disabled={create.isPending}>
               {create.isPending ? (
-                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Saving…</>
-              ) : "Save"}
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving…
+                </>
+              ) : (
+                "Save"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
