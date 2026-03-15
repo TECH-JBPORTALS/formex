@@ -1,5 +1,5 @@
 import { PDFPreview } from "@/components/pdf-preview";
-import Format01  from "@/templates/format01";
+import Format01 from "@/templates/format01";
 
 export default function Page() {
   return (

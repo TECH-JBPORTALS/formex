@@ -28,15 +28,13 @@ export const courseReportRouter = createRouter({
   ),
 
   // 11.1 Create Monthly Course Coordinator Report
-  create: publicProcedure
-    .input(courseReportInput)
-    .mutation(({ ctx, input }) =>
-      ctx.db
-        .insert(courseReport)
-        .values(input)
-        .returning()
-        .then((rows) => rows[0]),
-    ),
+  create: publicProcedure.input(courseReportInput).mutation(({ ctx, input }) =>
+    ctx.db
+      .insert(courseReport)
+      .values(input)
+      .returning()
+      .then((rows) => rows[0]),
+  ),
 
   // 11.2 Update Monthly Report
   update: publicProcedure

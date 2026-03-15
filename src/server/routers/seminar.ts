@@ -31,15 +31,13 @@ export const seminarRouter = createRouter({
   ),
 
   // 10.1 Record Seminar / Workshop Details
-  create: publicProcedure
-    .input(seminarInput)
-    .mutation(({ ctx, input }) =>
-      ctx.db
-        .insert(seminar)
-        .values(input)
-        .returning()
-        .then((rows) => rows[0]),
-    ),
+  create: publicProcedure.input(seminarInput).mutation(({ ctx, input }) =>
+    ctx.db
+      .insert(seminar)
+      .values(input)
+      .returning()
+      .then((rows) => rows[0]),
+  ),
 
   // 10.2 Update Seminar / Workshop Information
   update: publicProcedure

@@ -41,7 +41,7 @@ export const programRouter = createRouter({
   update: publicProcedure
     .input(
       z.object({
-        id:   z.string().uuid(),
+        id: z.string().uuid(),
         name: z.string().min(1, "Program name is required"),
       }),
     )
@@ -49,7 +49,7 @@ export const programRouter = createRouter({
       ctx.db
         .update(program)
         .set({
-          name:      input.name,
+          name: input.name,
           updatedAt: new Date(),
         })
         .where(eq(program.id, input.id))
