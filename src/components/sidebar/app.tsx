@@ -1,4 +1,8 @@
+"use client";
+
 import { PlusIcon } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarGroup,
@@ -12,55 +16,39 @@ import {
 } from "../ui/sidebar";
 
 const formats = [
-  {
-    id: 1,
-    name: "INS FORMAT 01",
-  },
-  {
-    id: 2,
-    name: "INS FORMAT 02",
-  },
+  { id: 1, name: "INS FORMAT 01", href: "/f/1" },
+  { id: 2, name: "INS FORMAT 02", href: "/f/2" },
 ];
 
 const branches = [
-  {
-    id: 1,
-    name: "Computer Science & Engg.",
-  },
-  {
-    id: 2,
-    name: "Electrical & Electronics",
-  },
-  {
-    id: 3,
-    name: "Mechanical Engg.",
-  },
-  {
-    id: 4,
-    name: "Hotel Management",
-  },
+  { id: 1, name: "Computer Science & Engg." },
+  { id: 2, name: "Electrical & Electronics" },
+  { id: 3, name: "Mechanical Engg." },
+  { id: 4, name: "Hotel Management" },
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <Sidebar>
       <SidebarHeader>
         <span className="text-lg px-1.5 font-semibold font-mono">Formex</span>
       </SidebarHeader>
-
       <SidebarGroup>
         <SidebarGroupLabel>Institution Formats</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             {formats.map((item) => (
               <SidebarMenuItem key={item.id}>
-                <SidebarMenuButton>{item.name}</SidebarMenuButton>
+                <SidebarMenuButton asChild isActive={pathname === item.href}>
+                  <Link href={item.href}>{item.name}</Link>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
-
       <SidebarGroup>
         <SidebarGroupLabel>
           Branches
