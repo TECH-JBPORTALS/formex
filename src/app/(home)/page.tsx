@@ -1,3 +1,10 @@
+import { PDFPreview } from "@/components/pdf-preview";
+import { Preview } from "./preview";
+
 export default function Page() {
-  return <div>Home Page</div>;
+  return (
+    <PDFPreview>
+      <Preview />
+    </PDFPreview>
+  );
 }

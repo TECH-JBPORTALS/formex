@@ -41,7 +41,7 @@ const branches = [
   },
 ];
 
-export default function AppSidebar() {
+export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
