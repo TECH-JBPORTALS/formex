@@ -13,14 +13,12 @@ import { ciePathwayRouter } from "@/server/api/routers/ciePathway";
  * AppRouter — single root router that merges all sub-routers.
  * Add new routers here as the app grows.
  */
-export const appRouter = createTRPCRouter({
-  student:    studentRouter,
+
+export const appRouter = createRouter({
   subject:    subjectRouter,
   cieWritten: cieWrittenRouter,   // Epic 1
   cieSkill:   cieSkillRouter,     // Epic 2
   ciePathway: ciePathwayRouter,   // Epic 3
-});
-export const appRouter = createRouter({
   template: templateRouter,
   student: studentRouter,
 });
