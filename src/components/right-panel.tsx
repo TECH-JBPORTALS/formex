@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
-
 import {
   Form,
   FormControl,
@@ -22,9 +21,6 @@ import {
   SidebarMenuItem,
 } from "./ui/sidebar";
 import { Textarea } from "./ui/textarea";
-import { renderToStaticMarkup } from "react-dom/server";
-import { Format01 } from "@/templates/format01";
-import { generatePDF } from "@/lib/pdf-generator";
 
 const schema = z.object({
   vision: z.string().min(1, "Required"),
@@ -32,14 +28,7 @@ const schema = z.object({
 });
 
 export function RightPanel() {
-  const {
-    vision,
-    mission,
-    setMission,
-    institutionCode,
-    institutionName,
-    setVision,
-  } = useDocumentStore((s) => s);
+  const { vision, mission, setMission, setVision } = useDocumentStore((s) => s);
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {

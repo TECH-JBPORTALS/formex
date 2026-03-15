@@ -1,11 +1,13 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2, PlusIcon } from "lucide-react";
+import { ChevronDownIcon, Loader2, PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { signOut, useSession } from "@/lib/auth-client";
 import { useTRPC } from "../../trpc/client";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -14,10 +16,20 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import {
   Sidebar,
+  SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupAction,
   SidebarGroupContent,
@@ -37,7 +49,9 @@ const formats = [
 export function AppSidebar() {
   const pathname = usePathname();
   const trpc = useTRPC();
+  const router = useRouter();
   const queryClient = useQueryClient();
+  const { data: session } = useSession();
 
   const [activeId, setActiveId] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -81,51 +95,123 @@ export function AppSidebar() {
           <span className="text-lg px-1.5 font-semibold font-mono">Formex</span>
         </SidebarHeader>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Institution Formats</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {formats.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <Link href={item.href}>{item.name}</Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>
-            Programs
-            <SidebarGroupAction onClick={openDialog}>
-              <PlusIcon /> <span className="sr-only">Add Program</span>
-            </SidebarGroupAction>
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {isLoading ? (
-                <div className="flex items-center gap-2 px-2 py-1.5 text-sm text-muted-foreground">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" /> Loading…
-                </div>
-              ) : (
-                branches.map((item) => (
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Institution Formats</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {formats.map((item) => (
                   <SidebarMenuItem key={item.id}>
                     <SidebarMenuButton
-                      isActive={activeId === item.id}
-                      onClick={() => setActiveId(item.id)}
-                      className="flex w-full items-center"
+                      asChild
+                      isActive={pathname === item.href}
                     >
-                      <span className="flex-1 truncate">{item.name}</span>
-                      <ProgramActions id={item.id} name={item.name} />
+                      <Link href={item.href}>{item.name}</Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                ))
-              )}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          <SidebarGroup>
+            <SidebarGroupLabel>
+              Programs
+              <SidebarGroupAction onClick={openDialog}>
+                <PlusIcon /> <span className="sr-only">Add Program</span>
+              </SidebarGroupAction>
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {isLoading ? (
+                  <div className="flex items-center gap-2 px-2 py-1.5 text-sm text-muted-foreground">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" /> Loading…
+                  </div>
+                ) : (
+                  branches.map((item) => (
+                    <SidebarMenuItem key={item.id}>
+                      <SidebarMenuButton
+                        isActive={activeId === item.id}
+                        onClick={() => setActiveId(item.id)}
+                        className="flex w-full items-center"
+                      >
+                        <span className="flex-1 truncate">{item.name}</span>
+                        <ProgramActions id={item.id} name={item.name} />
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))
+                )}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+
+        <SidebarFooter className="pb-6">
+          <SidebarMenu>
+            {session?.user ? (
+              <DropdownMenu>
+                <SidebarMenuItem>
+                  <DropdownMenuTrigger className="group/dropdown-menu" asChild>
+                    <SidebarMenuButton size={"lg"}>
+                      <Avatar>
+                        <AvatarImage
+                          src={session.user.image ?? ""}
+                          alt={`${session.user.name}'s Avatar`}
+                        />
+                        <AvatarFallback>
+                          {session.user.name.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+
+                      <div>
+                        <span className="font-medium">{session.user.name}</span>
+                        <p className="text-xs text-muted-foreground">
+                          {session.user.email}
+                        </p>
+                      </div>
+
+                      <ChevronDownIcon className="ml-auto group-data-[state=open]/dropdown-menu:-rotate-180 transition-all duration-200" />
+                    </SidebarMenuButton>
+                  </DropdownMenuTrigger>
+                </SidebarMenuItem>
+                <DropdownMenuContent className="w-60" align="start" side="top">
+                  <DropdownMenuLabel className="flex gap-1.5">
+                    <Avatar>
+                      <AvatarImage
+                        src={session.user.image ?? ""}
+                        alt={`${session.user.name}'s Avatar`}
+                      />
+                      <AvatarFallback>
+                        {session.user.name.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <span className="text-sm font-medium leading-none">
+                        {session.user.name ?? "Signed in"}
+                      </span>
+                      <p className="text-xs text-muted-foreground">
+                        {session.user.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => {
+                      void signOut().then(() => router.refresh());
+                    }}
+                    variant="destructive"
+                  >
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <p className="px-2 py-1.5 text-xs text-muted-foreground">
+                Not signed in
+              </p>
+            )}
+          </SidebarMenu>
+        </SidebarFooter>
       </Sidebar>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
