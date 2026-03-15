@@ -1,19 +1,18 @@
 import { initTRPC } from "@trpc/server";
 import z, { ZodError } from "zod";
-import { db } from "./db";
+
+// Lazy import — db is resolved at call-time, not at module evaluation time.
+// This breaks the Turbopack circular initialization chain:
+// routers → db/schema → db/index → trpc → (already evaluating) → ❌
+// With lazy import, trpc.ts has zero top-level side-effects from db.
+const getDb = () => import("./db").then((m) => m.db);
 
 export const createTRPCContext = async () => {
-  return {
-    db,
-  };
+  return { db: await getDb() };
 };
 
 export type Context = Awaited<ReturnType<typeof createTRPCContext>>;
 
-/**
- * Initialization of tRPC backend
- * Should be done only once per backend!
- */
 const t = initTRPC.context<Context>().create({
   errorFormatter(opts) {
     const { shape, error } = opts;
@@ -30,9 +29,5 @@ const t = initTRPC.context<Context>().create({
   },
 });
 
-/**
- * Export reusable router and procedure helpers
- * that can be used throughout the router
- */
 export const createRouter = t.router;
 export const publicProcedure = t.procedure;
