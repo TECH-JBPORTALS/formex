@@ -1,3 +1,5 @@
+import { courseReportRouter } from "./routers/course-report";
+import { seminarRouter } from "./routers/seminar";
 import { studentRouter } from "./routers/student";
 import { templateRouter } from "./routers/template";
 import { createRouter } from "./trpc";
@@ -5,7 +7,8 @@ import { createRouter } from "./trpc";
 export const appRouter = createRouter({
   template: templateRouter,
   student: studentRouter,
+  seminar: seminarRouter,
+  courseReport: courseReportRouter,
 });
-// Export type router type signature,
-// NOT the router itself.
+
 export type AppRouter = typeof appRouter;

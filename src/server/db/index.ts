@@ -8,3 +8,5 @@ const sql = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle({ client: sql, schema, casing: "snake_case" });
 
 export { db };
+
+

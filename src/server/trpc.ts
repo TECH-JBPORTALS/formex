@@ -1,20 +1,14 @@
 import { initTRPC } from "@trpc/server";
 import z, { ZodError } from "zod";
-import { db } from "./db";
+import type { db as DbType } from "./db";
 
-export const createTRPCContext = async () => {
-  return {
-    db,
-  };
+// db is passed in at request time via createTRPCContext in the route handler
+// Do NOT import db here — it causes a Turbopack circular initialization error
+export type Context = {
+  db: typeof DbType;
 };
 
-export type Context = Awaited<ReturnType<typeof createTRPCContext>>;
-
-/**
- * Initialization of tRPC backend
- * Should be done only once per backend!
- */
-const t = initTRPC.context<Context>().create({
+export const t = initTRPC.context<Context>().create({
   errorFormatter(opts) {
     const { shape, error } = opts;
     return {
@@ -30,9 +24,5 @@ const t = initTRPC.context<Context>().create({
   },
 });
 
-/**
- * Export reusable router and procedure helpers
- * that can be used throughout the router
- */
 export const createRouter = t.router;
 export const publicProcedure = t.procedure;
