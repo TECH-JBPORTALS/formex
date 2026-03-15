@@ -62,12 +62,12 @@ export default function SignInPage() {
     <div className="min-h-screen bg-linear-to-br from-background via-muted to-background flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <Card className="border-border/60 backdrop-blur-sm bg-background/80">
-          <CardHeader className="space-y-3 text-center">
-            <CardTitle className="text-2xl font-semibold tracking-tight">
-              Welcome back
+          <CardHeader className="text-center">
+            <CardTitle className="text-xl font-semibold font-mono tracking-tight">
+              Sign In
             </CardTitle>
             <CardDescription>
-              Sign in to continue to your Formex dashboard.
+              Enter your email below to login to your account.
             </CardDescription>
           </CardHeader>
           <CardContent>

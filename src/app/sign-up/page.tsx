@@ -68,8 +68,8 @@ export default function SignUpPage() {
     <div className="min-h-screen bg-linear-to-br from-background via-muted to-background flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <Card className="border-border/60 backdrop-blur-sm bg-background/80">
-          <CardHeader className="space-y-3 text-center">
-            <CardTitle className="text-2xl font-semibold tracking-tight">
+          <CardHeader className=" text-center">
+            <CardTitle className="text-xl font-mono font-semibold tracking-tight">
               Create your account
             </CardTitle>
             <CardDescription>
