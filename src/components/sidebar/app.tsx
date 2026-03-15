@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { PlusIcon, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarGroup,
@@ -28,17 +30,12 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ProgramActions } from "./program-actions";
 
 const formats = [
-  {
-    id: 1,
-    name: "INS FORMAT 01",
-  },
-  {
-    id: 2,
-    name: "INS FORMAT 02",
-  },
+  { id: 1, name: "INS FORMAT 01", href: "/f/1" },
+  { id: 2, name: "INS FORMAT 02", href: "/f/2" },
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
   const trpc        = useTRPC();
   const queryClient = useQueryClient();
 
@@ -86,10 +83,12 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {formats.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton>{item.name}</SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem key={item.id}>
+                <SidebarMenuButton asChild isActive={pathname === item.href}>
+                  <Link href={item.href}>{item.name}</Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
