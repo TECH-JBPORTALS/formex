@@ -1,17 +1,13 @@
-import { PDFPreview } from "@/components/pdf-preview";
-import Format01 from "@/templates/format01";
+import { BracesIcon } from "lucide-react";
 
 export default function Page() {
   return (
-    <PDFPreview>
-      <Format01
-        data={{
-          code: "364",
-          institutionName: "KS Polytechnic",
-          mission: "This is my mission",
-          vision: "This is my vission",
-        }}
-      />
-    </PDFPreview>
+    <div className="flex flex-col gap-3 items-center justify-center w-full min-h-full">
+      <BracesIcon className="size-14 text-muted-foreground" />
+      <h1 className="text-2xl font-semibold">Welcome to Formex</h1>
+      <p className="text-sm text-muted-foreground">
+        Select any fromat or branch to continue your work
+      </p>
+    </div>
   );
 }

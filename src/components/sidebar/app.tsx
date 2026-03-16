@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChevronDownIcon, Loader2, PlusIcon } from "lucide-react";
+import { BracesIcon, ChevronDownIcon, Loader2, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -40,11 +40,9 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import { ProgramActions } from "./program-actions";
+import { getTemplatePagesByType } from "../tempalate-pages";
 
-const formats = [
-  { id: 1, name: "INS FORMAT 01", href: "/f/1" },
-  { id: 2, name: "INS FORMAT 02", href: "/f/2" },
-];
+const institutionFormats = getTemplatePagesByType("institution");
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -100,13 +98,16 @@ export function AppSidebar() {
             <SidebarGroupLabel>Institution Formats</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {formats.map((item) => (
+                {institutionFormats.map((item) => (
                   <SidebarMenuItem key={item.id}>
                     <SidebarMenuButton
                       asChild
-                      isActive={pathname === item.href}
+                      isActive={pathname === `/f/${item.slug}`}
                     >
-                      <Link href={item.href}>{item.name}</Link>
+                      <Link href={`/f/${item.slug}`}>
+                        {" "}
+                        <BracesIcon /> {item.name}
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
