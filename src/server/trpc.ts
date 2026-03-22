@@ -9,10 +9,10 @@
 
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { ZodError } from "zod";
+import { UTApi } from "uploadthing/server";
+import { ZodError } from "zod/v4";
 import { auth } from "@/lib/auth";
 import { db } from "@/server/db";
-import { UTApi } from "uploadthing/server";
 
 /**
  * 1. CONTEXT

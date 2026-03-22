@@ -1,27 +1,48 @@
+import { createId } from "@paralleldrive/cuid2";
 import { TRPCError } from "@trpc/server";
+import { Document, Packer, Paragraph } from "docx";
 import { UTFile } from "uploadthing/server";
 import { template } from "../db/schema";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const templateRouter = createTRPCRouter({
-  create: protectedProcedure.mutation(({ ctx }) =>
-    ctx.db.transaction(async (tx) => {
-      const newDocFile = new UTFile(
-        ["Type you template here..."],
-        "Untitled.doc",
-      );
+  create: protectedProcedure.mutation(({ ctx }) => {
+    return ctx.db.transaction(async (tx) => {
+      const doc = new Document({
+        sections: [
+          {
+            children: [new Paragraph("Type your template here...")],
+          },
+        ],
+      });
+
+      const blob = await Packer.toBlob(doc);
+
+      const newDocFile = new UTFile([blob], "Untitled.docx", {
+        customId: createId(),
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      });
 
       const insertedFile = await ctx.utapi.uploadFiles(newDocFile);
 
-      if (!insertedFile.data?.customId)
+      if (!insertedFile.data?.customId || insertedFile.error)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: insertedFile.error?.message,
+        });
+
+      const newTemplate = await tx
+        .insert(template)
+        .values({ title: "Untitled", fileId: insertedFile.data.customId })
+        .returning();
+
+      if (!newTemplate[0])
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Couldn't able to create new file at this moment!",
         });
 
-      const newTemplate = await ctx.db
-        .insert(template)
-        .values({ title: "Untitled", fileId: insertedFile.data.customId });
-    }),
-  ),
+      return newTemplate[0];
+    });
+  }),
 });
