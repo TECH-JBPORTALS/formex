@@ -2,6 +2,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { TRPCError } from "@trpc/server";
 import { Document, Packer, Paragraph } from "docx";
 import { UTFile } from "uploadthing/server";
+import { z } from "zod/v4";
 import { template } from "../db/schema";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -45,4 +46,29 @@ export const templateRouter = createTRPCRouter({
       return newTemplate[0];
     });
   }),
+
+  getById: protectedProcedure
+    .input(z.object({ templateId: z.string() }))
+    .query(({ ctx, input }) =>
+      ctx.db.transaction(async (tx) => {
+        const template = await tx.query.template.findFirst({
+          where: ({ id }, { eq }) => eq(id, input.templateId),
+        });
+
+        if (!template)
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "No template found",
+          });
+
+        const file = await ctx.utapi.getSignedURL(template.fileId, {
+          keyType: "customId",
+        });
+
+        return {
+          template,
+          file,
+        };
+      }),
+    ),
 });
