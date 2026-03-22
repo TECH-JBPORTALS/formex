@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { timetableSessions, timetables } from "@/server/db/schema";
-import { createRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const sessionInput = z.object({
   day: z.enum([
@@ -26,7 +26,7 @@ const sessionInput = z.object({
   isLab: z.number().min(0).max(1).default(0),
 });
 
-export const timetableRouter = createRouter({
+export const timetableRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({

@@ -1,7 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 import z from "zod";
 import { courseReport } from "../db/schema";
-import { createRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const courseReportInput = z.object({
   institutionName: z.string().min(1),
@@ -19,7 +19,7 @@ const courseReportInput = z.object({
   percentageCovered: z.string().min(1), // stored as numeric string e.g. "87.50"
 });
 
-export const courseReportRouter = createRouter({
+export const courseReportRouter = createTRPCRouter({
   // 11.3 View Monthly Course Reports
   list: publicProcedure.query(({ ctx }) =>
     ctx.db.query.courseReport.findMany({

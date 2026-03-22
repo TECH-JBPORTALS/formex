@@ -1,9 +1,9 @@
 import { desc, eq } from "drizzle-orm";
 import z from "zod";
 import { student } from "../db/schema";
-import { createRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const studentRouter = createRouter({
+export const studentRouter = createTRPCRouter({
   // 9.3 View Student List
   list: publicProcedure.query(({ ctx }) =>
     ctx.db.query.student.findMany({

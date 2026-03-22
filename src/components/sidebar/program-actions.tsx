@@ -30,6 +30,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { SidebarMenuAction } from "../ui/sidebar";
 
 interface ProgramActionsProps {
   id: string;
@@ -85,15 +86,12 @@ export function ProgramActions({ id, name }: ProgramActionsProps) {
     <>
       {/* ── Three-dot menu ── */}
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            className="ml-auto flex h-6 w-6 items-center justify-center rounded opacity-0 group-hover/item:opacity-100 hover:bg-accent"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <SidebarMenuAction asChild>
+          <DropdownMenuTrigger>
             <MoreHorizontalIcon className="h-3.5 w-3.5" />
             <span className="sr-only">Program options</span>
-          </Button>
-        </DropdownMenuTrigger>
+          </DropdownMenuTrigger>
+        </SidebarMenuAction>
         <DropdownMenuContent side="right" align="start">
           <DropdownMenuItem onClick={openRename}>
             <Pencil className="mr-2 h-3.5 w-3.5" />

@@ -6,7 +6,7 @@ import { getBaseURL } from "@/utils/getBaseUrl";
 
 export const auth = betterAuth({
   baseURL: {
-    allowedHosts: ["*.vercel.app"],
+    allowedHosts: ["*.vercel.app", "localhost:*"],
     fallback: getBaseURL(),
   },
   database: drizzleAdapter(db, { provider: "pg", schema }),

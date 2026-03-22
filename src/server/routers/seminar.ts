@@ -1,7 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 import z from "zod";
 import { seminar } from "../db/schema";
-import { createRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const seminarInput = z.object({
   institutionName: z.string().min(1),
@@ -22,7 +22,7 @@ const seminarInput = z.object({
   relevanceToPO: z.string().min(1),
 });
 
-export const seminarRouter = createRouter({
+export const seminarRouter = createTRPCRouter({
   // 10.3 View Conducted Seminars / Workshops
   list: publicProcedure.query(({ ctx }) =>
     ctx.db.query.seminar.findMany({

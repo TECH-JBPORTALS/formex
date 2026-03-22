@@ -1,7 +1,13 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { BracesIcon, ChevronDownIcon, Loader2, PlusIcon } from "lucide-react";
+import {
+  BracesIcon,
+  ChevronDownIcon,
+  HomeIcon,
+  Loader2,
+  PlusIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -95,6 +101,15 @@ export function AppSidebar() {
 
         <SidebarContent>
           <SidebarGroup>
+            <SidebarMenuItem>
+              <Link href={"/"}>
+                <SidebarMenuButton>
+                  <HomeIcon /> Home
+                </SidebarMenuButton>
+              </Link>
+            </SidebarMenuItem>
+          </SidebarGroup>
+          <SidebarGroup>
             <SidebarGroupLabel>Institution Formats</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -131,14 +146,10 @@ export function AppSidebar() {
                 ) : (
                   branches.map((item) => (
                     <SidebarMenuItem key={item.id}>
-                      <SidebarMenuButton
-                        isActive={activeId === item.id}
-                        onClick={() => setActiveId(item.id)}
-                        className="flex w-full items-center"
-                      >
+                      <SidebarMenuButton className="flex w-full items-center">
                         <span className="flex-1 truncate">{item.name}</span>
-                        <ProgramActions id={item.id} name={item.name} />
                       </SidebarMenuButton>
+                      <ProgramActions id={item.id} name={item.name} />
                     </SidebarMenuItem>
                   ))
                 )}

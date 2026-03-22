@@ -1,13 +1,13 @@
-import { BracesIcon } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Editor } from "@/components/editor";
 
 export default function Page() {
+  const [buffer, setBuffer] = useState<ArrayBuffer>();
   return (
     <div className="flex flex-col gap-3 items-center justify-center w-full min-h-full">
-      <BracesIcon className="size-14 text-muted-foreground" />
-      <h1 className="text-2xl font-semibold">Welcome to Formex</h1>
-      <p className="text-sm text-muted-foreground">
-        Select any fromat or branch to continue your work
-      </p>
+      <Editor setBuffer={setBuffer} buffer={buffer} />
     </div>
   );
 }
