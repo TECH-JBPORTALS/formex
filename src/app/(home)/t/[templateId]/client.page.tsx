@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Editor } from "@/components/editor";
+import { Spinner } from "@/components/ui/spinner";
 import { useTRPC } from "@/trpc/client";
 
 export function ClientPage() {
@@ -27,8 +28,8 @@ export function ClientPage() {
 
   if (isLoading || isBufferLoading)
     return (
-      <div className="h-svh flex items-center justify-center">
-        Template Loading...
+      <div className="h-svh w-full flex items-center justify-center">
+        <Spinner className="size-8" />
       </div>
     );
 
