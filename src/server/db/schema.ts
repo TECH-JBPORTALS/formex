@@ -1,13 +1,21 @@
 import { relations } from "drizzle-orm";
 import {
+  customType,
   integer,
   pgEnum,
   pgTable,
+  text,
   uniqueIndex,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 import { initCols } from "./column.helpers";
+
+const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
+  dataType() {
+    return "bytea";
+  },
+});
 
 export const institution = pgTable("institution", (d) => ({
   ...initCols,
@@ -21,7 +29,8 @@ export const institution = pgTable("institution", (d) => ({
 export const template = pgTable("template", (d) => ({
   ...initCols,
   title: d.text().notNull(),
-  fileId: d.text().notNull(),
+  file: bytea().notNull(),
+  mimeType: d.text().notNull(),
 }));
 
 // ── Epic 9: Approved Key List of Students (INS-FORMAT-9) ────────────────────
@@ -106,6 +115,7 @@ export const timetableTypeEnum = pgEnum("timetable_type", [
   "PERSONNEL",
   "MASTER",
 ]);
+
 export const dayEnum = pgEnum("day_of_week", [
   "MONDAY",
   "TUESDAY",
@@ -127,7 +137,7 @@ export const timetableSessions = pgTable(
   "timetable_session",
   {
     ...initCols,
-    timetableId: uuid("timetable_id")
+    timetableId: text("timetable_id")
       .references(() => timetables.id, { onDelete: "cascade" })
       .notNull(),
     day: dayEnum("day").notNull(),

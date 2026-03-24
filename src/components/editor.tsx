@@ -1,17 +1,21 @@
 "use client";
+
 import {
   DocxEditor,
   PluginHost,
   templatePlugin,
 } from "@eigenpal/docx-js-editor";
 import "@eigenpal/docx-js-editor/styles.css";
+import type React from "react";
 import { Spinner } from "./ui/spinner";
 
-export function Editor({ buffer }: { buffer: ArrayBuffer | undefined }) {
+interface EditorProps extends React.ComponentProps<typeof DocxEditor> {}
+
+export function Editor(editorProps: EditorProps) {
   return (
     <PluginHost plugins={[templatePlugin]}>
       <DocxEditor
-        documentBuffer={buffer}
+        {...editorProps}
         showToolbar
         loadingIndicator={
           <div className="h-svh w-full flex items-center justify-center">

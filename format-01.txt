@@ -1,0 +1,35 @@
+INS - FORMAT-01
+
+
+
+
+
+Institution Name: {institution_name}                                Institution code: {institution_code}
+
+
+
+
+
+Vision and Mission of the institute
+
+
+
+
+
+Vision of the Institute:
+
+{vision_of_instituion}
+
+
+
+
+
+Mission of the Institute:
+
+{mission_of_institution}
+
+
+
+
+
+Signature of the Principal with Seal
