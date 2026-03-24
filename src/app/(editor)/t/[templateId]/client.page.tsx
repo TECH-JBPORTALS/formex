@@ -30,9 +30,20 @@ export function ClientPage() {
 
   const onSave = useCallback(async () => {
     setSaving(true);
-    if (editorRef.current) await editorRef.current.save();
+    if (editorRef.current) {
+      const buffer = await editorRef.current.save();
+
+      if (buffer) {
+        const uint8 = new Uint8Array(buffer);
+
+        await updateTemplate({
+          templateId,
+          docBuffer: Array.from(uint8), // ✅ correct
+        });
+      }
+    }
     setSaving(false);
-  }, []);
+  }, [templateId, updateTemplate]);
 
   useEffect(() => {
     if (data?.file) {
@@ -54,14 +65,6 @@ export function ClientPage() {
     <Editor
       ref={editorRef}
       documentBuffer={document}
-      onSave={async (buffer) => {
-        const uint8 = new Uint8Array(buffer);
-
-        await updateTemplate({
-          templateId,
-          docBuffer: Array.from(uint8), // ✅ correct
-        });
-      }}
       renderTitleBarRight={() => (
         <div className="space-x-2.5">
           <Button disabled={saving} onClick={onSave} size={"lg"}>
