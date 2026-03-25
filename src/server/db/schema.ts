@@ -4,7 +4,7 @@ import {
   pgEnum,
   pgTable,
   uniqueIndex,
-  uuid,
+  text,
   varchar,
 } from "drizzle-orm/pg-core";
 import { initCols } from "./column.helpers";
@@ -120,21 +120,21 @@ export const timetables = pgTable("timetables", {
   ...initCols,
   type: timetableTypeEnum("type").notNull(),
   name: varchar("name", { length: 255 }).notNull(),
-  entityId: uuid("entity_id"),
+  entityId: text("entity_id"),
 });
 
 export const timetableSessions = pgTable(
   "timetable_session",
   {
     ...initCols,
-    timetableId: uuid("timetable_id")
+    timetableId: text("timetable_id")
       .references(() => timetables.id, { onDelete: "cascade" })
       .notNull(),
     day: dayEnum("day").notNull(),
     startTime: varchar("start_time", { length: 5 }).notNull(),
     endTime: varchar("end_time", { length: 5 }).notNull(),
     subjectName: varchar("subject_name", { length: 255 }).notNull(),
-    instructorId: uuid("instructor_id"),
+    instructorId: text("instructor_id"),
     location: varchar("location", { length: 100 }).notNull(),
     isLab: integer("is_lab").default(0),
   },
