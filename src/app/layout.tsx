@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Manrope, Roboto_Slab } from "next/font/google";
+import { Manrope, Oswald, Roboto_Slab } from "next/font/google";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,12 @@ const robotoSlabHeading = Roboto_Slab({
 });
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-sans" });
+
+const oswald = Oswald({
+  subsets: ["latin"],
+  weight: ["700"],
+  variable: "--font-brand",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,7 +35,7 @@ export default function RootLayout({
       className={cn("font-sans", manrope.variable, robotoSlabHeading.variable)}
     >
       <body
-        className={`${manrope.variable} ${robotoSlabHeading.variable} border-border bg-background antialiased`}
+        className={`${manrope.variable} ${robotoSlabHeading.variable} ${oswald} border-border bg-background antialiased`}
       >
         <TRPCReactProvider>
           <TooltipProvider>

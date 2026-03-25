@@ -11,7 +11,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronDownIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
 import { signOut, useSession } from "@/lib/auth-client";
@@ -68,7 +68,6 @@ export function AppSidebar({
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data: session } = useSession();
-  const { programId } = useParams();
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [programName, setProgramName] = useState("");
@@ -110,8 +109,8 @@ export function AppSidebar({
     >
       <Sidebar collapsible="none" className={cn("flex-1", props.className)}>
         <SidebarHeader>
-          <span className="text-lg px-1.5 font-semibold font-heading">
-            Formex
+          <span className="text-lg text-primary px-1.5 font-bold font-brand">
+            FORMEX
           </span>
         </SidebarHeader>
 
@@ -150,7 +149,7 @@ export function AppSidebar({
                       <SidebarMenuButton
                         asChild
                         className="flex w-full items-center"
-                        isActive={pathname === `/p/${item.id}`}
+                        isActive={pathname.startsWith(`/p/${item.id}`)}
                       >
                         <Link href={`/p/${item.id}`}>
                           <HugeiconsIcon icon={CubeIcon} />{" "}
