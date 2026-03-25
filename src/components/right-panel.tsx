@@ -59,7 +59,7 @@ export function RightPanel() {
 
   return (
     <Form {...form}>
-      <Sidebar side="right" className="w-sm">
+      <Sidebar side="right" variant="floating" className="w-sm">
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <SidebarHeader>
             <SidebarMenu>
