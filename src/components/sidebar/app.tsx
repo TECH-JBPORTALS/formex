@@ -9,7 +9,7 @@ import {
   PlusIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { signOut, useSession } from "@/lib/auth-client";
 import { useTRPC } from "../../trpc/client";
@@ -56,8 +56,8 @@ export function AppSidebar() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data: session } = useSession();
+  const { programId } = useParams();
 
-  const [activeId, setActiveId] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [programName, setProgramName] = useState("");
   const [error, setError] = useState("");
@@ -68,9 +68,8 @@ export function AppSidebar() {
 
   const create = useMutation(
     trpc.program.create.mutationOptions({
-      onSuccess: (newProgram) => {
+      onSuccess: () => {
         void queryClient.invalidateQueries(trpc.program.list.queryOptions());
-        if (newProgram) setActiveId(newProgram.id);
         setDialogOpen(false);
       },
       onError: () => setError("Something went wrong. Please try again."),
@@ -122,7 +121,6 @@ export function AppSidebar() {
                       isActive={pathname === `/f/${item.slug}`}
                     >
                       <Link href={`/f/${item.slug}`}>
-                        {" "}
                         <BracesIcon /> {item.name}
                       </Link>
                     </SidebarMenuButton>
@@ -148,8 +146,14 @@ export function AppSidebar() {
                 ) : (
                   branches.map((item) => (
                     <SidebarMenuItem key={item.id}>
-                      <SidebarMenuButton className="flex w-full items-center">
-                        <span className="flex-1 truncate">{item.name}</span>
+                      <SidebarMenuButton
+                        asChild
+                        className="flex w-full items-center"
+                        isActive={pathname === `/p/${programId}`}
+                      >
+                        <Link href={`/p/${item.id}`}>
+                          <span className="flex-1 truncate">{item.name}</span>
+                        </Link>
                       </SidebarMenuButton>
                       <ProgramActions id={item.id} name={item.name} />
                     </SidebarMenuItem>

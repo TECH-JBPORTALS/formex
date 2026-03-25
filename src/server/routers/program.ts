@@ -13,7 +13,7 @@ export const programRouter = createTRPCRouter({
 
   // Get single program by id
   byId: publicProcedure
-    .input(z.object({ id: z.string().uuid() }))
+    .input(z.object({ id: z.string() }))
     .query(({ ctx, input }) =>
       ctx.db.query.program.findFirst({
         where: eq(program.id, input.id),
@@ -41,7 +41,7 @@ export const programRouter = createTRPCRouter({
   update: publicProcedure
     .input(
       z.object({
-        id: z.string().uuid(),
+        id: z.string(),
         name: z.string().min(1, "Program name is required"),
       }),
     )
@@ -59,7 +59,7 @@ export const programRouter = createTRPCRouter({
 
   // Delete a program
   delete: publicProcedure
-    .input(z.object({ id: z.string().uuid() }))
+    .input(z.object({ id: z.string() }))
     .mutation(({ ctx, input }) =>
       ctx.db.delete(program).where(eq(program.id, input.id)),
     ),

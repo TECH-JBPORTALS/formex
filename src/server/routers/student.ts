@@ -47,7 +47,7 @@ export const studentRouter = createTRPCRouter({
   approve: publicProcedure
     .input(
       z.object({
-        id: z.string().uuid(),
+        id: z.string(),
         registerNumber: z.string().min(1),
         remarks: z.string().optional(),
       }),
@@ -70,7 +70,7 @@ export const studentRouter = createTRPCRouter({
   update: publicProcedure
     .input(
       z.object({
-        id: z.string().uuid(),
+        id: z.string(),
         fullName: z.string().min(1),
         dateOfBirth: z.string().min(1), // "YYYY-MM-DD" string
         institutionName: z.string().optional(),

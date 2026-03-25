@@ -41,7 +41,7 @@ export const seminarRouter = createTRPCRouter({
 
   // 10.2 Update Seminar / Workshop Information
   update: publicProcedure
-    .input(seminarInput.extend({ id: z.string().uuid() }))
+    .input(seminarInput.extend({ id: z.string() }))
     .mutation(({ ctx, input }) => {
       const { id, ...rest } = input;
       return ctx.db
@@ -53,7 +53,7 @@ export const seminarRouter = createTRPCRouter({
     }),
 
   delete: publicProcedure
-    .input(z.object({ id: z.string().uuid() }))
+    .input(z.object({ id: z.string() }))
     .mutation(({ ctx, input }) =>
       ctx.db.delete(seminar).where(eq(seminar.id, input.id)),
     ),
