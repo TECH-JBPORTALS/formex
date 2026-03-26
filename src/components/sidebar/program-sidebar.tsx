@@ -53,6 +53,7 @@ export function ProgramSidebar() {
   const { programId } = useParams<{ programId: string }>();
   const pathname = usePathname();
   const activeSemesterId = 1;
+
   return (
     <Sidebar collapsible="none" className="peer flex-1 flex">
       <SidebarHeader className="border-b">

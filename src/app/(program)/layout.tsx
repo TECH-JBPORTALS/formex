@@ -1,9 +1,10 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { AppSidebar } from "@/components/sidebar/app";
-import { ProgramSidebar } from "@/components/sidebar/program";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { ProgramSidebar } from "@/components/sidebar/program-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { auth } from "@/lib/auth";
+import { PrincipalSidebar } from "@/components/sidebar/principal-sidebar";
 
 export default async function Layout({
   children,
@@ -25,6 +26,7 @@ export default async function Layout({
       }
     >
       <AppSidebar className="border-r">
+        <PrincipalSidebar className="border-r" />
         <ProgramSidebar />
       </AppSidebar>
       <SidebarInset>{children}</SidebarInset>
