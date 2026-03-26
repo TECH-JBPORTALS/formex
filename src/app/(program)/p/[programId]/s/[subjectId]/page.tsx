@@ -1,7 +1,7 @@
 export default function Page() {
   return (
     <div className="h-svh text-2xl w-full flex items-center justify-center">
-      Subjects
+      Subject Details
     </div>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 
 import {
-  Books02Icon,
+  Book01Icon,
   DashboardCircleIcon,
   GridIcon,
   Mortarboard01Icon,
+  PlusSignIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
@@ -15,6 +16,7 @@ import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
+  SidebarGroupAction,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
@@ -22,11 +24,17 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 
-const items = [
-  { id: 1, label: "Dashboard", icon: DashboardCircleIcon, href: "" },
-  { id: 2, label: "Students", icon: Mortarboard01Icon, href: "/students" },
-  { id: 3, label: "Subjects", icon: Books02Icon, href: "/subjects" },
-];
+const items = {
+  semester: [
+    { id: 1, label: "Dashboard", icon: DashboardCircleIcon, href: "" },
+    { id: 2, label: "Students", icon: Mortarboard01Icon, href: "/students" },
+  ],
+  subjects: [
+    { id: 1, label: "Applied Science", icon: Book01Icon },
+    { id: 2, label: "Mathemetics", icon: Book01Icon },
+    { id: 3, label: "Network Security", icon: Book01Icon },
+  ],
+};
 
 const semesters = [
   {
@@ -87,11 +95,33 @@ export function ProgramSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel>SEMESTER</SidebarGroupLabel>
           <SidebarMenu>
-            {items.map((item) => (
+            {items.semester.map((item) => (
               <SidebarMenuItem key={item.id}>
                 <Link href={`/p/${programId}${item.href}`}>
                   <SidebarMenuButton
                     isActive={pathname === `/p/${programId}${item.href}`}
+                  >
+                    <HugeiconsIcon icon={item.icon} /> {item.label}
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>
+            SUBJECTS
+            <SidebarGroupAction>
+              <HugeiconsIcon icon={PlusSignIcon} />
+            </SidebarGroupAction>
+          </SidebarGroupLabel>
+          <SidebarMenu>
+            {items.subjects.map((item) => (
+              <SidebarMenuItem key={item.id}>
+                <Link href={`/p/${programId}/s/${item.id}`}>
+                  <SidebarMenuButton
+                    isActive={pathname === `/p/${programId}/s/${item.id}`}
                   >
                     <HugeiconsIcon icon={item.icon} /> {item.label}
                   </SidebarMenuButton>
