@@ -66,11 +66,13 @@ export function ProgramSidebar() {
 
   return (
     <Sidebar collapsible="none" className="peer flex-1 flex">
-      <SidebarHeader className="border-b">
-        <span className="text-lg px-1.5 font-semibold font-heading">
+      <SidebarHeader className="justify-center h-14">
+        <span className="text-sm px-1.5 font-semibold">
           Computer Science & Engg.
         </span>
+      </SidebarHeader>
 
+      <SidebarContent>
         <SidebarGroup>
           <SidebarMenu className="grid gap-1.5 grid-cols-4">
             {semesters.map((item) => (
@@ -91,9 +93,6 @@ export function ProgramSidebar() {
             ))}
           </SidebarMenu>
         </SidebarGroup>
-      </SidebarHeader>
-
-      <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>SEMESTER</SidebarGroupLabel>
           <SidebarMenu>
