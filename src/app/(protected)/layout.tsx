@@ -7,7 +7,7 @@ import { ProgramHeadSidebar } from "@/components/sidebar/program-head-sidebar";
 import { ProgramSidebar } from "@/components/sidebar/program-sidebar";
 import { StaffSidebar } from "@/components/sidebar/staff-sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/auth/auth";
 
 export default async function Layout({
   children,
@@ -22,7 +22,7 @@ export default async function Layout({
     <AppSidebarProvider>
       <AppSidebar>
         {session?.user.role === "staff" && <StaffSidebar />}
-        {session?.user.role === "program_head" && <ProgramHeadSidebar />}
+        {session?.user.role === "program_coordinator" && <ProgramHeadSidebar />}
         {session?.user.role === "principal" && <PrincipalSidebar />}
         <ProgramSidebar />
       </AppSidebar>
