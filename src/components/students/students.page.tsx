@@ -1,7 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusSignIcon, Search01Icon } from "@hugeicons/core-free-icons";
+import {
+  Download01Icon,
+  PlusSignIcon,
+  Search01Icon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -189,81 +193,88 @@ export function StudentsPage() {
             </InputGroupAddon>
             <InputGroupInput placeholder="Search..." />
           </InputGroup>
-          <Dialog
-            open={createOpen}
-            onOpenChange={(open) => {
-              setCreateOpen(open);
-              if (!open) createForm.reset();
-            }}
-          >
-            <Button onClick={() => setCreateOpen(true)}>
-              Add <HugeiconsIcon icon={PlusSignIcon} />
+
+          <div className="gap-3 flex items-center">
+            <Button variant={"outline"}>
+              <HugeiconsIcon icon={Download01Icon} />
+              Download
             </Button>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Create student</DialogTitle>
-                <DialogDescription>
-                  Add basic student information.
-                </DialogDescription>
-              </DialogHeader>
-              <Form {...createForm}>
-                <form
-                  className="space-y-3"
-                  onSubmit={createForm.handleSubmit(onCreate)}
-                >
-                  <FormField
-                    control={createForm.control}
-                    name="rollNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Roll number</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={createForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={createForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input type="email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <DialogFooter>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setCreateOpen(false)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button type="submit">Create</Button>
-                  </DialogFooter>
-                </form>
-              </Form>
-            </DialogContent>
-          </Dialog>
+            <Dialog
+              open={createOpen}
+              onOpenChange={(open) => {
+                setCreateOpen(open);
+                if (!open) createForm.reset();
+              }}
+            >
+              <Button onClick={() => setCreateOpen(true)}>
+                Add <HugeiconsIcon icon={PlusSignIcon} />
+              </Button>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Create student</DialogTitle>
+                  <DialogDescription>
+                    Add basic student information.
+                  </DialogDescription>
+                </DialogHeader>
+                <Form {...createForm}>
+                  <form
+                    className="space-y-3"
+                    onSubmit={createForm.handleSubmit(onCreate)}
+                  >
+                    <FormField
+                      control={createForm.control}
+                      name="rollNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Roll number</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={createForm.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Name</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={createForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input type="email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <DialogFooter>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setCreateOpen(false)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button type="submit">Create</Button>
+                    </DialogFooter>
+                  </form>
+                </Form>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
         <DataTable columns={columns} data={studentList} />
       </Container>
