@@ -19,4 +19,8 @@ class Institution extends Model
         return $this->hasMany(Program::class);
     }
 
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(Subject::class);
+    }
 }

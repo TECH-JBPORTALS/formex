@@ -23,4 +23,9 @@ class Program extends Model
     {
         return $this->hasMany(Student::class);
     }
+
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(Subject::class);
+    }
 }
