@@ -1,0 +1,8 @@
+{
+    "name": "@formex/api",
+    "private":"true",
+    "scripts": {
+        "dev":"composer run dev",
+        "clean":"rm -rf node_modules"
+    }
+}

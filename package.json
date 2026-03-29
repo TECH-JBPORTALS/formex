@@ -4,13 +4,16 @@
   "private": true,
    "scripts": {
     "dev": "turbo run dev",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "clean:workspaces": "turbo run clean",
+    "clean":"rm -rf node_modules .turbo"
   },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
+  "packageManager": "bun@1.3.9",
   "peerDependencies": {
     "turbo": "^2.8.21",
     "typescript": "^5"
-  }
+  },
+  "workspaces":[
+    "apps/*"
+  ]
 }

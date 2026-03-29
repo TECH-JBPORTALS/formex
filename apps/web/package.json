@@ -14,7 +14,8 @@
     "db:drop": "drizzle-kit drop",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "auth:generate": "bun x auth@latest generate --output=./src/db/auth-schema.ts"
+    "auth:generate": "bun x auth@latest generate --output=./src/db/auth-schema.ts",
+    "clean":"rm -rf node_modules .next .cache"
   },
   "dependencies": {
     "@eigenpal/docx-js-editor": "^0.0.30",
