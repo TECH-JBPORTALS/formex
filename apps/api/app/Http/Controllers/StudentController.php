@@ -37,7 +37,7 @@ class StudentController
             'semester' => 'required|integer|min:1',
             'academic_year' => 'required|integer|min:2000',
             'register_no' => 'nullable|string|max:100',
-            'gender' => 'nullable|string',
+            'gender' => 'nullable|in:male,female',
             'category' => 'nullable|string',
             'email' => 'nullable|email',
             'mobile' => 'nullable|string|max:20',
