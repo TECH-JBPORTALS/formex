@@ -12,8 +12,8 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import type React from "react";
-import { cn } from "../../lib/utils";
-import { getTemplatePagesByType } from "../tempalate-pages";
+import { cn } from "@/lib/utils";
+import { getTemplatePagesByType } from "@/components/tempalate-pages";
 import { Badge } from "../ui/badge";
 import {
   Sidebar,

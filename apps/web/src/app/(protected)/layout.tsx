@@ -1,31 +1,27 @@
 import { redirect } from "next/navigation";
 import type React from "react";
-import { AppSidebar } from "../../components/sidebar/app-sidebar";
-import { AppSidebarProvider } from "../../components/sidebar/app-sidebar-provider";
+import { getServerSessionUser } from "../../auth/session";
 import { PrincipalSidebar } from "../../components/sidebar/principal-sidebar";
-import { ProgramCoordinatorSidebar } from "../../components/sidebar/program-coordinator-sidebar";
-import { ProgramSidebar } from "../../components/sidebar/program-sidebar";
-import { StaffSidebar } from "../../components/sidebar/staff-sidebar";
 import { SidebarInset } from "../../components/ui/sidebar";
-import { getSession } from "../../auth/auth";
+import { ProgramSidebar } from "@/components/sidebar/program-sidebar";
+import { AppSidebarProvider } from "@/components/sidebar/app-sidebar-provider";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getSession();
+  const user = await getServerSessionUser();
 
-  if (!session) redirect("/sign-in");
+  if (!user) {
+    redirect("/sign-in");
+  }
 
   return (
     <AppSidebarProvider>
       <AppSidebar>
-        {session?.user.role === "staff" && <StaffSidebar />}
-        {session?.user.role === "program_coordinator" && (
-          <ProgramCoordinatorSidebar />
-        )}
-        {session?.user.role === "principal" && <PrincipalSidebar />}
+        <PrincipalSidebar />
         <ProgramSidebar />
       </AppSidebar>
       <SidebarInset>{children}</SidebarInset>

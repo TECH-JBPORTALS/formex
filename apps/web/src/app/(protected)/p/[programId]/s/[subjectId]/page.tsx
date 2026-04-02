@@ -1,4 +1,4 @@
-import { SubjectPage } from "../../../../../../components/subject/subject.page";
+import { SubjectPage } from "@/components/subject/subject.page";
 
 export default async function Page({
   params,
