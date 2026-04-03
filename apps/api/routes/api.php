@@ -27,21 +27,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('institutions.programs.subjects', SubjectController::class)->scoped();
 
     // Internships Paths
-    Route::get('/internships/{internship}', [InternshipController::class, 'show']);
-    Route::put('/internships/{internship}', [InternshipController::class, 'update']);
-    Route::delete('/internships/{internship}', [InternshipController::class, 'destroy']);
-    Route::get('/institutions/{institution}/internships', [InternshipController::class, 'listByInstitution']);
+    Route::apiResource('internships', InternshipController::class)->except(['store']);
     Route::get('/programs/{program}/internships', [InternshipController::class, 'listByProgram']);
     Route::get('/students/{student}/internships', [InternshipController::class, 'listByStudent']);
     Route::post('/students/{student}/internships', [InternshipController::class, 'store']);
-
-    Route::get('/institutions/{institution}/internships', [InternshipController::class, 'listByInstitution']);
-    Route::get('/programs/{program}/internships', [InternshipController::class, 'listByProgram']);
-    Route::get('/students/{student}/internships', [InternshipController::class, 'listByStudent']);
-    Route::post('/students/{student}/internships', [InternshipController::class, 'store']);
-    Route::get('/internships/{internship}', [InternshipController::class, 'show']);
-    Route::put('/internships/{internship}', [InternshipController::class, 'update']);
-    Route::delete('/internships/{internship}', [InternshipController::class, 'destroy']);
 
     // Placements Paths
     Route::get('/institutions/{institution}/placements', [PlacementController::class, 'listByInstitution']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Internship;
 use App\Models\Student;
+use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\Request;
 use App\Models\Institution;
 use App\Models\Program;
@@ -13,15 +14,16 @@ class InternshipController
     /**
      * Display a listing of the resource.
      */
-        public function listByInstitution(Institution $institution)
-        {
-            $internships = $institution->internships()
-                ->latest()
-                ->get();
-            return response()->json([
-                'data' => $internships
-            ]);
-        }
+    public function index(Request $request)
+    {
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        $internships = $institution->internships()
+            ->latest()
+            ->get();
+        return response()->json([
+            'data' => $internships
+        ]);
+    }
 
     public function listByProgram(Program $program)
     {
