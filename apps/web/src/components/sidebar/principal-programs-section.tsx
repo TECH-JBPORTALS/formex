@@ -39,18 +39,18 @@ import {
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSkeleton,
 } from "@/components/ui/sidebar";
 import type { Program } from "@/lib/api/generated/models/program";
 import type { ValidationExceptionResponse } from "@/lib/api/generated/models/validationExceptionResponse";
 import type { ValidationExceptionResponseErrors } from "@/lib/api/generated/models/validationExceptionResponseErrors";
-import { useAuthUserSuspense } from "@/lib/api/generated/auth/auth";
 import {
   getProgramsIndexQueryKey,
   programsDestroy,
   programsStore,
   programsUpdate,
-  useProgramsIndexSuspense,
 } from "@/lib/api/generated/context-program/context-program";
+import { useProgramsQuery } from "@/hooks/react-query/useProgramsQuery";
 
 function invalidateProgramsList(
   queryClient: ReturnType<typeof useQueryClient>,
@@ -129,21 +129,26 @@ function ProgramListItem({
 }
 
 function ProgramsListBody({
-  institutionId,
   pathname,
   onEdit,
   onDelete,
 }: {
-  institutionId: string;
   pathname: string;
   onEdit: (program: Program) => void;
   onDelete: (program: Program) => void;
 }) {
-  const { data: programsResponse } = useProgramsIndexSuspense({
-    query: { queryKey: [...getProgramsIndexQueryKey(), institutionId] },
-  });
+  const { data: programsResponse, isLoading } = useProgramsQuery();
 
-  if (programsResponse.status !== 200) {
+  if (isLoading)
+    return (
+      <>
+        {Array.from({ length: 4 }).map((_, i) => (
+          <SidebarMenuSkeleton key={i} showIcon={true} />
+        ))}
+      </>
+    );
+
+  if (programsResponse?.status !== 200) {
     return (
       <p className="px-2 py-1 text-xs text-muted-foreground">
         Could not load programs.
@@ -152,6 +157,7 @@ function ProgramsListBody({
   }
 
   const programs = programsResponse.data.data;
+
   if (programs.length === 0) {
     return (
       <p className="px-2 py-1 text-xs text-muted-foreground">
@@ -174,10 +180,6 @@ function ProgramsListBody({
 export function PrincipalProgramsSection() {
   const pathname = usePathname();
   const queryClient = useQueryClient();
-
-  const { data: authData } = useAuthUserSuspense();
-  const session = authData?.status === 200 ? authData.data : null;
-  const institutionId = session?.current_institution_id ?? null;
 
   const [createOpen, setCreateOpen] = useState(false);
   const createForm = useForm<ProgramFormValues>({
@@ -272,18 +274,11 @@ export function PrincipalProgramsSection() {
         </SidebarGroupAction>
         <SidebarGroupContent>
           <SidebarMenu>
-            {!institutionId ? (
-              <p className="px-2 py-1 text-xs text-muted-foreground">
-                Select an institution to load programs.
-              </p>
-            ) : (
-              <ProgramsListBody
-                institutionId={institutionId}
-                pathname={pathname}
-                onEdit={setEditProgram}
-                onDelete={setDeleteProgram}
-              />
-            )}
+            <ProgramsListBody
+              pathname={pathname}
+              onEdit={setEditProgram}
+              onDelete={setDeleteProgram}
+            />
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
@@ -292,7 +287,6 @@ export function PrincipalProgramsSection() {
         open={createOpen}
         onOpenChange={setCreateOpen}
         form={createForm}
-        institutionName={session?.current_institution?.name ?? "your institution"}
         onSubmit={onCreate}
       />
 

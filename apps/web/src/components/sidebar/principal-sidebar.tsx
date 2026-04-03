@@ -74,17 +74,7 @@ export function PrincipalSidebar({
           </SidebarMenu>
         </SidebarGroup>
 
-        <Suspense
-          fallback={
-            <>
-              {Array.from({ length: 8 }).map((_, i) => (
-                <SidebarMenuSkeleton key={i} />
-              ))}
-            </>
-          }
-        >
-          <PrincipalProgramsSection />
-        </Suspense>
+        <PrincipalProgramsSection />
 
         <SidebarGroup>
           <SidebarGroupLabel>INSTITUTION FORMATS</SidebarGroupLabel>

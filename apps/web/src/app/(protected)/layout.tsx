@@ -9,10 +9,6 @@ import { prefetch } from "@/lib/prefetch";
 import { getAuthUserQueryOptions } from "@/lib/api/generated/auth/auth";
 import { QueryHydrationBoundary } from "@/components/providers/query-hydration-boundary";
 import { headers } from "next/headers";
-import {
-  getProgramsIndexQueryKey,
-  getProgramsIndexQueryOptions,
-} from "@/lib/api/generated/context-program/context-program";
 
 export default async function Layout({
   children,
@@ -31,12 +27,6 @@ export default async function Layout({
 
   const dehydratedState = await prefetch(
     getAuthUserQueryOptions({ request: { headers: await headers() } }),
-    getProgramsIndexQueryOptions({
-      query: {
-        queryKey: [...getProgramsIndexQueryKey(), session.current_institution_id],
-      },
-      request: { headers: await headers() },
-    }),
   );
 
   return (

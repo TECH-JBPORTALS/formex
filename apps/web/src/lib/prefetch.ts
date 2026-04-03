@@ -1,3 +1,5 @@
+import "server-only";
+
 import {
   dehydrate,
   QueryClient,
@@ -5,8 +7,11 @@ import {
 } from "@tanstack/react-query";
 import { createQueryClient } from "./query-client";
 import { dehydrateSerializeOptions } from "./query-hydration";
+import { cache } from "react";
 
 type PrefetchArg = Parameters<QueryClient["prefetchQuery"]>[0];
+
+const queryClient = cache(() => createQueryClient())();
 
 /**
  * Accepts Orval `getXxxQueryOptions()` (branded `UseQueryOptions`) or any options
@@ -16,7 +21,7 @@ type PrefetchArg = Parameters<QueryClient["prefetchQuery"]>[0];
 export async function prefetch(
   ...queries: unknown[]
 ): Promise<DehydratedState> {
-  const queryClient = createQueryClient();
+
 
   await Promise.all(
     queries.map((q) => queryClient.prefetchQuery(q as PrefetchArg)),

@@ -36,7 +36,11 @@ import { LoaderCircle } from "@hugeicons/core-free-icons";
 import type { ProgramFormValues } from "./programs-dialog-schema";
 import type { Program } from "@/lib/api/generated/models/program";
 
-function ProgramFormFields({ form }: { form: UseFormReturn<ProgramFormValues> }) {
+function ProgramFormFields({
+  form,
+}: {
+  form: UseFormReturn<ProgramFormValues>;
+}) {
   return (
     <>
       <FormField
@@ -113,13 +117,11 @@ export function CreateProgramDialog({
   open,
   onOpenChange,
   form,
-  institutionName,
   onSubmit,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   form: UseFormReturn<ProgramFormValues>;
-  institutionName: string;
   onSubmit: (values: ProgramFormValues) => void | Promise<void>;
 }) {
   return (
@@ -128,7 +130,7 @@ export function CreateProgramDialog({
         <DialogHeader>
           <DialogTitle>New program</DialogTitle>
           <DialogDescription>
-            Adds a program to {institutionName}.
+            Adds a program to this institution.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -244,4 +246,3 @@ export function DeleteProgramDialog({
     </AlertDialog>
   );
 }
-
