@@ -147,7 +147,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "`AuthSession`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -189,7 +189,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "`AuthSession`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1487,6 +1487,33 @@
     },
     "components": {
         "schemas": {
+            "AuthSession": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "current_institution": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/Institution"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "current_institution_id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "user",
+                    "current_institution",
+                    "current_institution_id"
+                ],
+                "title": "AuthSession"
+            },
             "Institution": {
                 "type": "object",
                 "properties": {
@@ -1771,40 +1798,6 @@
                     "institutions"
                 ],
                 "title": "User"
-            },
-            "AuthSession": {
-                "type": "object",
-                "properties": {
-                    "user": {
-                        "$ref": "#/components/schemas/User"
-                    },
-                    "current_institution": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/Institution"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ]
-                    },
-                    "current_institution_id": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ]
-                    }
-                },
-                "required": [
-                    "user",
-                    "current_institution",
-                    "current_institution_id"
-                ],
-                "title": "AuthSession"
             }
         },
         "responses": {

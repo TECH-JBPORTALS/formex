@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AuthSessionResource;
 use App\Models\User;
 use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\JsonResponse;
@@ -46,7 +47,7 @@ class AuthController
         ]);
 
         if (
-            !Auth::attempt([
+            ! Auth::attempt([
                 'email' => $credentials['email'],
                 'password' => $credentials['password'],
             ], $request->boolean('remember'))
@@ -96,7 +97,7 @@ class AuthController
         $user = $request->user();
         $user->load('institutions');
 
-        if (!$user->institutions->pluck('id')->contains($validated['institution_id'])) {
+        if (! $user->institutions->pluck('id')->contains($validated['institution_id'])) {
             throw ValidationException::withMessages([
                 'institution_id' => ['You do not belong to this institution.'],
             ]);
@@ -115,10 +116,10 @@ class AuthController
         $user = $request->user()->load('institutions');
         [$currentInstitution, $currentInstitutionId] = CurrentInstitutionSession::sync($request, $user);
 
-        return response()->json([
+        return AuthSessionResource::make([
             'user' => $user,
             'current_institution' => $currentInstitution,
             'current_institution_id' => $currentInstitutionId,
-        ]);
+        ])->response();
     }
 }

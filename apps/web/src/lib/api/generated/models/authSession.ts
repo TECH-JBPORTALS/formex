@@ -10,5 +10,5 @@ import type { User } from "./user";
 export interface AuthSession {
   user: User;
   current_institution: Institution | null;
-  current_institution_id: string | null;
+  current_institution_id: string;
 }
