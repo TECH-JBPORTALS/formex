@@ -22,6 +22,10 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
+import {
+  useProgramsShow,
+  useProgramsShowSuspense,
+} from "@/lib/api/generated/context-program/context-program";
 
 type ProgramSidebarProps = {
   programId: string;
@@ -63,6 +67,8 @@ export function ProgramSidebar({
 }: ProgramSidebarProps) {
   const pathname = usePathname();
   const items = navItems(programId);
+  const { data: programShow } = useProgramsShowSuspense(programId);
+  const program = programShow?.status == 200 ? programShow.data.data : null;
 
   return (
     <Sidebar
@@ -75,7 +81,7 @@ export function ProgramSidebar({
           PROGRAM
         </Badge>
         <span className="truncate px-1.5 text-sm font-medium leading-tight">
-          {programId}
+          {program?.name}
         </span>
       </SidebarHeader>
 

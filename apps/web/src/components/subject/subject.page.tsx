@@ -59,6 +59,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { useProgramsShow } from "@/lib/api/hooks/useProgramsShow";
 
 const placeholderStaff = {
   id: "staff-1",
@@ -98,8 +99,8 @@ const subjectFormSchema = z.object({
 type SubjectFormValues = z.infer<typeof subjectFormSchema>;
 
 export function SubjectsPage() {
-  const params = useParams<{ programId?: string }>();
-  const programId = params.programId;
+  const { programId } = useParams<{ programId: string }>();
+  const { data } = useProgramsShow(programId);
 
   const [subjects, setSubjects] = useState<Subject[]>(seed);
   const [createOpen, setCreateOpen] = useState(false);
@@ -185,7 +186,7 @@ export function SubjectsPage() {
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link href={`/p/${programId}`}>Program {programId}</Link>
+                    <Link href={`/p/${programId}`}>{data?.name}</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               </>

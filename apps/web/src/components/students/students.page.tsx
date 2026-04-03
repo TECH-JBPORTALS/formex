@@ -53,6 +53,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { useProgramsShow } from "@/lib/api/hooks/useProgramsShow";
 
 const seed: Student[] = [
   {
@@ -87,8 +88,8 @@ const studentFormSchema = z.object({
 type StudentFormValues = z.infer<typeof studentFormSchema>;
 
 export function StudentsPage() {
-  const params = useParams<{ programId?: string }>();
-  const programId = params.programId;
+  const { programId } = useParams<{ programId: string }>();
+  const { data } = useProgramsShow(programId);
 
   const [students, setStudents] = useState<Student[]>(seed);
   const [createOpen, setCreateOpen] = useState(false);
@@ -183,7 +184,7 @@ export function StudentsPage() {
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link href={`/p/${programId}`}>Program {programId}</Link>
+                    <Link href={`/p/${programId}`}>{data?.name}</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               </>
