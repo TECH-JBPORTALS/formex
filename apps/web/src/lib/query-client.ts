@@ -10,8 +10,6 @@ export const createQueryClient = () =>
         // Prevent “double requests” right after server hydration.
         // We still allow refetching via explicit calls / invalidations.
         refetchOnMount: false,
-        refetchOnReconnect: false,
-        refetchOnWindowFocus: false,
       },
     },
   });
