@@ -1,34 +1,42 @@
 import { redirect } from "next/navigation";
 import type React from "react";
-import { AppSidebar } from "../../components/sidebar/app-sidebar";
-import { AppSidebarProvider } from "../../components/sidebar/app-sidebar-provider";
-import { PrincipalSidebar } from "../../components/sidebar/principal-sidebar";
-import { ProgramCoordinatorSidebar } from "../../components/sidebar/program-coordinator-sidebar";
-import { ProgramSidebar } from "../../components/sidebar/program-sidebar";
-import { StaffSidebar } from "../../components/sidebar/staff-sidebar";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { AppSidebarProvider } from "@/components/sidebar/app-sidebar-provider";
+import { AppSidebarRail } from "@/components/sidebar/app-sidebar-rail";
+import { getServerSession } from "../../auth/session";
 import { SidebarInset } from "../../components/ui/sidebar";
-import { getSession } from "../../auth/auth";
+import { prefetch } from "@/lib/prefetch";
+import { getAuthUserQueryOptions } from "@/lib/api/generated/auth/auth";
+import { QueryHydrationBoundary } from "@/components/providers/query-hydration-boundary";
+import { headers } from "next/headers";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getSession();
+  const session = await getServerSession();
 
-  if (!session) redirect("/sign-in");
+  if (!session) {
+    redirect("/sign-in");
+  }
+
+  if (session.user.institutions.length === 0) {
+    redirect("/institutions/new");
+  }
+
+  const dehydratedState = await prefetch(
+    getAuthUserQueryOptions({ request: { headers: await headers() } }),
+  );
 
   return (
-    <AppSidebarProvider>
-      <AppSidebar>
-        {session?.user.role === "staff" && <StaffSidebar />}
-        {session?.user.role === "program_coordinator" && (
-          <ProgramCoordinatorSidebar />
-        )}
-        {session?.user.role === "principal" && <PrincipalSidebar />}
-        <ProgramSidebar />
-      </AppSidebar>
-      <SidebarInset>{children}</SidebarInset>
-    </AppSidebarProvider>
+    <QueryHydrationBoundary state={dehydratedState}>
+      <AppSidebarProvider>
+        <AppSidebar>
+          <AppSidebarRail />
+        </AppSidebar>
+        <SidebarInset>{children}</SidebarInset>
+      </AppSidebarProvider>
+    </QueryHydrationBoundary>
   );
 }

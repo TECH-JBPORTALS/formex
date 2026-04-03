@@ -3,6 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { useDocumentStore } from "../stores/document";
+import { Button } from "./ui/button";
 import {
   Form,
   FormControl,
@@ -11,8 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { useDocumentStore } from "../stores/document";
-import { Button } from "./ui/button";
 import {
   Sidebar,
   SidebarGroup,
@@ -76,7 +76,7 @@ export function RightPanel() {
             <SidebarMenu className="space-y-3">
               <SidebarMenuItem>
                 <FormField
-                  {...form.control}
+                  control={form.control}
                   name="vision"
                   render={({ field }) => (
                     <FormItem>
@@ -95,7 +95,7 @@ export function RightPanel() {
 
               <SidebarMenuItem>
                 <FormField
-                  {...form.control}
+                  control={form.control}
                   name="mission"
                   render={({ field }) => (
                     <FormItem>
