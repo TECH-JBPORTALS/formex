@@ -10,8 +10,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "dedoc/scramble": "^0.13.17",
         "laravel/framework": "^13.0",
-        "laravel/sanctum": "^4.0",
+        "laravel/sanctum": "^4.3",
         "laravel/tinker": "^3.0"
     },
     "require-dev": {
@@ -51,6 +52,7 @@
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
+        "openapi:export": "@php artisan scramble:export --path=openapi/formex-api.json",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

@@ -6,7 +6,8 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "clean:workspaces": "turbo run clean",
-    "clean":"rm -rf node_modules .turbo"
+    "clean":"rm -rf node_modules .turbo",
+    "postinstall": "bun --filter=\"@formex/api\" composer:install"
   },
   "packageManager": "bun@1.3.9",
   "peerDependencies": {

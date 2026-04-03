@@ -1,25 +1,22 @@
 "use client";
 
 import {
-  Calendar01Icon,
-  CubeIcon,
   GridIcon,
   Home01Icon,
-  PlusSignIcon,
   UserSquareIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import type React from "react";
-import { cn } from "../../lib/utils";
-import { getTemplatePagesByType } from "../tempalate-pages";
+import { Suspense } from "react";
+import { getTemplatePagesByType } from "@/components/tempalate-pages";
+import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
@@ -28,23 +25,13 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import { AppSidebarFooter } from "./app-sidebar-footer";
+import { PrincipalProgramsSection } from "./principal-programs-section";
 
 const institutionFormats = getTemplatePagesByType("institution");
 
 const items = [
   { id: 1, label: "Home", icon: Home01Icon, href: "/" },
   { id: 2, label: "Faculty", icon: UserSquareIcon, href: "/faculty" },
-  { id: 3, label: "Calendar", icon: Calendar01Icon, href: "/calendar" },
-];
-
-const branches = [
-  { id: 1, name: "Computer Science", icon: Home01Icon, href: "/" },
-  {
-    id: 2,
-    name: "Electronics & Electricals",
-    icon: UserSquareIcon,
-    href: "/faculty",
-  },
 ];
 
 export function PrincipalSidebar({
@@ -52,25 +39,28 @@ export function PrincipalSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
-  const { programId } = useParams<{ programId: string }>();
 
   return (
     <Sidebar
       collapsible="none"
-      className={cn("flex-1", className, programId && "border-r")}
+      className={cn("shrink-0 border-r", className)}
       {...props}
     >
-      <SidebarHeader className="flex-row items-center">
-        <span className="text-lg text-primary px-1.5 font-bold font-brand">
+      <SidebarHeader className="flex-row h-12 border-b items-center">
+        <span className="text-lg text-primary px-1.5 font-bold font-heading">
           FORMEX
         </span>
-        <Badge variant={"default"} className="font-mono text-xs">
+        <Badge
+          variant={"default"}
+          className="bg-primary/20 text-primary font-bold text-[10px]"
+        >
           PRINCIPAL
         </Badge>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
+          <SidebarGroupLabel>INSTITUTION</SidebarGroupLabel>
           <SidebarMenu>
             {items.map((item) => (
               <SidebarMenuItem key={item.id}>
@@ -84,33 +74,7 @@ export function PrincipalSidebar({
           </SidebarMenu>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>
-            PROGRAMS
-            <SidebarGroupAction>
-              <HugeiconsIcon icon={PlusSignIcon} />{" "}
-              <span className="sr-only">Add Program</span>
-            </SidebarGroupAction>
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {branches.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton
-                    asChild
-                    className="flex w-full items-center"
-                    isActive={pathname.startsWith(`/p/${item.id}`)}
-                  >
-                    <Link href={`/p/${item.id}`}>
-                      <HugeiconsIcon icon={CubeIcon} />{" "}
-                      <span className="flex-1 truncate">{item.name}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <PrincipalProgramsSection />
 
         <SidebarGroup>
           <SidebarGroupLabel>INSTITUTION FORMATS</SidebarGroupLabel>
@@ -118,9 +82,12 @@ export function PrincipalSidebar({
             <SidebarMenu>
               {institutionFormats.map((item) => (
                 <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton asChild>
-                    <Link href={`#`}>
-                      <HugeiconsIcon icon={GridIcon} /> {item.name}
+                  <SidebarMenuButton
+                    isActive={pathname === `/formats/${item.slug}`}
+                    asChild
+                  >
+                    <Link href={`/formats/${item.slug}`}>
+                      <HugeiconsIcon icon={GridIcon} /> <span>{item.name}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -129,7 +96,9 @@ export function PrincipalSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <AppSidebarFooter />
+      <Suspense fallback={<div className="h-16 px-2 py-2" />}>
+        <AppSidebarFooter />
+      </Suspense>
     </Sidebar>
   );
 }

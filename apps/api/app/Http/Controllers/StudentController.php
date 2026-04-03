@@ -2,34 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
-use App\Models\Institution;
 use App\Models\Program;
+use App\Models\Student;
+use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\Request;
 
 class StudentController
 {
     // 📄 List students
-    public function index(Institution $institution, Program $program)
+    public function index(Request $request, Program $program)
     {
-        $students = $program->students()
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        /** @var Program $scopedProgram */
+        $scopedProgram = $institution->programs()->whereKey($program->id)->firstOrFail();
+
+        $students = $scopedProgram->students()
             ->latest()
             ->get();
 
         return response()->json([
-            'data' => $students
+            'data' => $students,
         ]);
     }
 
     // ➕ Create student (strictly under institution → program)
-    public function store(Request $request, Institution $institution, Program $program)
+    public function store(Request $request, Program $program)
     {
-        // 🔒 Extra safety (optional if using ->scoped())
-        if ($program->institution_id !== $institution->id) {
-            return response()->json([
-                'message' => 'Program does not belong to this institution'
-            ], 404);
-        }
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        /** @var Program $scopedProgram */
+        $scopedProgram = $institution->programs()->whereKey($program->id)->firstOrFail();
 
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
@@ -44,31 +45,47 @@ class StudentController
             'appar_id' => 'nullable|string|max:100',
         ]);
 
-        $student = $program->students()->create([
+        $student = $scopedProgram->students()->create([
             ...$validated,
-            'institution_id' => $institution->id,
+            // Institution comes from the program, not from the route.
+            'institution_id' => $scopedProgram->institution_id,
         ]);
 
         return response()->json([
             'message' => 'Student created successfully',
-            'data' => $student
+            'data' => $student,
         ], 201);
     }
 
     // 🔍 Show student
-    public function show(Institution $institution, Program $program, Student $student)
+    public function show(Request $request, Program $program, Student $student)
     {
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        /** @var Program $scopedProgram */
+        $scopedProgram = $institution->programs()->whereKey($program->id)->firstOrFail();
+
+        // Scoped route model binding should ensure this, but keep a safety guard.
+        if ($student->program_id !== $scopedProgram->id) {
+            return response()->json([
+                'message' => 'Student does not belong to this program',
+            ], 404);
+        }
+
         return response()->json([
-            'data' => $student
+            'data' => $student,
         ]);
     }
 
     // ✏️ Update student (same chain enforcement)
-    public function update(Request $request, Institution $institution, Program $program, Student $student)
+    public function update(Request $request, Program $program, Student $student)
     {
-        if ($program->institution_id !== $institution->id) {
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        /** @var Program $scopedProgram */
+        $scopedProgram = $institution->programs()->whereKey($program->id)->firstOrFail();
+
+        if ($student->program_id !== $scopedProgram->id) {
             return response()->json([
-                'message' => 'Program does not belong to this institution'
+                'message' => 'Student does not belong to this program',
             ], 404);
         }
 
@@ -90,17 +107,27 @@ class StudentController
 
         return response()->json([
             'message' => 'Student updated successfully',
-            'data' => $student
+            'data' => $student,
         ]);
     }
 
     // 🗑️ Delete student
-    public function destroy(Institution $institution, Program $program, Student $student)
+    public function destroy(Request $request, Program $program, Student $student)
     {
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        /** @var Program $scopedProgram */
+        $scopedProgram = $institution->programs()->whereKey($program->id)->firstOrFail();
+
+        if ($student->program_id !== $scopedProgram->id) {
+            return response()->json([
+                'message' => 'Student does not belong to this program',
+            ], 404);
+        }
+
         $student->delete();
 
         return response()->json([
-            'message' => 'Student deleted successfully'
+            'message' => 'Student deleted successfully',
         ]);
     }
 }

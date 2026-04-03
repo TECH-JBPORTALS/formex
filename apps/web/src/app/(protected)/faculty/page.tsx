@@ -1,35 +1,65 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import Header from "../../../components/header";
+import Header from "@/components/header";
 import { getFacultyColumns, type Faculty } from "./columns";
 import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbPage,
-} from "../../../components/ui/breadcrumb";
-import Container from "../../../components/container";
-import { DataTable } from "../../../components/data-table";
+} from "@/components/ui/breadcrumb";
+import Container from "@/components/container";
+import { DataTable } from "@/components/data-table";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "../../../components/ui/input-group";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../components/ui/form";
-import { Input } from "../../../components/ui/input";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../../../components/ui/dialog";
-import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "../../../components/ui/sheet";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../../../components/ui/alert-dialog";
+} from "@/components/ui/input-group";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../components/ui/select";
+} from "@/components/ui/select";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon, Search01Icon } from "@hugeicons/core-free-icons";
-import { Button } from "../../../components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -332,7 +362,10 @@ export default function Page() {
             <SheetDescription>Update faculty information.</SheetDescription>
           </SheetHeader>
           <Form {...editForm}>
-            <form className="space-y-3 px-4" onSubmit={editForm.handleSubmit(onEdit)}>
+            <form
+              className="space-y-3 px-4"
+              onSubmit={editForm.handleSubmit(onEdit)}
+            >
               <FormField
                 control={editForm.control}
                 name="name"
@@ -395,7 +428,10 @@ export default function Page() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Branch</FormLabel>
-                      <Select value={field.value} onValueChange={field.onChange}>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
                         <FormControl>
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select branch" />

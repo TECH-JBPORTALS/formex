@@ -3,6 +3,9 @@
     "private":"true",
     "scripts": {
         "dev":"composer run dev",
-        "clean":"rm -rf node_modules"
+        "test":"composer run test",
+        "openapi:export": "composer run openapi:export",
+        "clean":"rm -rf node_modules vendor .cache",
+        "composer:install": "composer install"
     }
 }
