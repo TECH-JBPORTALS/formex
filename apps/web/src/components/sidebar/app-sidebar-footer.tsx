@@ -9,6 +9,7 @@ import {
   useAuthSetCurrentInstitution,
   useAuthUser,
 } from "@/lib/api/generated/auth/auth";
+import { getProgramsIndexQueryKey } from "@/lib/api/generated/program/program";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -35,6 +36,9 @@ export function AppSidebarFooter() {
           void queryClient.invalidateQueries({
             queryKey: getAuthUserQueryKey(),
           });
+          void queryClient.invalidateQueries({
+            queryKey: getProgramsIndexQueryKey(),
+          });
         },
       },
     });
@@ -60,9 +64,6 @@ export function AppSidebarFooter() {
 
                   <div>
                     <span className="font-medium">{user.name}</span>
-                    <p className="text-xs text-muted-foreground">
-                      {user.email}
-                    </p>
                     {currentInstitution ? (
                       <p className="text-xs text-muted-foreground/90 truncate max-w-44">
                         {currentInstitution.name}
@@ -91,6 +92,8 @@ export function AppSidebarFooter() {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
+
+              {/** Show dropdown if there is more than 1 institution in the user's institutions */}
               {user.institutions.length > 1 ? (
                 <>
                   <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
@@ -115,6 +118,7 @@ export function AppSidebarFooter() {
                   <DropdownMenuSeparator />
                 </>
               ) : null}
+
               <DropdownMenuItem
                 onClick={() => {
                   void signOutSession().then(() => window.location.reload());

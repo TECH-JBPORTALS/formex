@@ -44,4 +44,20 @@ class CurrentInstitutionSession
 
         return [$default, $default->id];
     }
+
+    public static function requireInstitution(Request $request): Institution
+    {
+        $user = $request->user();
+        if ($user === null) {
+            abort(401);
+        }
+
+        [$institution] = self::sync($request, $user);
+
+        if ($institution === null) {
+            abort(404);
+        }
+
+        return $institution;
+    }
 }

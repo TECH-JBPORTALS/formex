@@ -31,11 +31,745 @@ import type {
   InstitutionsProgramsUpdate200,
   InstitutionsProgramsUpdateBody,
   ModelNotFoundExceptionResponse,
+  ProgramsDestroy200,
+  ProgramsIndex200,
+  ProgramsShow200,
+  ProgramsStore201,
+  ProgramsStoreBody,
+  ProgramsUpdate200,
+  ProgramsUpdateBody,
   ValidationExceptionResponse,
 } from "../models";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
+/**
+ * @summary List programs for the current session institution
+ */
+export type programsIndexResponse200 = {
+  data: ProgramsIndex200;
+  status: 200;
+};
+
+export type programsIndexResponse401 = {
+  data: AuthenticationExceptionResponse;
+  status: 401;
+};
+
+export type programsIndexResponse404 = {
+  data: ModelNotFoundExceptionResponse;
+  status: 404;
+};
+
+export type programsIndexResponseSuccess = programsIndexResponse200 & {
+  headers: Headers;
+};
+export type programsIndexResponseError = (
+  | programsIndexResponse401
+  | programsIndexResponse404
+) & {
+  headers: Headers;
+};
+
+export type programsIndexResponse =
+  | programsIndexResponseSuccess
+  | programsIndexResponseError;
+
+export const getProgramsIndexUrl = () => {
+  return `/programs`;
+};
+
+export const programsIndex = async (
+  options?: RequestInit,
+): Promise<programsIndexResponse> => {
+  return $api<programsIndexResponse>(getProgramsIndexUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getProgramsIndexQueryKey = () => {
+  return [`/programs`] as const;
+};
+
+export const getProgramsIndexQueryOptions = <
+  TData = Awaited<ReturnType<typeof programsIndex>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof programsIndex>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof $api>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getProgramsIndexQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof programsIndex>>> = ({
+    signal,
+  }) => programsIndex({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof programsIndex>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type ProgramsIndexQueryResult = NonNullable<
+  Awaited<ReturnType<typeof programsIndex>>
+>;
+export type ProgramsIndexQueryError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse;
+
+export function useProgramsIndex<
+  TData = Awaited<ReturnType<typeof programsIndex>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof programsIndex>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof programsIndex>>,
+          TError,
+          Awaited<ReturnType<typeof programsIndex>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useProgramsIndex<
+  TData = Awaited<ReturnType<typeof programsIndex>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof programsIndex>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof programsIndex>>,
+          TError,
+          Awaited<ReturnType<typeof programsIndex>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useProgramsIndex<
+  TData = Awaited<ReturnType<typeof programsIndex>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof programsIndex>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary List programs for the current session institution
+ */
+
+export function useProgramsIndex<
+  TData = Awaited<ReturnType<typeof programsIndex>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof programsIndex>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getProgramsIndexQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Create a program under the current session institution
+ */
+export type programsStoreResponse201 = {
+  data: ProgramsStore201;
+  status: 201;
+};
+
+export type programsStoreResponse401 = {
+  data: AuthenticationExceptionResponse;
+  status: 401;
+};
+
+export type programsStoreResponse404 = {
+  data: ModelNotFoundExceptionResponse;
+  status: 404;
+};
+
+export type programsStoreResponse422 = {
+  data: ValidationExceptionResponse;
+  status: 422;
+};
+
+export type programsStoreResponseSuccess = programsStoreResponse201 & {
+  headers: Headers;
+};
+export type programsStoreResponseError = (
+  | programsStoreResponse401
+  | programsStoreResponse404
+  | programsStoreResponse422
+) & {
+  headers: Headers;
+};
+
+export type programsStoreResponse =
+  | programsStoreResponseSuccess
+  | programsStoreResponseError;
+
+export const getProgramsStoreUrl = () => {
+  return `/programs`;
+};
+
+export const programsStore = async (
+  programsStoreBody: ProgramsStoreBody,
+  options?: RequestInit,
+): Promise<programsStoreResponse> => {
+  return $api<programsStoreResponse>(getProgramsStoreUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(programsStoreBody),
+  });
+};
+
+export const getProgramsStoreMutationOptions = <
+  TError =
+    | AuthenticationExceptionResponse
+    | ModelNotFoundExceptionResponse
+    | ValidationExceptionResponse,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof programsStore>>,
+    TError,
+    { data: ProgramsStoreBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof $api>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof programsStore>>,
+  TError,
+  { data: ProgramsStoreBody },
+  TContext
+> => {
+  const mutationKey = ["programsStore"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof programsStore>>,
+    { data: ProgramsStoreBody }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return programsStore(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type ProgramsStoreMutationResult = NonNullable<
+  Awaited<ReturnType<typeof programsStore>>
+>;
+export type ProgramsStoreMutationBody = ProgramsStoreBody;
+export type ProgramsStoreMutationError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse
+  | ValidationExceptionResponse;
+
+/**
+ * @summary Create a program under the current session institution
+ */
+export const useProgramsStore = <
+  TError =
+    | AuthenticationExceptionResponse
+    | ModelNotFoundExceptionResponse
+    | ValidationExceptionResponse,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof programsStore>>,
+      TError,
+      { data: ProgramsStoreBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof programsStore>>,
+  TError,
+  { data: ProgramsStoreBody },
+  TContext
+> => {
+  return useMutation(getProgramsStoreMutationOptions(options), queryClient);
+};
+/**
+ * @summary Show a program under the current session institution
+ */
+export type programsShowResponse200 = {
+  data: ProgramsShow200;
+  status: 200;
+};
+
+export type programsShowResponse401 = {
+  data: AuthenticationExceptionResponse;
+  status: 401;
+};
+
+export type programsShowResponse404 = {
+  data: ModelNotFoundExceptionResponse;
+  status: 404;
+};
+
+export type programsShowResponseSuccess = programsShowResponse200 & {
+  headers: Headers;
+};
+export type programsShowResponseError = (
+  | programsShowResponse401
+  | programsShowResponse404
+) & {
+  headers: Headers;
+};
+
+export type programsShowResponse =
+  | programsShowResponseSuccess
+  | programsShowResponseError;
+
+export const getProgramsShowUrl = (program: string) => {
+  return `/programs/${program}`;
+};
+
+export const programsShow = async (
+  program: string,
+  options?: RequestInit,
+): Promise<programsShowResponse> => {
+  return $api<programsShowResponse>(getProgramsShowUrl(program), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getProgramsShowQueryKey = (program: string) => {
+  return [`/programs/${program}`] as const;
+};
+
+export const getProgramsShowQueryOptions = <
+  TData = Awaited<ReturnType<typeof programsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  program: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof programsShow>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getProgramsShowQueryKey(program);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof programsShow>>> = ({
+    signal,
+  }) => programsShow(program, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!program,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof programsShow>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type ProgramsShowQueryResult = NonNullable<
+  Awaited<ReturnType<typeof programsShow>>
+>;
+export type ProgramsShowQueryError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse;
+
+export function useProgramsShow<
+  TData = Awaited<ReturnType<typeof programsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  program: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof programsShow>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof programsShow>>,
+          TError,
+          Awaited<ReturnType<typeof programsShow>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useProgramsShow<
+  TData = Awaited<ReturnType<typeof programsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  program: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof programsShow>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof programsShow>>,
+          TError,
+          Awaited<ReturnType<typeof programsShow>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useProgramsShow<
+  TData = Awaited<ReturnType<typeof programsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  program: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof programsShow>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Show a program under the current session institution
+ */
+
+export function useProgramsShow<
+  TData = Awaited<ReturnType<typeof programsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  program: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof programsShow>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getProgramsShowQueryOptions(program, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Update a program under the current session institution
+ */
+export type programsUpdateResponse200 = {
+  data: ProgramsUpdate200;
+  status: 200;
+};
+
+export type programsUpdateResponse401 = {
+  data: AuthenticationExceptionResponse;
+  status: 401;
+};
+
+export type programsUpdateResponse404 = {
+  data: ModelNotFoundExceptionResponse;
+  status: 404;
+};
+
+export type programsUpdateResponse422 = {
+  data: ValidationExceptionResponse;
+  status: 422;
+};
+
+export type programsUpdateResponseSuccess = programsUpdateResponse200 & {
+  headers: Headers;
+};
+export type programsUpdateResponseError = (
+  | programsUpdateResponse401
+  | programsUpdateResponse404
+  | programsUpdateResponse422
+) & {
+  headers: Headers;
+};
+
+export type programsUpdateResponse =
+  | programsUpdateResponseSuccess
+  | programsUpdateResponseError;
+
+export const getProgramsUpdateUrl = (program: string) => {
+  return `/programs/${program}`;
+};
+
+export const programsUpdate = async (
+  program: string,
+  programsUpdateBody: ProgramsUpdateBody,
+  options?: RequestInit,
+): Promise<programsUpdateResponse> => {
+  return $api<programsUpdateResponse>(getProgramsUpdateUrl(program), {
+    ...options,
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(programsUpdateBody),
+  });
+};
+
+export const getProgramsUpdateMutationOptions = <
+  TError =
+    | AuthenticationExceptionResponse
+    | ModelNotFoundExceptionResponse
+    | ValidationExceptionResponse,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof programsUpdate>>,
+    TError,
+    { program: string; data: ProgramsUpdateBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof $api>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof programsUpdate>>,
+  TError,
+  { program: string; data: ProgramsUpdateBody },
+  TContext
+> => {
+  const mutationKey = ["programsUpdate"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof programsUpdate>>,
+    { program: string; data: ProgramsUpdateBody }
+  > = (props) => {
+    const { program, data } = props ?? {};
+
+    return programsUpdate(program, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type ProgramsUpdateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof programsUpdate>>
+>;
+export type ProgramsUpdateMutationBody = ProgramsUpdateBody;
+export type ProgramsUpdateMutationError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse
+  | ValidationExceptionResponse;
+
+/**
+ * @summary Update a program under the current session institution
+ */
+export const useProgramsUpdate = <
+  TError =
+    | AuthenticationExceptionResponse
+    | ModelNotFoundExceptionResponse
+    | ValidationExceptionResponse,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof programsUpdate>>,
+      TError,
+      { program: string; data: ProgramsUpdateBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof programsUpdate>>,
+  TError,
+  { program: string; data: ProgramsUpdateBody },
+  TContext
+> => {
+  return useMutation(getProgramsUpdateMutationOptions(options), queryClient);
+};
+/**
+ * @summary Delete a program under the current session institution
+ */
+export type programsDestroyResponse200 = {
+  data: ProgramsDestroy200;
+  status: 200;
+};
+
+export type programsDestroyResponse401 = {
+  data: AuthenticationExceptionResponse;
+  status: 401;
+};
+
+export type programsDestroyResponse404 = {
+  data: ModelNotFoundExceptionResponse;
+  status: 404;
+};
+
+export type programsDestroyResponseSuccess = programsDestroyResponse200 & {
+  headers: Headers;
+};
+export type programsDestroyResponseError = (
+  | programsDestroyResponse401
+  | programsDestroyResponse404
+) & {
+  headers: Headers;
+};
+
+export type programsDestroyResponse =
+  | programsDestroyResponseSuccess
+  | programsDestroyResponseError;
+
+export const getProgramsDestroyUrl = (program: string) => {
+  return `/programs/${program}`;
+};
+
+export const programsDestroy = async (
+  program: string,
+  options?: RequestInit,
+): Promise<programsDestroyResponse> => {
+  return $api<programsDestroyResponse>(getProgramsDestroyUrl(program), {
+    ...options,
+    method: "DELETE",
+  });
+};
+
+export const getProgramsDestroyMutationOptions = <
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof programsDestroy>>,
+    TError,
+    { program: string },
+    TContext
+  >;
+  request?: SecondParameter<typeof $api>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof programsDestroy>>,
+  TError,
+  { program: string },
+  TContext
+> => {
+  const mutationKey = ["programsDestroy"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof programsDestroy>>,
+    { program: string }
+  > = (props) => {
+    const { program } = props ?? {};
+
+    return programsDestroy(program, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type ProgramsDestroyMutationResult = NonNullable<
+  Awaited<ReturnType<typeof programsDestroy>>
+>;
+
+export type ProgramsDestroyMutationError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse;
+
+/**
+ * @summary Delete a program under the current session institution
+ */
+export const useProgramsDestroy = <
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof programsDestroy>>,
+      TError,
+      { program: string },
+      TContext
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof programsDestroy>>,
+  TError,
+  { program: string },
+  TContext
+> => {
+  return useMutation(getProgramsDestroyMutationOptions(options), queryClient);
+};
 export type institutionsProgramsIndexResponse200 = {
   data: InstitutionsProgramsIndex200;
   status: 200;

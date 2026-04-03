@@ -34,7 +34,7 @@ class InstitutionController
         ]);
 
         $institution = Institution::create($validated);
-        $request->user()->institutions()->attach($institution->id);
+        $request->user()->institutions()->attach($institution->id, ['role' => 'principal']);
         $request->session()->put(CurrentInstitutionSession::SESSION_KEY, $institution->id);
 
         return response()->json(['message' => 'Institution created successfully', 'data' => $institution], 201);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContextProgramController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
@@ -16,6 +17,7 @@ Route::middleware('web')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/user/current-institution', [AuthController::class, 'setCurrentInstitution']);
+    Route::apiResource('programs', ContextProgramController::class);
     Route::apiResource('institutions', InstitutionController::class);
     Route::apiResource('institutions.programs', ProgramController::class)->scoped();
     Route::apiResource('institutions.programs.students', StudentController::class)->scoped();
