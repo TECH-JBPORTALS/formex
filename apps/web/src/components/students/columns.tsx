@@ -3,7 +3,6 @@
 import { MoreVertical, Pencil, Trash } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { z } from "zod";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -11,16 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-
-export const studentSchema = z.object({
-  id: z.string(),
-  rollNumber: z.string(),
-  name: z.string(),
-  email: z.string().email(),
-  createdAt: z.string(),
-});
-
-export type Student = z.infer<typeof studentSchema>;
+import type { Student } from "@/lib/api/generated/models/student";
 
 type StudentColumnActions = {
   onEdit: (student: Student) => void;
@@ -33,22 +23,32 @@ export function getStudentColumns({
 }: StudentColumnActions): ColumnDef<Student>[] {
   return [
     {
-      accessorKey: "rollNumber",
-      header: "Roll No",
+      accessorKey: "full_name",
+      header: "Student",
     },
     {
-      accessorKey: "name",
-      header: "Name",
+      accessorKey: "register_no",
+      header: "Roll No",
     },
     {
       accessorKey: "email",
       header: "Email",
     },
     {
-      accessorKey: "createdAt",
+      accessorKey: "semester",
+      header: "Semester",
+    },
+    {
+      accessorKey: "academic_year",
+      header: "Academic Year",
+    },
+    {
+      accessorKey: "created_at",
       header: "Created",
       cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
+        const createdAt = row.getValue("created_at") as string | null;
+        if (!createdAt) return null;
+        const date = new Date(createdAt);
         return date.toLocaleDateString();
       },
     },

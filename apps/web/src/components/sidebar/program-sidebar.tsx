@@ -7,7 +7,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type React from "react";
 import { Badge } from "../ui/badge";
 import {
@@ -22,6 +22,13 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import {
   useProgramsShow,
   useProgramsShowSuspense,
@@ -66,9 +73,22 @@ export function ProgramSidebar({
   ...props
 }: ProgramSidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const semesterParam = searchParams.get("semester");
+  const selectedSemester = Number.isFinite(Number(semesterParam))
+    ? Math.min(6, Math.max(1, Number(semesterParam)))
+    : 1;
   const items = navItems(programId);
   const { data: programShow } = useProgramsShowSuspense(programId);
   const program = programShow?.status == 200 ? programShow.data.data : null;
+
+  const onSemesterChange = (value: string) => {
+    const nextSemester = Math.min(6, Math.max(1, Number(value)));
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("semester", String(nextSemester));
+    router.replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <Sidebar
@@ -76,15 +96,34 @@ export function ProgramSidebar({
       className={cn("shrink-0 border-r bg-sidebar", className)}
       {...props}
     >
-      <SidebarHeader className="gap-1 border-b px-2 py-3">
-        <span className="truncate  px-1.5 text-sm font-semibold font-heading leading-tight">
+      <SidebarHeader className="gap-2 border-b px-2 py-3">
+        <span className="truncate px-1.5 text-lg font-semibold font-heading leading-tight">
           {program?.name}
         </span>
+
+        <Select
+          value={String(selectedSemester)}
+          onValueChange={onSemesterChange}
+        >
+          <SelectTrigger size="sm" className="w-full">
+            <SelectValue placeholder="Semester" />
+          </SelectTrigger>
+          <SelectContent>
+            {Array.from({ length: 6 }).map((_, i) => {
+              const s = i + 1;
+              return (
+                <SelectItem key={s} value={String(s)}>
+                  Semester {s}
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="sr-only">Program</SidebarGroupLabel>
+          <SidebarGroupLabel>PROGRAM</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -94,7 +133,12 @@ export function ProgramSidebar({
                     isActive={item.match(pathname)}
                     className="w-full"
                   >
-                    <Link href={item.href}>
+                    <Link
+                      href={{
+                        pathname: item.href,
+                        query: { semester: String(selectedSemester) },
+                      }}
+                    >
                       <HugeiconsIcon icon={item.icon} />
                       {item.label}
                     </Link>

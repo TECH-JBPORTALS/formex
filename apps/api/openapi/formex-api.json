@@ -746,11 +746,198 @@
                 }
             }
         },
-        "/institutions/{institution}/programs/{program}/students": {
+        "/internships/{internship}": {
             "get": {
-                "operationId": "institutions.programs.students.index",
+                "operationId": "internship.show",
+                "summary": "Display the specified resource",
                 "tags": [
-                    "Student"
+                    "Internship"
+                ],
+                "parameters": [
+                    {
+                        "name": "internship",
+                        "in": "path",
+                        "required": true,
+                        "description": "The internship ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Internship"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "internship.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Internship"
+                ],
+                "parameters": [
+                    {
+                        "name": "internship",
+                        "in": "path",
+                        "required": true,
+                        "description": "The internship ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "industry_name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "industry_address": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "from_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "to_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "semester": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "acad_year": {
+                                        "type": "integer",
+                                        "minimum": 2000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Internship updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Internship"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "internship.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "Internship"
+                ],
+                "parameters": [
+                    {
+                        "name": "internship",
+                        "in": "path",
+                        "required": true,
+                        "description": "The internship ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Internship deleted successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Internship"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/institutions/{institution}/internships": {
+            "get": {
+                "operationId": "internship.listByInstitution",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "Internship"
                 ],
                 "parameters": [
                     {
@@ -761,7 +948,243 @@
                         "schema": {
                             "type": "string"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Internship"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
                     },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/programs/{program}/internships": {
+            "get": {
+                "operationId": "internship.listByProgram",
+                "tags": [
+                    "Internship"
+                ],
+                "parameters": [
+                    {
+                        "name": "program",
+                        "in": "path",
+                        "required": true,
+                        "description": "The program ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Internship"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/students/{student}/internships": {
+            "get": {
+                "operationId": "internship.listByStudent",
+                "tags": [
+                    "Internship"
+                ],
+                "parameters": [
+                    {
+                        "name": "student",
+                        "in": "path",
+                        "required": true,
+                        "description": "The student ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Internship"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "internship.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Internship"
+                ],
+                "parameters": [
+                    {
+                        "name": "student",
+                        "in": "path",
+                        "required": true,
+                        "description": "The student ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "industry_name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "industry_address": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "from_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "to_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "semester": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "acad_year": {
+                                        "type": "integer",
+                                        "minimum": 2000
+                                    }
+                                },
+                                "required": [
+                                    "industry_name",
+                                    "industry_address",
+                                    "role",
+                                    "from_date",
+                                    "to_date",
+                                    "semester",
+                                    "acad_year"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Internship created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Internship"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/programs/{program}/students": {
+            "get": {
+                "operationId": "programs.students.index",
+                "tags": [
+                    "Student"
+                ],
+                "parameters": [
                     {
                         "name": "program",
                         "in": "path",
@@ -803,20 +1226,11 @@
                 }
             },
             "post": {
-                "operationId": "institutions.programs.students.store",
+                "operationId": "programs.students.store",
                 "tags": [
                     "Student"
                 ],
                 "parameters": [
-                    {
-                        "name": "institution",
-                        "in": "path",
-                        "required": true,
-                        "description": "The institution ID",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "program",
                         "in": "path",
@@ -864,6 +1278,10 @@
                                         "type": [
                                             "string",
                                             "null"
+                                        ],
+                                        "enum": [
+                                            "male",
+                                            "female"
                                         ]
                                     },
                                     "category": {
@@ -927,11 +1345,11 @@
                             }
                         }
                     },
-                    "404": {
-                        "$ref": "#/components/responses/ModelNotFoundException"
-                    },
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -939,22 +1357,13 @@
                 }
             }
         },
-        "/institutions/{institution}/programs/{program}/students/{student}": {
+        "/programs/{program}/students/{student}": {
             "get": {
-                "operationId": "institutions.programs.students.show",
+                "operationId": "programs.students.show",
                 "tags": [
                     "Student"
                 ],
                 "parameters": [
-                    {
-                        "name": "institution",
-                        "in": "path",
-                        "required": true,
-                        "description": "The institution ID",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "program",
                         "in": "path",
@@ -1002,20 +1411,11 @@
                 }
             },
             "put": {
-                "operationId": "institutions.programs.students.update",
+                "operationId": "programs.students.update",
                 "tags": [
                     "Student"
                 ],
                 "parameters": [
-                    {
-                        "name": "institution",
-                        "in": "path",
-                        "required": true,
-                        "description": "The institution ID",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "program",
                         "in": "path",
@@ -1144,20 +1544,11 @@
                 }
             },
             "delete": {
-                "operationId": "institutions.programs.students.destroy",
+                "operationId": "programs.students.destroy",
                 "tags": [
                     "Student"
                 ],
                 "parameters": [
-                    {
-                        "name": "institution",
-                        "in": "path",
-                        "required": true,
-                        "description": "The institution ID",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "program",
                         "in": "path",
@@ -1557,6 +1948,74 @@
                     "updated_at"
                 ],
                 "title": "Institution"
+            },
+            "Internship": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "student_id": {
+                        "type": "string"
+                    },
+                    "institution_id": {
+                        "type": "string"
+                    },
+                    "program_id": {
+                        "type": "string"
+                    },
+                    "industry_name": {
+                        "type": "string"
+                    },
+                    "industry_address": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "from_date": {
+                        "type": "string"
+                    },
+                    "to_date": {
+                        "type": "string"
+                    },
+                    "acad_year": {
+                        "type": "integer"
+                    },
+                    "semester": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "student_id",
+                    "institution_id",
+                    "program_id",
+                    "industry_name",
+                    "industry_address",
+                    "role",
+                    "from_date",
+                    "to_date",
+                    "acad_year",
+                    "semester",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "Internship"
             },
             "Program": {
                 "type": "object",

@@ -3,9 +3,9 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContextProgramController;
 use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\InternshipController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('web')->group(function () {
@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('institutions', InstitutionController::class);
     Route::apiResource('programs', ContextProgramController::class);
 
-    Route::apiResource('institutions.programs.students', StudentController::class)->scoped();
+    Route::apiResource('programs.students', StudentController::class)->scoped();
 
     Route::apiResource('institutions.programs.subjects', SubjectController::class)->scoped();
 
@@ -32,4 +32,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/students/{student}/internships', [InternshipController::class, 'listByStudent']);
     Route::post('/students/{student}/internships', [InternshipController::class, 'store']);
 });
-
