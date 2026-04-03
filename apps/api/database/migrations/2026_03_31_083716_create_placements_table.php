@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('placements', function (Blueprint $table) {
+            $table->ulid('id')->primary();
+            $table->foreignUlid('student_id')->constrained();
+            $table->foreignUlid('institution_id')->constrained();
+            $table->foreignUlid('program_id')->constrained();
+            $table->integer('acad_year');
+            $table->string('industry_name');
+            $table->string('industry_address');
+            $table->string('role');
+            $table->string('ctc');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('placements');
+    }
+};

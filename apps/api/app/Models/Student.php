@@ -52,4 +52,13 @@ class Student extends Model
     {
         return $this->belongsTo(Institution::class);
     }
+
+    public function placements(): HasMany
+    {
+        return $this->hasMany(Placement::class);
+    }
+    public function highereducations(): HasMany
+    {
+        return $this->hasMany(Highereducation::class);
+    }
 }

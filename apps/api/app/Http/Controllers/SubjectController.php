@@ -46,6 +46,7 @@ class SubjectController
     public function show(Subject $subject)
     {
         //
+        
     }
 
     /**

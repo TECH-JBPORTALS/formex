@@ -28,4 +28,18 @@ class Institution extends Model
     {
         return $this->hasMany(Internship::class);
     }
+
+    public function placements(): HasMany
+    {
+        return $this->hasMany(Placement::class);
+    }
+    public function highereducations(): HasMany
+    {
+        return $this->hasMany(Highereducation::class);
+    }
+
+    public function roomreports(): HasMany
+    {
+        return $this->hasMany(Roomreport::class);
+    }
 }

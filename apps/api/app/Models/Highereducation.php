@@ -2,35 +2,37 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 
 #[Fillable([
-    'name',
-    'short_name',
-    'type',
+    'college_name',
+    'rank',
+    'acad_year',
+    'student_id',
+    'institution_id',
     'program_id',
-    'institution_id'
 ])]
-class Subject extends Model
+
+class Highereducation extends Model
 {
+    //
     use HasUlids, HasFactory;
+    public function institution(): BelongsTo
+    {
+        return $this->belongsTo(Institution::class);
+    }
 
     public function program(): BelongsTo
     {
         return $this->belongsTo(Program::class);
     }
 
-    public function institution(): BelongsTo
+    public function student(): BelongsTo
     {
-        return $this->belongsTo(Institution::class);
-    }
-    public function roomreports(): HasMany
-    {
-        return $this->hasMany(Roomreport::class);
+        return $this->belongsTo(Student::class);
     }
 }
