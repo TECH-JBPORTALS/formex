@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->foreignUlid('institution_id');
             $table->foreignUlid('program_id');
             $table->string('type');
+            $table->integer('semester');
+            $table->string('scheme');
             $table->timestamps();
         });
     }
