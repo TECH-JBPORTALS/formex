@@ -13,8 +13,8 @@ return new class extends Migration {
             $table->string('full_name');
             $table->date('date_of_birth')->nullable();
 
-            $table->foreignUlid('institution_id')->constrained()->cascadeOnDelete();
-            $table->foreignUlid('program_id')->constrained()->cascadeOnDelete();
+            $table->foreignUlid('institution_id')->index();
+            $table->foreignUlid('program_id')->index();
 
             $table->integer('semester');
             $table->integer('academic_year');
@@ -31,7 +31,6 @@ return new class extends Migration {
 
             $table->timestamps();
 
-            $table->index(['institution_id', 'program_id']);
         });
     }
 

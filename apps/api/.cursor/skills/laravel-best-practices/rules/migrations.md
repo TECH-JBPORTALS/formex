@@ -20,7 +20,7 @@ php artisan make:migration add_slug_to_posts_table
 Automatic naming and referential integrity.
 
 ```php
-$table->foreignId('user_id')->constrained()->cascadeOnDelete();
+$table->foreignId('user_id')->index();
 
 // Non-standard names
 $table->foreignId('author_id')->constrained('users');

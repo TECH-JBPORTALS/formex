@@ -2801,55 +2801,13 @@
                 "title": "AuthSession"
             },
             "Highereducation": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "student_id": {
-                        "type": "string"
-                    },
-                    "institution_id": {
-                        "type": "string"
-                    },
-                    "program_id": {
-                        "type": "string"
-                    },
-                    "acad_year": {
-                        "type": "integer"
-                    },
-                    "college_name": {
-                        "type": "string"
-                    },
-                    "rank": {
-                        "type": "integer"
-                    },
-                    "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    }
+                "type": "array",
+                "items": {
+                    "type": "string"
                 },
-                "required": [
-                    "id",
-                    "student_id",
-                    "institution_id",
-                    "program_id",
-                    "acad_year",
-                    "college_name",
-                    "rank",
-                    "created_at",
-                    "updated_at"
-                ],
+                "minItems": 0,
+                "maxItems": 0,
+                "additionalItems": false,
                 "title": "Highereducation"
             },
             "Institution": {

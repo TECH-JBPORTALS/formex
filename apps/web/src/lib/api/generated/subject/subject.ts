@@ -25,10 +25,16 @@ import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { $api } from "../../mutator";
 import type {
   AuthenticationExceptionResponse,
-  InstitutionsProgramsSubjectsIndex200,
-  InstitutionsProgramsSubjectsStore200,
-  InstitutionsProgramsSubjectsStoreBody,
   ModelNotFoundExceptionResponse,
+  SubjectListByProgram200,
+  SubjectListbysemester200,
+  SubjectStore200,
+  SubjectStoreBody,
+  SubjectsDestroy200,
+  SubjectsIndex200,
+  SubjectsShow200,
+  SubjectsUpdate200,
+  SubjectsUpdateBody,
   ValidationExceptionResponse,
 } from "../models";
 
@@ -37,125 +43,86 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 /**
  * @summary Display a listing of the resource
  */
-export type institutionsProgramsSubjectsIndexResponse200 = {
-  data: InstitutionsProgramsSubjectsIndex200;
+export type subjectsIndexResponse200 = {
+  data: SubjectsIndex200;
   status: 200;
 };
 
-export type institutionsProgramsSubjectsIndexResponse401 = {
+export type subjectsIndexResponse401 = {
   data: AuthenticationExceptionResponse;
   status: 401;
 };
 
-export type institutionsProgramsSubjectsIndexResponseSuccess =
-  institutionsProgramsSubjectsIndexResponse200 & {
-    headers: Headers;
-  };
-export type institutionsProgramsSubjectsIndexResponseError =
-  institutionsProgramsSubjectsIndexResponse401 & {
-    headers: Headers;
-  };
-
-export type institutionsProgramsSubjectsIndexResponse =
-  | institutionsProgramsSubjectsIndexResponseSuccess
-  | institutionsProgramsSubjectsIndexResponseError;
-
-export const getInstitutionsProgramsSubjectsIndexUrl = (
-  institution: string,
-  program: string,
-) => {
-  return `/institutions/${institution}/programs/${program}/subjects`;
+export type subjectsIndexResponseSuccess = subjectsIndexResponse200 & {
+  headers: Headers;
+};
+export type subjectsIndexResponseError = subjectsIndexResponse401 & {
+  headers: Headers;
 };
 
-export const institutionsProgramsSubjectsIndex = async (
-  institution: string,
-  program: string,
+export type subjectsIndexResponse =
+  | subjectsIndexResponseSuccess
+  | subjectsIndexResponseError;
+
+export const getSubjectsIndexUrl = () => {
+  return `/subjects`;
+};
+
+export const subjectsIndex = async (
   options?: RequestInit,
-): Promise<institutionsProgramsSubjectsIndexResponse> => {
-  return $api<institutionsProgramsSubjectsIndexResponse>(
-    getInstitutionsProgramsSubjectsIndexUrl(institution, program),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
+): Promise<subjectsIndexResponse> => {
+  return $api<subjectsIndexResponse>(getSubjectsIndexUrl(), {
+    ...options,
+    method: "GET",
+  });
 };
 
-export const getInstitutionsProgramsSubjectsIndexQueryKey = (
-  institution: string,
-  program: string,
-) => {
-  return [`/institutions/${institution}/programs/${program}/subjects`] as const;
+export const getSubjectsIndexQueryKey = () => {
+  return [`/subjects`] as const;
 };
 
-export const getInstitutionsProgramsSubjectsIndexQueryOptions = <
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+export const getSubjectsIndexQueryOptions = <
+  TData = Awaited<ReturnType<typeof subjectsIndex>>,
   TError = AuthenticationExceptionResponse,
->(
-  institution: string,
-  program: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof $api>;
-  },
-) => {
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof subjectsIndex>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof $api>;
+}) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getInstitutionsProgramsSubjectsIndexQueryKey(institution, program);
+  const queryKey = queryOptions?.queryKey ?? getSubjectsIndexQueryKey();
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>
-  > = ({ signal }) =>
-    institutionsProgramsSubjectsIndex(institution, program, {
-      signal,
-      ...requestOptions,
-    });
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof subjectsIndex>>> = ({
+    signal,
+  }) => subjectsIndex({ signal, ...requestOptions });
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!(institution && program),
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof subjectsIndex>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type InstitutionsProgramsSubjectsIndexQueryResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>
+export type SubjectsIndexQueryResult = NonNullable<
+  Awaited<ReturnType<typeof subjectsIndex>>
 >;
-export type InstitutionsProgramsSubjectsIndexQueryError =
-  AuthenticationExceptionResponse;
+export type SubjectsIndexQueryError = AuthenticationExceptionResponse;
 
-export function useInstitutionsProgramsSubjectsIndex<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+export function useSubjectsIndex<
+  TData = Awaited<ReturnType<typeof subjectsIndex>>,
   TError = AuthenticationExceptionResponse,
 >(
-  institution: string,
-  program: string,
   options: {
     query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof subjectsIndex>>, TError, TData>
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+          Awaited<ReturnType<typeof subjectsIndex>>,
           TError,
-          Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>
+          Awaited<ReturnType<typeof subjectsIndex>>
         >,
         "initialData"
       >;
@@ -165,25 +132,19 @@ export function useInstitutionsProgramsSubjectsIndex<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsSubjectsIndex<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+export function useSubjectsIndex<
+  TData = Awaited<ReturnType<typeof subjectsIndex>>,
   TError = AuthenticationExceptionResponse,
 >(
-  institution: string,
-  program: string,
   options?: {
     query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof subjectsIndex>>, TError, TData>
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+          Awaited<ReturnType<typeof subjectsIndex>>,
           TError,
-          Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>
+          Awaited<ReturnType<typeof subjectsIndex>>
         >,
         "initialData"
       >;
@@ -193,19 +154,13 @@ export function useInstitutionsProgramsSubjectsIndex<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsSubjectsIndex<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+export function useSubjectsIndex<
+  TData = Awaited<ReturnType<typeof subjectsIndex>>,
   TError = AuthenticationExceptionResponse,
 >(
-  institution: string,
-  program: string,
   options?: {
     query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof subjectsIndex>>, TError, TData>
     >;
     request?: SecondParameter<typeof $api>;
   },
@@ -217,19 +172,13 @@ export function useInstitutionsProgramsSubjectsIndex<
  * @summary Display a listing of the resource
  */
 
-export function useInstitutionsProgramsSubjectsIndex<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+export function useSubjectsIndex<
+  TData = Awaited<ReturnType<typeof subjectsIndex>>,
   TError = AuthenticationExceptionResponse,
 >(
-  institution: string,
-  program: string,
   options?: {
     query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof subjectsIndex>>, TError, TData>
     >;
     request?: SecondParameter<typeof $api>;
   },
@@ -237,11 +186,7 @@ export function useInstitutionsProgramsSubjectsIndex<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getInstitutionsProgramsSubjectsIndexQueryOptions(
-    institution,
-    program,
-    options,
-  );
+  const queryOptions = getSubjectsIndexQueryOptions(options);
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
@@ -251,16 +196,746 @@ export function useInstitutionsProgramsSubjectsIndex<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export const getInstitutionsProgramsSubjectsIndexSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+export const getSubjectsIndexSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof subjectsIndex>>,
+  TError = AuthenticationExceptionResponse,
+>(options?: {
+  query?: Partial<
+    UseSuspenseQueryOptions<
+      Awaited<ReturnType<typeof subjectsIndex>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof $api>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getSubjectsIndexQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof subjectsIndex>>> = ({
+    signal,
+  }) => subjectsIndex({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof subjectsIndex>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type SubjectsIndexSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof subjectsIndex>>
+>;
+export type SubjectsIndexSuspenseQueryError = AuthenticationExceptionResponse;
+
+export function useSubjectsIndexSuspense<
+  TData = Awaited<ReturnType<typeof subjectsIndex>>,
   TError = AuthenticationExceptionResponse,
 >(
-  institution: string,
-  program: string,
+  options: {
+    query: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof subjectsIndex>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseSuspenseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useSubjectsIndexSuspense<
+  TData = Awaited<ReturnType<typeof subjectsIndex>>,
+  TError = AuthenticationExceptionResponse,
+>(
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+        Awaited<ReturnType<typeof subjectsIndex>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseSuspenseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useSubjectsIndexSuspense<
+  TData = Awaited<ReturnType<typeof subjectsIndex>>,
+  TError = AuthenticationExceptionResponse,
+>(
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof subjectsIndex>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseSuspenseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Display a listing of the resource
+ */
+
+export function useSubjectsIndexSuspense<
+  TData = Awaited<ReturnType<typeof subjectsIndex>>,
+  TError = AuthenticationExceptionResponse,
+>(
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof subjectsIndex>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseSuspenseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getSubjectsIndexSuspenseQueryOptions(options);
+
+  const query = useSuspenseQuery(
+    queryOptions,
+    queryClient,
+  ) as UseSuspenseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Display the specified resource
+ */
+export type subjectsShowResponse200 = {
+  data: SubjectsShow200;
+  status: 200;
+};
+
+export type subjectsShowResponse401 = {
+  data: AuthenticationExceptionResponse;
+  status: 401;
+};
+
+export type subjectsShowResponse404 = {
+  data: ModelNotFoundExceptionResponse;
+  status: 404;
+};
+
+export type subjectsShowResponseSuccess = subjectsShowResponse200 & {
+  headers: Headers;
+};
+export type subjectsShowResponseError = (
+  | subjectsShowResponse401
+  | subjectsShowResponse404
+) & {
+  headers: Headers;
+};
+
+export type subjectsShowResponse =
+  | subjectsShowResponseSuccess
+  | subjectsShowResponseError;
+
+export const getSubjectsShowUrl = (subject: string) => {
+  return `/subjects/${subject}`;
+};
+
+export const subjectsShow = async (
+  subject: string,
+  options?: RequestInit,
+): Promise<subjectsShowResponse> => {
+  return $api<subjectsShowResponse>(getSubjectsShowUrl(subject), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getSubjectsShowQueryKey = (subject: string) => {
+  return [`/subjects/${subject}`] as const;
+};
+
+export const getSubjectsShowQueryOptions = <
+  TData = Awaited<ReturnType<typeof subjectsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  subject: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof subjectsShow>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getSubjectsShowQueryKey(subject);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof subjectsShow>>> = ({
+    signal,
+  }) => subjectsShow(subject, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!subject,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof subjectsShow>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type SubjectsShowQueryResult = NonNullable<
+  Awaited<ReturnType<typeof subjectsShow>>
+>;
+export type SubjectsShowQueryError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse;
+
+export function useSubjectsShow<
+  TData = Awaited<ReturnType<typeof subjectsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  subject: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof subjectsShow>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof subjectsShow>>,
+          TError,
+          Awaited<ReturnType<typeof subjectsShow>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useSubjectsShow<
+  TData = Awaited<ReturnType<typeof subjectsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  subject: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof subjectsShow>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof subjectsShow>>,
+          TError,
+          Awaited<ReturnType<typeof subjectsShow>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useSubjectsShow<
+  TData = Awaited<ReturnType<typeof subjectsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  subject: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof subjectsShow>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Display the specified resource
+ */
+
+export function useSubjectsShow<
+  TData = Awaited<ReturnType<typeof subjectsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  subject: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof subjectsShow>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getSubjectsShowQueryOptions(subject, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+export const getSubjectsShowSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof subjectsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  subject: string,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof subjectsShow>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getSubjectsShowQueryKey(subject);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof subjectsShow>>> = ({
+    signal,
+  }) => subjectsShow(subject, { signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof subjectsShow>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type SubjectsShowSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof subjectsShow>>
+>;
+export type SubjectsShowSuspenseQueryError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse;
+
+export function useSubjectsShowSuspense<
+  TData = Awaited<ReturnType<typeof subjectsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  subject: string,
+  options: {
+    query: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof subjectsShow>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseSuspenseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useSubjectsShowSuspense<
+  TData = Awaited<ReturnType<typeof subjectsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  subject: string,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof subjectsShow>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseSuspenseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useSubjectsShowSuspense<
+  TData = Awaited<ReturnType<typeof subjectsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  subject: string,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof subjectsShow>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseSuspenseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Display the specified resource
+ */
+
+export function useSubjectsShowSuspense<
+  TData = Awaited<ReturnType<typeof subjectsShow>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  subject: string,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof subjectsShow>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseSuspenseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getSubjectsShowSuspenseQueryOptions(subject, options);
+
+  const query = useSuspenseQuery(
+    queryOptions,
+    queryClient,
+  ) as UseSuspenseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Update the specified resource in storage
+ */
+export type subjectsUpdateResponse200 = {
+  data: SubjectsUpdate200;
+  status: 200;
+};
+
+export type subjectsUpdateResponse401 = {
+  data: AuthenticationExceptionResponse;
+  status: 401;
+};
+
+export type subjectsUpdateResponse404 = {
+  data: ModelNotFoundExceptionResponse;
+  status: 404;
+};
+
+export type subjectsUpdateResponse422 = {
+  data: ValidationExceptionResponse;
+  status: 422;
+};
+
+export type subjectsUpdateResponseSuccess = subjectsUpdateResponse200 & {
+  headers: Headers;
+};
+export type subjectsUpdateResponseError = (
+  | subjectsUpdateResponse401
+  | subjectsUpdateResponse404
+  | subjectsUpdateResponse422
+) & {
+  headers: Headers;
+};
+
+export type subjectsUpdateResponse =
+  | subjectsUpdateResponseSuccess
+  | subjectsUpdateResponseError;
+
+export const getSubjectsUpdateUrl = (subject: string) => {
+  return `/subjects/${subject}`;
+};
+
+export const subjectsUpdate = async (
+  subject: string,
+  subjectsUpdateBody: SubjectsUpdateBody,
+  options?: RequestInit,
+): Promise<subjectsUpdateResponse> => {
+  return $api<subjectsUpdateResponse>(getSubjectsUpdateUrl(subject), {
+    ...options,
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(subjectsUpdateBody),
+  });
+};
+
+export const getSubjectsUpdateMutationOptions = <
+  TError =
+    | AuthenticationExceptionResponse
+    | ModelNotFoundExceptionResponse
+    | ValidationExceptionResponse,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof subjectsUpdate>>,
+    TError,
+    { subject: string; data: SubjectsUpdateBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof $api>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof subjectsUpdate>>,
+  TError,
+  { subject: string; data: SubjectsUpdateBody },
+  TContext
+> => {
+  const mutationKey = ["subjectsUpdate"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof subjectsUpdate>>,
+    { subject: string; data: SubjectsUpdateBody }
+  > = (props) => {
+    const { subject, data } = props ?? {};
+
+    return subjectsUpdate(subject, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type SubjectsUpdateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof subjectsUpdate>>
+>;
+export type SubjectsUpdateMutationBody = SubjectsUpdateBody;
+export type SubjectsUpdateMutationError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse
+  | ValidationExceptionResponse;
+
+/**
+ * @summary Update the specified resource in storage
+ */
+export const useSubjectsUpdate = <
+  TError =
+    | AuthenticationExceptionResponse
+    | ModelNotFoundExceptionResponse
+    | ValidationExceptionResponse,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof subjectsUpdate>>,
+      TError,
+      { subject: string; data: SubjectsUpdateBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof subjectsUpdate>>,
+  TError,
+  { subject: string; data: SubjectsUpdateBody },
+  TContext
+> => {
+  return useMutation(getSubjectsUpdateMutationOptions(options), queryClient);
+};
+/**
+ * @summary Remove the specified resource from storage
+ */
+export type subjectsDestroyResponse200 = {
+  data: SubjectsDestroy200;
+  status: 200;
+};
+
+export type subjectsDestroyResponse401 = {
+  data: AuthenticationExceptionResponse;
+  status: 401;
+};
+
+export type subjectsDestroyResponse404 = {
+  data: ModelNotFoundExceptionResponse;
+  status: 404;
+};
+
+export type subjectsDestroyResponseSuccess = subjectsDestroyResponse200 & {
+  headers: Headers;
+};
+export type subjectsDestroyResponseError = (
+  | subjectsDestroyResponse401
+  | subjectsDestroyResponse404
+) & {
+  headers: Headers;
+};
+
+export type subjectsDestroyResponse =
+  | subjectsDestroyResponseSuccess
+  | subjectsDestroyResponseError;
+
+export const getSubjectsDestroyUrl = (subject: string) => {
+  return `/subjects/${subject}`;
+};
+
+export const subjectsDestroy = async (
+  subject: string,
+  options?: RequestInit,
+): Promise<subjectsDestroyResponse> => {
+  return $api<subjectsDestroyResponse>(getSubjectsDestroyUrl(subject), {
+    ...options,
+    method: "DELETE",
+  });
+};
+
+export const getSubjectsDestroyMutationOptions = <
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof subjectsDestroy>>,
+    TError,
+    { subject: string },
+    TContext
+  >;
+  request?: SecondParameter<typeof $api>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof subjectsDestroy>>,
+  TError,
+  { subject: string },
+  TContext
+> => {
+  const mutationKey = ["subjectsDestroy"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof subjectsDestroy>>,
+    { subject: string }
+  > = (props) => {
+    const { subject } = props ?? {};
+
+    return subjectsDestroy(subject, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type SubjectsDestroyMutationResult = NonNullable<
+  Awaited<ReturnType<typeof subjectsDestroy>>
+>;
+
+export type SubjectsDestroyMutationError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse;
+
+/**
+ * @summary Remove the specified resource from storage
+ */
+export const useSubjectsDestroy = <
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof subjectsDestroy>>,
+      TError,
+      { subject: string },
+      TContext
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof subjectsDestroy>>,
+  TError,
+  { subject: string },
+  TContext
+> => {
+  return useMutation(getSubjectsDestroyMutationOptions(options), queryClient);
+};
+export type subjectListByProgramResponse200 = {
+  data: SubjectListByProgram200;
+  status: 200;
+};
+
+export type subjectListByProgramResponse401 = {
+  data: AuthenticationExceptionResponse;
+  status: 401;
+};
+
+export type subjectListByProgramResponse404 = {
+  data: ModelNotFoundExceptionResponse;
+  status: 404;
+};
+
+export type subjectListByProgramResponseSuccess =
+  subjectListByProgramResponse200 & {
+    headers: Headers;
+  };
+export type subjectListByProgramResponseError = (
+  | subjectListByProgramResponse401
+  | subjectListByProgramResponse404
+) & {
+  headers: Headers;
+};
+
+export type subjectListByProgramResponse =
+  | subjectListByProgramResponseSuccess
+  | subjectListByProgramResponseError;
+
+export const getSubjectListByProgramUrl = (program: string) => {
+  return `/programs/${program}/subjects`;
+};
+
+export const subjectListByProgram = async (
+  program: string,
+  options?: RequestInit,
+): Promise<subjectListByProgramResponse> => {
+  return $api<subjectListByProgramResponse>(
+    getSubjectListByProgramUrl(program),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export const getSubjectListByProgramQueryKey = (program: string) => {
+  return [`/programs/${program}/subjects`] as const;
+};
+
+export const getSubjectListByProgramQueryOptions = <
+  TData = Awaited<ReturnType<typeof subjectListByProgram>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  program: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof subjectListByProgram>>,
         TError,
         TData
       >
@@ -271,40 +946,184 @@ export const getInstitutionsProgramsSubjectsIndexSuspenseQueryOptions = <
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ??
-    getInstitutionsProgramsSubjectsIndexQueryKey(institution, program);
+    queryOptions?.queryKey ?? getSubjectListByProgramQueryKey(program);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>
+    Awaited<ReturnType<typeof subjectListByProgram>>
   > = ({ signal }) =>
-    institutionsProgramsSubjectsIndex(institution, program, {
-      signal,
-      ...requestOptions,
-    });
+    subjectListByProgram(program, { signal, ...requestOptions });
 
-  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!program,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof subjectListByProgram>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type InstitutionsProgramsSubjectsIndexSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>
+export type SubjectListByProgramQueryResult = NonNullable<
+  Awaited<ReturnType<typeof subjectListByProgram>>
 >;
-export type InstitutionsProgramsSubjectsIndexSuspenseQueryError =
-  AuthenticationExceptionResponse;
+export type SubjectListByProgramQueryError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse;
 
-export function useInstitutionsProgramsSubjectsIndexSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
-  TError = AuthenticationExceptionResponse,
+export function useSubjectListByProgram<
+  TData = Awaited<ReturnType<typeof subjectListByProgram>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
+  program: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof subjectListByProgram>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof subjectListByProgram>>,
+          TError,
+          Awaited<ReturnType<typeof subjectListByProgram>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useSubjectListByProgram<
+  TData = Awaited<ReturnType<typeof subjectListByProgram>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  program: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof subjectListByProgram>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof subjectListByProgram>>,
+          TError,
+          Awaited<ReturnType<typeof subjectListByProgram>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useSubjectListByProgram<
+  TData = Awaited<ReturnType<typeof subjectListByProgram>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  program: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof subjectListByProgram>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useSubjectListByProgram<
+  TData = Awaited<ReturnType<typeof subjectListByProgram>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  program: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof subjectListByProgram>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getSubjectListByProgramQueryOptions(program, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+export const getSubjectListByProgramSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof subjectListByProgram>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
+  program: string,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof subjectListByProgram>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getSubjectListByProgramQueryKey(program);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof subjectListByProgram>>
+  > = ({ signal }) =>
+    subjectListByProgram(program, { signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof subjectListByProgram>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type SubjectListByProgramSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof subjectListByProgram>>
+>;
+export type SubjectListByProgramSuspenseQueryError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse;
+
+export function useSubjectListByProgramSuspense<
+  TData = Awaited<ReturnType<typeof subjectListByProgram>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
+>(
   program: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+        Awaited<ReturnType<typeof subjectListByProgram>>,
         TError,
         TData
       >
@@ -315,16 +1134,15 @@ export function useInstitutionsProgramsSubjectsIndexSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsSubjectsIndexSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
-  TError = AuthenticationExceptionResponse,
+export function useSubjectListByProgramSuspense<
+  TData = Awaited<ReturnType<typeof subjectListByProgram>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+        Awaited<ReturnType<typeof subjectListByProgram>>,
         TError,
         TData
       >
@@ -335,16 +1153,15 @@ export function useInstitutionsProgramsSubjectsIndexSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsSubjectsIndexSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
-  TError = AuthenticationExceptionResponse,
+export function useSubjectListByProgramSuspense<
+  TData = Awaited<ReturnType<typeof subjectListByProgram>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+        Awaited<ReturnType<typeof subjectListByProgram>>,
         TError,
         TData
       >
@@ -355,20 +1172,16 @@ export function useInstitutionsProgramsSubjectsIndexSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-/**
- * @summary Display a listing of the resource
- */
 
-export function useInstitutionsProgramsSubjectsIndexSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
-  TError = AuthenticationExceptionResponse,
+export function useSubjectListByProgramSuspense<
+  TData = Awaited<ReturnType<typeof subjectListByProgram>>,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsIndex>>,
+        Awaited<ReturnType<typeof subjectListByProgram>>,
         TError,
         TData
       >
@@ -379,8 +1192,7 @@ export function useInstitutionsProgramsSubjectsIndexSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getInstitutionsProgramsSubjectsIndexSuspenseQueryOptions(
-    institution,
+  const queryOptions = getSubjectListByProgramSuspenseQueryOptions(
     program,
     options,
   );
@@ -398,67 +1210,59 @@ export function useInstitutionsProgramsSubjectsIndexSuspense<
 /**
  * @summary Store a newly created resource in storage
  */
-export type institutionsProgramsSubjectsStoreResponse200 = {
-  data: InstitutionsProgramsSubjectsStore200;
+export type subjectStoreResponse200 = {
+  data: SubjectStore200;
   status: 200;
 };
 
-export type institutionsProgramsSubjectsStoreResponse401 = {
+export type subjectStoreResponse401 = {
   data: AuthenticationExceptionResponse;
   status: 401;
 };
 
-export type institutionsProgramsSubjectsStoreResponse404 = {
+export type subjectStoreResponse404 = {
   data: ModelNotFoundExceptionResponse;
   status: 404;
 };
 
-export type institutionsProgramsSubjectsStoreResponse422 = {
+export type subjectStoreResponse422 = {
   data: ValidationExceptionResponse;
   status: 422;
 };
 
-export type institutionsProgramsSubjectsStoreResponseSuccess =
-  institutionsProgramsSubjectsStoreResponse200 & {
-    headers: Headers;
-  };
-export type institutionsProgramsSubjectsStoreResponseError = (
-  | institutionsProgramsSubjectsStoreResponse401
-  | institutionsProgramsSubjectsStoreResponse404
-  | institutionsProgramsSubjectsStoreResponse422
+export type subjectStoreResponseSuccess = subjectStoreResponse200 & {
+  headers: Headers;
+};
+export type subjectStoreResponseError = (
+  | subjectStoreResponse401
+  | subjectStoreResponse404
+  | subjectStoreResponse422
 ) & {
   headers: Headers;
 };
 
-export type institutionsProgramsSubjectsStoreResponse =
-  | institutionsProgramsSubjectsStoreResponseSuccess
-  | institutionsProgramsSubjectsStoreResponseError;
+export type subjectStoreResponse =
+  | subjectStoreResponseSuccess
+  | subjectStoreResponseError;
 
-export const getInstitutionsProgramsSubjectsStoreUrl = (
-  institution: string,
-  program: string,
-) => {
-  return `/institutions/${institution}/programs/${program}/subjects`;
+export const getSubjectStoreUrl = (program: string) => {
+  return `/programs/${program}/subjects`;
 };
 
-export const institutionsProgramsSubjectsStore = async (
-  institution: string,
+export const subjectStore = async (
   program: string,
-  institutionsProgramsSubjectsStoreBody: InstitutionsProgramsSubjectsStoreBody,
+  subjectStoreBody: SubjectStoreBody,
   options?: RequestInit,
-): Promise<institutionsProgramsSubjectsStoreResponse> => {
-  return $api<institutionsProgramsSubjectsStoreResponse>(
-    getInstitutionsProgramsSubjectsStoreUrl(institution, program),
-    {
-      ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(institutionsProgramsSubjectsStoreBody),
-    },
-  );
+): Promise<subjectStoreResponse> => {
+  return $api<subjectStoreResponse>(getSubjectStoreUrl(program), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(subjectStoreBody),
+  });
 };
 
-export const getInstitutionsProgramsSubjectsStoreMutationOptions = <
+export const getSubjectStoreMutationOptions = <
   TError =
     | AuthenticationExceptionResponse
     | ModelNotFoundExceptionResponse
@@ -466,27 +1270,19 @@ export const getInstitutionsProgramsSubjectsStoreMutationOptions = <
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsStore>>,
+    Awaited<ReturnType<typeof subjectStore>>,
     TError,
-    {
-      institution: string;
-      program: string;
-      data: InstitutionsProgramsSubjectsStoreBody;
-    },
+    { program: string; data: SubjectStoreBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsStore>>,
+  Awaited<ReturnType<typeof subjectStore>>,
   TError,
-  {
-    institution: string;
-    program: string;
-    data: InstitutionsProgramsSubjectsStoreBody;
-  },
+  { program: string; data: SubjectStoreBody },
   TContext
 > => {
-  const mutationKey = ["institutionsProgramsSubjectsStore"];
+  const mutationKey = ["subjectStore"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -496,32 +1292,22 @@ export const getInstitutionsProgramsSubjectsStoreMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsStore>>,
-    {
-      institution: string;
-      program: string;
-      data: InstitutionsProgramsSubjectsStoreBody;
-    }
+    Awaited<ReturnType<typeof subjectStore>>,
+    { program: string; data: SubjectStoreBody }
   > = (props) => {
-    const { institution, program, data } = props ?? {};
+    const { program, data } = props ?? {};
 
-    return institutionsProgramsSubjectsStore(
-      institution,
-      program,
-      data,
-      requestOptions,
-    );
+    return subjectStore(program, data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type InstitutionsProgramsSubjectsStoreMutationResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsStore>>
+export type SubjectStoreMutationResult = NonNullable<
+  Awaited<ReturnType<typeof subjectStore>>
 >;
-export type InstitutionsProgramsSubjectsStoreMutationBody =
-  InstitutionsProgramsSubjectsStoreBody;
-export type InstitutionsProgramsSubjectsStoreMutationError =
+export type SubjectStoreMutationBody = SubjectStoreBody;
+export type SubjectStoreMutationError =
   | AuthenticationExceptionResponse
   | ModelNotFoundExceptionResponse
   | ValidationExceptionResponse;
@@ -529,7 +1315,7 @@ export type InstitutionsProgramsSubjectsStoreMutationError =
 /**
  * @summary Store a newly created resource in storage
  */
-export const useInstitutionsProgramsSubjectsStore = <
+export const useSubjectStore = <
   TError =
     | AuthenticationExceptionResponse
     | ModelNotFoundExceptionResponse
@@ -538,82 +1324,66 @@ export const useInstitutionsProgramsSubjectsStore = <
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof institutionsProgramsSubjectsStore>>,
+      Awaited<ReturnType<typeof subjectStore>>,
       TError,
-      {
-        institution: string;
-        program: string;
-        data: InstitutionsProgramsSubjectsStoreBody;
-      },
+      { program: string; data: SubjectStoreBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsStore>>,
+  Awaited<ReturnType<typeof subjectStore>>,
   TError,
-  {
-    institution: string;
-    program: string;
-    data: InstitutionsProgramsSubjectsStoreBody;
-  },
+  { program: string; data: SubjectStoreBody },
   TContext
 > => {
-  return useMutation(
-    getInstitutionsProgramsSubjectsStoreMutationOptions(options),
-    queryClient,
-  );
+  return useMutation(getSubjectStoreMutationOptions(options), queryClient);
 };
-/**
- * @summary Display the specified resource
- */
-export type institutionsProgramsSubjectsShowResponse200 = {
-  data: void;
+export type subjectListbysemesterResponse200 = {
+  data: SubjectListbysemester200;
   status: 200;
 };
 
-export type institutionsProgramsSubjectsShowResponse401 = {
+export type subjectListbysemesterResponse401 = {
   data: AuthenticationExceptionResponse;
   status: 401;
 };
 
-export type institutionsProgramsSubjectsShowResponse404 = {
+export type subjectListbysemesterResponse404 = {
   data: ModelNotFoundExceptionResponse;
   status: 404;
 };
 
-export type institutionsProgramsSubjectsShowResponseSuccess =
-  institutionsProgramsSubjectsShowResponse200 & {
+export type subjectListbysemesterResponseSuccess =
+  subjectListbysemesterResponse200 & {
     headers: Headers;
   };
-export type institutionsProgramsSubjectsShowResponseError = (
-  | institutionsProgramsSubjectsShowResponse401
-  | institutionsProgramsSubjectsShowResponse404
+export type subjectListbysemesterResponseError = (
+  | subjectListbysemesterResponse401
+  | subjectListbysemesterResponse404
 ) & {
   headers: Headers;
 };
 
-export type institutionsProgramsSubjectsShowResponse =
-  | institutionsProgramsSubjectsShowResponseSuccess
-  | institutionsProgramsSubjectsShowResponseError;
+export type subjectListbysemesterResponse =
+  | subjectListbysemesterResponseSuccess
+  | subjectListbysemesterResponseError;
 
-export const getInstitutionsProgramsSubjectsShowUrl = (
-  institution: string,
+export const getSubjectListbysemesterUrl = (
   program: string,
-  subject: string,
+  semester: number,
 ) => {
-  return `/institutions/${institution}/programs/${program}/subjects/${subject}`;
+  return `/programs/${program}/subjects/${semester}`;
 };
 
-export const institutionsProgramsSubjectsShow = async (
-  institution: string,
+export const subjectListbysemester = async (
   program: string,
-  subject: string,
+  semester: number,
   options?: RequestInit,
-): Promise<institutionsProgramsSubjectsShowResponse> => {
-  return $api<institutionsProgramsSubjectsShowResponse>(
-    getInstitutionsProgramsSubjectsShowUrl(institution, program, subject),
+): Promise<subjectListbysemesterResponse> => {
+  return $api<subjectListbysemesterResponse>(
+    getSubjectListbysemesterUrl(program, semester),
     {
       ...options,
       method: "GET",
@@ -621,27 +1391,23 @@ export const institutionsProgramsSubjectsShow = async (
   );
 };
 
-export const getInstitutionsProgramsSubjectsShowQueryKey = (
-  institution: string,
+export const getSubjectListbysemesterQueryKey = (
   program: string,
-  subject: string,
+  semester: number,
 ) => {
-  return [
-    `/institutions/${institution}/programs/${program}/subjects/${subject}`,
-  ] as const;
+  return [`/programs/${program}/subjects/${semester}`] as const;
 };
 
-export const getInstitutionsProgramsSubjectsShowQueryOptions = <
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+export const getSubjectListbysemesterQueryOptions = <
+  TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
-  subject: string,
+  semester: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+        Awaited<ReturnType<typeof subjectListbysemester>>,
         TError,
         TData
       >
@@ -653,55 +1419,51 @@ export const getInstitutionsProgramsSubjectsShowQueryOptions = <
 
   const queryKey =
     queryOptions?.queryKey ??
-    getInstitutionsProgramsSubjectsShowQueryKey(institution, program, subject);
+    getSubjectListbysemesterQueryKey(program, semester);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>
+    Awaited<ReturnType<typeof subjectListbysemester>>
   > = ({ signal }) =>
-    institutionsProgramsSubjectsShow(institution, program, subject, {
-      signal,
-      ...requestOptions,
-    });
+    subjectListbysemester(program, semester, { signal, ...requestOptions });
 
   return {
     queryKey,
     queryFn,
-    enabled: !!(institution && program && subject),
+    enabled: !!(program && semester),
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+    Awaited<ReturnType<typeof subjectListbysemester>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type InstitutionsProgramsSubjectsShowQueryResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>
+export type SubjectListbysemesterQueryResult = NonNullable<
+  Awaited<ReturnType<typeof subjectListbysemester>>
 >;
-export type InstitutionsProgramsSubjectsShowQueryError =
+export type SubjectListbysemesterQueryError =
   | AuthenticationExceptionResponse
   | ModelNotFoundExceptionResponse;
 
-export function useInstitutionsProgramsSubjectsShow<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+export function useSubjectListbysemester<
+  TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
-  subject: string,
+  semester: number,
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+        Awaited<ReturnType<typeof subjectListbysemester>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+          Awaited<ReturnType<typeof subjectListbysemester>>,
           TError,
-          Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>
+          Awaited<ReturnType<typeof subjectListbysemester>>
         >,
         "initialData"
       >;
@@ -711,26 +1473,25 @@ export function useInstitutionsProgramsSubjectsShow<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsSubjectsShow<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+export function useSubjectListbysemester<
+  TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
-  subject: string,
+  semester: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+        Awaited<ReturnType<typeof subjectListbysemester>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+          Awaited<ReturnType<typeof subjectListbysemester>>,
           TError,
-          Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>
+          Awaited<ReturnType<typeof subjectListbysemester>>
         >,
         "initialData"
       >;
@@ -740,17 +1501,16 @@ export function useInstitutionsProgramsSubjectsShow<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsSubjectsShow<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+export function useSubjectListbysemester<
+  TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
-  subject: string,
+  semester: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+        Awaited<ReturnType<typeof subjectListbysemester>>,
         TError,
         TData
       >
@@ -761,21 +1521,17 @@ export function useInstitutionsProgramsSubjectsShow<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-/**
- * @summary Display the specified resource
- */
 
-export function useInstitutionsProgramsSubjectsShow<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+export function useSubjectListbysemester<
+  TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
-  subject: string,
+  semester: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+        Awaited<ReturnType<typeof subjectListbysemester>>,
         TError,
         TData
       >
@@ -786,10 +1542,9 @@ export function useInstitutionsProgramsSubjectsShow<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getInstitutionsProgramsSubjectsShowQueryOptions(
-    institution,
+  const queryOptions = getSubjectListbysemesterQueryOptions(
     program,
-    subject,
+    semester,
     options,
   );
 
@@ -801,17 +1556,16 @@ export function useInstitutionsProgramsSubjectsShow<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export const getInstitutionsProgramsSubjectsShowSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+export const getSubjectListbysemesterSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
-  subject: string,
+  semester: number,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+        Awaited<ReturnType<typeof subjectListbysemester>>,
         TError,
         TData
       >
@@ -823,41 +1577,37 @@ export const getInstitutionsProgramsSubjectsShowSuspenseQueryOptions = <
 
   const queryKey =
     queryOptions?.queryKey ??
-    getInstitutionsProgramsSubjectsShowQueryKey(institution, program, subject);
+    getSubjectListbysemesterQueryKey(program, semester);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>
+    Awaited<ReturnType<typeof subjectListbysemester>>
   > = ({ signal }) =>
-    institutionsProgramsSubjectsShow(institution, program, subject, {
-      signal,
-      ...requestOptions,
-    });
+    subjectListbysemester(program, semester, { signal, ...requestOptions });
 
   return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+    Awaited<ReturnType<typeof subjectListbysemester>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type InstitutionsProgramsSubjectsShowSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>
+export type SubjectListbysemesterSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof subjectListbysemester>>
 >;
-export type InstitutionsProgramsSubjectsShowSuspenseQueryError =
+export type SubjectListbysemesterSuspenseQueryError =
   | AuthenticationExceptionResponse
   | ModelNotFoundExceptionResponse;
 
-export function useInstitutionsProgramsSubjectsShowSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+export function useSubjectListbysemesterSuspense<
+  TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
-  subject: string,
+  semester: number,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+        Awaited<ReturnType<typeof subjectListbysemester>>,
         TError,
         TData
       >
@@ -868,17 +1618,16 @@ export function useInstitutionsProgramsSubjectsShowSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsSubjectsShowSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+export function useSubjectListbysemesterSuspense<
+  TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
-  subject: string,
+  semester: number,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+        Awaited<ReturnType<typeof subjectListbysemester>>,
         TError,
         TData
       >
@@ -889,17 +1638,16 @@ export function useInstitutionsProgramsSubjectsShowSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsSubjectsShowSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+export function useSubjectListbysemesterSuspense<
+  TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
-  subject: string,
+  semester: number,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+        Awaited<ReturnType<typeof subjectListbysemester>>,
         TError,
         TData
       >
@@ -910,21 +1658,17 @@ export function useInstitutionsProgramsSubjectsShowSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-/**
- * @summary Display the specified resource
- */
 
-export function useInstitutionsProgramsSubjectsShowSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+export function useSubjectListbysemesterSuspense<
+  TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
-  subject: string,
+  semester: number,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsSubjectsShow>>,
+        Awaited<ReturnType<typeof subjectListbysemester>>,
         TError,
         TData
       >
@@ -935,10 +1679,9 @@ export function useInstitutionsProgramsSubjectsShowSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getInstitutionsProgramsSubjectsShowSuspenseQueryOptions(
-    institution,
+  const queryOptions = getSubjectListbysemesterSuspenseQueryOptions(
     program,
-    subject,
+    semester,
     options,
   );
 
@@ -951,274 +1694,3 @@ export function useInstitutionsProgramsSubjectsShowSuspense<
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-/**
- * @summary Update the specified resource in storage
- */
-export type institutionsProgramsSubjectsUpdateResponse200 = {
-  data: void;
-  status: 200;
-};
-
-export type institutionsProgramsSubjectsUpdateResponse401 = {
-  data: AuthenticationExceptionResponse;
-  status: 401;
-};
-
-export type institutionsProgramsSubjectsUpdateResponse404 = {
-  data: ModelNotFoundExceptionResponse;
-  status: 404;
-};
-
-export type institutionsProgramsSubjectsUpdateResponseSuccess =
-  institutionsProgramsSubjectsUpdateResponse200 & {
-    headers: Headers;
-  };
-export type institutionsProgramsSubjectsUpdateResponseError = (
-  | institutionsProgramsSubjectsUpdateResponse401
-  | institutionsProgramsSubjectsUpdateResponse404
-) & {
-  headers: Headers;
-};
-
-export type institutionsProgramsSubjectsUpdateResponse =
-  | institutionsProgramsSubjectsUpdateResponseSuccess
-  | institutionsProgramsSubjectsUpdateResponseError;
-
-export const getInstitutionsProgramsSubjectsUpdateUrl = (
-  institution: string,
-  program: string,
-  subject: string,
-) => {
-  return `/institutions/${institution}/programs/${program}/subjects/${subject}`;
-};
-
-export const institutionsProgramsSubjectsUpdate = async (
-  institution: string,
-  program: string,
-  subject: string,
-  options?: RequestInit,
-): Promise<institutionsProgramsSubjectsUpdateResponse> => {
-  return $api<institutionsProgramsSubjectsUpdateResponse>(
-    getInstitutionsProgramsSubjectsUpdateUrl(institution, program, subject),
-    {
-      ...options,
-      method: "PUT",
-    },
-  );
-};
-
-export const getInstitutionsProgramsSubjectsUpdateMutationOptions = <
-  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsUpdate>>,
-    TError,
-    { institution: string; program: string; subject: string },
-    TContext
-  >;
-  request?: SecondParameter<typeof $api>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsUpdate>>,
-  TError,
-  { institution: string; program: string; subject: string },
-  TContext
-> => {
-  const mutationKey = ["institutionsProgramsSubjectsUpdate"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsUpdate>>,
-    { institution: string; program: string; subject: string }
-  > = (props) => {
-    const { institution, program, subject } = props ?? {};
-
-    return institutionsProgramsSubjectsUpdate(
-      institution,
-      program,
-      subject,
-      requestOptions,
-    );
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type InstitutionsProgramsSubjectsUpdateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsUpdate>>
->;
-
-export type InstitutionsProgramsSubjectsUpdateMutationError =
-  | AuthenticationExceptionResponse
-  | ModelNotFoundExceptionResponse;
-
-/**
- * @summary Update the specified resource in storage
- */
-export const useInstitutionsProgramsSubjectsUpdate = <
-  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof institutionsProgramsSubjectsUpdate>>,
-      TError,
-      { institution: string; program: string; subject: string },
-      TContext
-    >;
-    request?: SecondParameter<typeof $api>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsUpdate>>,
-  TError,
-  { institution: string; program: string; subject: string },
-  TContext
-> => {
-  return useMutation(
-    getInstitutionsProgramsSubjectsUpdateMutationOptions(options),
-    queryClient,
-  );
-};
-/**
- * @summary Remove the specified resource from storage
- */
-export type institutionsProgramsSubjectsDestroyResponse200 = {
-  data: void;
-  status: 200;
-};
-
-export type institutionsProgramsSubjectsDestroyResponse401 = {
-  data: AuthenticationExceptionResponse;
-  status: 401;
-};
-
-export type institutionsProgramsSubjectsDestroyResponse404 = {
-  data: ModelNotFoundExceptionResponse;
-  status: 404;
-};
-
-export type institutionsProgramsSubjectsDestroyResponseSuccess =
-  institutionsProgramsSubjectsDestroyResponse200 & {
-    headers: Headers;
-  };
-export type institutionsProgramsSubjectsDestroyResponseError = (
-  | institutionsProgramsSubjectsDestroyResponse401
-  | institutionsProgramsSubjectsDestroyResponse404
-) & {
-  headers: Headers;
-};
-
-export type institutionsProgramsSubjectsDestroyResponse =
-  | institutionsProgramsSubjectsDestroyResponseSuccess
-  | institutionsProgramsSubjectsDestroyResponseError;
-
-export const getInstitutionsProgramsSubjectsDestroyUrl = (
-  institution: string,
-  program: string,
-  subject: string,
-) => {
-  return `/institutions/${institution}/programs/${program}/subjects/${subject}`;
-};
-
-export const institutionsProgramsSubjectsDestroy = async (
-  institution: string,
-  program: string,
-  subject: string,
-  options?: RequestInit,
-): Promise<institutionsProgramsSubjectsDestroyResponse> => {
-  return $api<institutionsProgramsSubjectsDestroyResponse>(
-    getInstitutionsProgramsSubjectsDestroyUrl(institution, program, subject),
-    {
-      ...options,
-      method: "DELETE",
-    },
-  );
-};
-
-export const getInstitutionsProgramsSubjectsDestroyMutationOptions = <
-  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsDestroy>>,
-    TError,
-    { institution: string; program: string; subject: string },
-    TContext
-  >;
-  request?: SecondParameter<typeof $api>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsDestroy>>,
-  TError,
-  { institution: string; program: string; subject: string },
-  TContext
-> => {
-  const mutationKey = ["institutionsProgramsSubjectsDestroy"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof institutionsProgramsSubjectsDestroy>>,
-    { institution: string; program: string; subject: string }
-  > = (props) => {
-    const { institution, program, subject } = props ?? {};
-
-    return institutionsProgramsSubjectsDestroy(
-      institution,
-      program,
-      subject,
-      requestOptions,
-    );
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type InstitutionsProgramsSubjectsDestroyMutationResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsDestroy>>
->;
-
-export type InstitutionsProgramsSubjectsDestroyMutationError =
-  | AuthenticationExceptionResponse
-  | ModelNotFoundExceptionResponse;
-
-/**
- * @summary Remove the specified resource from storage
- */
-export const useInstitutionsProgramsSubjectsDestroy = <
-  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof institutionsProgramsSubjectsDestroy>>,
-      TError,
-      { institution: string; program: string; subject: string },
-      TContext
-    >;
-    request?: SecondParameter<typeof $api>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof institutionsProgramsSubjectsDestroy>>,
-  TError,
-  { institution: string; program: string; subject: string },
-  TContext
-> => {
-  return useMutation(
-    getInstitutionsProgramsSubjectsDestroyMutationOptions(options),
-    queryClient,
-  );
-};

@@ -14,8 +14,8 @@ return new class extends Migration {
             $table->ulid('id')->primary();
             $table->string('name');
             $table->string('short_name');
-            $table->foreignUlid('institution_id');
-            $table->foreignUlid('program_id');
+            $table->foreignUlid('institution_id')->index();
+            $table->foreignUlid('program_id')->index();
             $table->string('type');
             $table->integer('semester');
             $table->string('scheme');

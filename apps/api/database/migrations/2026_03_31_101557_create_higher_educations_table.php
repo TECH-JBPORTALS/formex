@@ -4,18 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('highereducations', function (Blueprint $table) {
+        Schema::create('higher_educations', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid('student_id')->constrained();
-            $table->foreignUlid('institution_id')->constrained();
-            $table->foreignUlid('program_id')->constrained();
+            $table->foreignUlid('student_id')->index();
+            $table->foreignUlid('institution_id')->index();
+            $table->foreignUlid('program_id')->index();
             $table->integer('acad_year');
             $table->string('college_name');
             $table->integer('rank');
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('highereducations');
+        Schema::dropIfExists('higher_educations');
     }
 };

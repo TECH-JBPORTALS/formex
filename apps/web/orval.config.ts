@@ -22,4 +22,14 @@ export default defineConfig({
       },
     },
   },
+  formexZodApi: {
+    input: "../api/openapi/formex-api.json",
+    output: {
+      mode: "tags-split",
+      target: "./src/lib/api/generated/endpoints.ts",
+      schemas: "./src/lib/api/generated/models",
+      fileExtension: ".zod.ts",
+      client: "zod",
+    },
+  },
 });

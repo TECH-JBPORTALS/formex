@@ -4,16 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::create('institution_user', function (Blueprint $table) {
-            $table->foreignUlid('institution_id')->constrained()->cascadeOnDelete();
-            $table->foreignUlid('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUlid('institution_id')->index();
+            $table->foreignUlid('user_id')->index();
             $table->enum('role', ['principal', 'program_coordinator', 'course_coordinator'])->default('course_coordinator');
             $table->timestamps();
 

@@ -15,10 +15,8 @@ return new class extends Migration {
             $table->string('name');
             $table->string('short_name');
             $table->bigInteger('intake');
-            $table->foreignUlid('institution_id');
+            $table->foreignUlid('institution_id')->index();
             $table->timestamps();
-
-            $table->index(['institution_id']);
         });
     }
 

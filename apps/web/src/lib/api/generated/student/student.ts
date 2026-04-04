@@ -25,63 +25,59 @@ import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { $api } from "../../mutator";
 import type {
   AuthenticationExceptionResponse,
-  InstitutionsProgramsStudentsDestroy200,
-  InstitutionsProgramsStudentsIndex200,
-  InstitutionsProgramsStudentsShow200,
-  InstitutionsProgramsStudentsStore201,
-  InstitutionsProgramsStudentsStoreBody,
-  InstitutionsProgramsStudentsUpdate200,
-  InstitutionsProgramsStudentsUpdateBody,
   ModelNotFoundExceptionResponse,
+  ProgramsStudentsDestroy200,
+  ProgramsStudentsIndex200,
+  ProgramsStudentsShow200,
+  ProgramsStudentsStore201,
+  ProgramsStudentsStoreBody,
+  ProgramsStudentsUpdate200,
+  ProgramsStudentsUpdateBody,
   ValidationExceptionResponse,
 } from "../models";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-export type institutionsProgramsStudentsIndexResponse200 = {
-  data: InstitutionsProgramsStudentsIndex200;
+export type programsStudentsIndexResponse200 = {
+  data: ProgramsStudentsIndex200;
   status: 200;
 };
 
-export type institutionsProgramsStudentsIndexResponse401 = {
+export type programsStudentsIndexResponse401 = {
   data: AuthenticationExceptionResponse;
   status: 401;
 };
 
-export type institutionsProgramsStudentsIndexResponse404 = {
+export type programsStudentsIndexResponse404 = {
   data: ModelNotFoundExceptionResponse;
   status: 404;
 };
 
-export type institutionsProgramsStudentsIndexResponseSuccess =
-  institutionsProgramsStudentsIndexResponse200 & {
+export type programsStudentsIndexResponseSuccess =
+  programsStudentsIndexResponse200 & {
     headers: Headers;
   };
-export type institutionsProgramsStudentsIndexResponseError = (
-  | institutionsProgramsStudentsIndexResponse401
-  | institutionsProgramsStudentsIndexResponse404
+export type programsStudentsIndexResponseError = (
+  | programsStudentsIndexResponse401
+  | programsStudentsIndexResponse404
 ) & {
   headers: Headers;
 };
 
-export type institutionsProgramsStudentsIndexResponse =
-  | institutionsProgramsStudentsIndexResponseSuccess
-  | institutionsProgramsStudentsIndexResponseError;
+export type programsStudentsIndexResponse =
+  | programsStudentsIndexResponseSuccess
+  | programsStudentsIndexResponseError;
 
-export const getInstitutionsProgramsStudentsIndexUrl = (
-  institution: string,
-  program: string,
-) => {
-  return `/institutions/${institution}/programs/${program}/students`;
+export const getProgramsStudentsIndexUrl = (program: string) => {
+  return `/programs/${program}/students`;
 };
 
-export const institutionsProgramsStudentsIndex = async (
-  institution: string,
+export const programsStudentsIndex = async (
   program: string,
   options?: RequestInit,
-): Promise<institutionsProgramsStudentsIndexResponse> => {
-  return $api<institutionsProgramsStudentsIndexResponse>(
-    getInstitutionsProgramsStudentsIndexUrl(institution, program),
+): Promise<programsStudentsIndexResponse> => {
+  return $api<programsStudentsIndexResponse>(
+    getProgramsStudentsIndexUrl(program),
     {
       ...options,
       method: "GET",
@@ -89,23 +85,19 @@ export const institutionsProgramsStudentsIndex = async (
   );
 };
 
-export const getInstitutionsProgramsStudentsIndexQueryKey = (
-  institution: string,
-  program: string,
-) => {
-  return [`/institutions/${institution}/programs/${program}/students`] as const;
+export const getProgramsStudentsIndexQueryKey = (program: string) => {
+  return [`/programs/${program}/students`] as const;
 };
 
-export const getInstitutionsProgramsStudentsIndexQueryOptions = <
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+export const getProgramsStudentsIndexQueryOptions = <
+  TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+        Awaited<ReturnType<typeof programsStudentsIndex>>,
         TError,
         TData
       >
@@ -116,55 +108,50 @@ export const getInstitutionsProgramsStudentsIndexQueryOptions = <
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ??
-    getInstitutionsProgramsStudentsIndexQueryKey(institution, program);
+    queryOptions?.queryKey ?? getProgramsStudentsIndexQueryKey(program);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>
+    Awaited<ReturnType<typeof programsStudentsIndex>>
   > = ({ signal }) =>
-    institutionsProgramsStudentsIndex(institution, program, {
-      signal,
-      ...requestOptions,
-    });
+    programsStudentsIndex(program, { signal, ...requestOptions });
 
   return {
     queryKey,
     queryFn,
-    enabled: !!(institution && program),
+    enabled: !!program,
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+    Awaited<ReturnType<typeof programsStudentsIndex>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type InstitutionsProgramsStudentsIndexQueryResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>
+export type ProgramsStudentsIndexQueryResult = NonNullable<
+  Awaited<ReturnType<typeof programsStudentsIndex>>
 >;
-export type InstitutionsProgramsStudentsIndexQueryError =
+export type ProgramsStudentsIndexQueryError =
   | AuthenticationExceptionResponse
   | ModelNotFoundExceptionResponse;
 
-export function useInstitutionsProgramsStudentsIndex<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+export function useProgramsStudentsIndex<
+  TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+        Awaited<ReturnType<typeof programsStudentsIndex>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+          Awaited<ReturnType<typeof programsStudentsIndex>>,
           TError,
-          Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>
+          Awaited<ReturnType<typeof programsStudentsIndex>>
         >,
         "initialData"
       >;
@@ -174,25 +161,24 @@ export function useInstitutionsProgramsStudentsIndex<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsStudentsIndex<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+export function useProgramsStudentsIndex<
+  TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+        Awaited<ReturnType<typeof programsStudentsIndex>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+          Awaited<ReturnType<typeof programsStudentsIndex>>,
           TError,
-          Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>
+          Awaited<ReturnType<typeof programsStudentsIndex>>
         >,
         "initialData"
       >;
@@ -202,16 +188,15 @@ export function useInstitutionsProgramsStudentsIndex<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsStudentsIndex<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+export function useProgramsStudentsIndex<
+  TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+        Awaited<ReturnType<typeof programsStudentsIndex>>,
         TError,
         TData
       >
@@ -223,16 +208,15 @@ export function useInstitutionsProgramsStudentsIndex<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useInstitutionsProgramsStudentsIndex<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+export function useProgramsStudentsIndex<
+  TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+        Awaited<ReturnType<typeof programsStudentsIndex>>,
         TError,
         TData
       >
@@ -243,11 +227,7 @@ export function useInstitutionsProgramsStudentsIndex<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getInstitutionsProgramsStudentsIndexQueryOptions(
-    institution,
-    program,
-    options,
-  );
+  const queryOptions = getProgramsStudentsIndexQueryOptions(program, options);
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
@@ -257,16 +237,15 @@ export function useInstitutionsProgramsStudentsIndex<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export const getInstitutionsProgramsStudentsIndexSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+export const getProgramsStudentsIndexSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+        Awaited<ReturnType<typeof programsStudentsIndex>>,
         TError,
         TData
       >
@@ -277,41 +256,36 @@ export const getInstitutionsProgramsStudentsIndexSuspenseQueryOptions = <
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ??
-    getInstitutionsProgramsStudentsIndexQueryKey(institution, program);
+    queryOptions?.queryKey ?? getProgramsStudentsIndexQueryKey(program);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>
+    Awaited<ReturnType<typeof programsStudentsIndex>>
   > = ({ signal }) =>
-    institutionsProgramsStudentsIndex(institution, program, {
-      signal,
-      ...requestOptions,
-    });
+    programsStudentsIndex(program, { signal, ...requestOptions });
 
   return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+    Awaited<ReturnType<typeof programsStudentsIndex>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type InstitutionsProgramsStudentsIndexSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>
+export type ProgramsStudentsIndexSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof programsStudentsIndex>>
 >;
-export type InstitutionsProgramsStudentsIndexSuspenseQueryError =
+export type ProgramsStudentsIndexSuspenseQueryError =
   | AuthenticationExceptionResponse
   | ModelNotFoundExceptionResponse;
 
-export function useInstitutionsProgramsStudentsIndexSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+export function useProgramsStudentsIndexSuspense<
+  TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+        Awaited<ReturnType<typeof programsStudentsIndex>>,
         TError,
         TData
       >
@@ -322,16 +296,15 @@ export function useInstitutionsProgramsStudentsIndexSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsStudentsIndexSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+export function useProgramsStudentsIndexSuspense<
+  TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+        Awaited<ReturnType<typeof programsStudentsIndex>>,
         TError,
         TData
       >
@@ -342,16 +315,15 @@ export function useInstitutionsProgramsStudentsIndexSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsStudentsIndexSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+export function useProgramsStudentsIndexSuspense<
+  TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+        Awaited<ReturnType<typeof programsStudentsIndex>>,
         TError,
         TData
       >
@@ -363,16 +335,15 @@ export function useInstitutionsProgramsStudentsIndexSuspense<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useInstitutionsProgramsStudentsIndexSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+export function useProgramsStudentsIndexSuspense<
+  TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsIndex>>,
+        Awaited<ReturnType<typeof programsStudentsIndex>>,
         TError,
         TData
       >
@@ -383,8 +354,7 @@ export function useInstitutionsProgramsStudentsIndexSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getInstitutionsProgramsStudentsIndexSuspenseQueryOptions(
-    institution,
+  const queryOptions = getProgramsStudentsIndexSuspenseQueryOptions(
     program,
     options,
   );
@@ -399,67 +369,63 @@ export function useInstitutionsProgramsStudentsIndexSuspense<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export type institutionsProgramsStudentsStoreResponse201 = {
-  data: InstitutionsProgramsStudentsStore201;
+export type programsStudentsStoreResponse201 = {
+  data: ProgramsStudentsStore201;
   status: 201;
 };
 
-export type institutionsProgramsStudentsStoreResponse401 = {
+export type programsStudentsStoreResponse401 = {
   data: AuthenticationExceptionResponse;
   status: 401;
 };
 
-export type institutionsProgramsStudentsStoreResponse404 = {
+export type programsStudentsStoreResponse404 = {
   data: ModelNotFoundExceptionResponse;
   status: 404;
 };
 
-export type institutionsProgramsStudentsStoreResponse422 = {
+export type programsStudentsStoreResponse422 = {
   data: ValidationExceptionResponse;
   status: 422;
 };
 
-export type institutionsProgramsStudentsStoreResponseSuccess =
-  institutionsProgramsStudentsStoreResponse201 & {
+export type programsStudentsStoreResponseSuccess =
+  programsStudentsStoreResponse201 & {
     headers: Headers;
   };
-export type institutionsProgramsStudentsStoreResponseError = (
-  | institutionsProgramsStudentsStoreResponse401
-  | institutionsProgramsStudentsStoreResponse404
-  | institutionsProgramsStudentsStoreResponse422
+export type programsStudentsStoreResponseError = (
+  | programsStudentsStoreResponse401
+  | programsStudentsStoreResponse404
+  | programsStudentsStoreResponse422
 ) & {
   headers: Headers;
 };
 
-export type institutionsProgramsStudentsStoreResponse =
-  | institutionsProgramsStudentsStoreResponseSuccess
-  | institutionsProgramsStudentsStoreResponseError;
+export type programsStudentsStoreResponse =
+  | programsStudentsStoreResponseSuccess
+  | programsStudentsStoreResponseError;
 
-export const getInstitutionsProgramsStudentsStoreUrl = (
-  institution: string,
-  program: string,
-) => {
-  return `/institutions/${institution}/programs/${program}/students`;
+export const getProgramsStudentsStoreUrl = (program: string) => {
+  return `/programs/${program}/students`;
 };
 
-export const institutionsProgramsStudentsStore = async (
-  institution: string,
+export const programsStudentsStore = async (
   program: string,
-  institutionsProgramsStudentsStoreBody: InstitutionsProgramsStudentsStoreBody,
+  programsStudentsStoreBody: ProgramsStudentsStoreBody,
   options?: RequestInit,
-): Promise<institutionsProgramsStudentsStoreResponse> => {
-  return $api<institutionsProgramsStudentsStoreResponse>(
-    getInstitutionsProgramsStudentsStoreUrl(institution, program),
+): Promise<programsStudentsStoreResponse> => {
+  return $api<programsStudentsStoreResponse>(
+    getProgramsStudentsStoreUrl(program),
     {
       ...options,
       method: "POST",
       headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(institutionsProgramsStudentsStoreBody),
+      body: JSON.stringify(programsStudentsStoreBody),
     },
   );
 };
 
-export const getInstitutionsProgramsStudentsStoreMutationOptions = <
+export const getProgramsStudentsStoreMutationOptions = <
   TError =
     | AuthenticationExceptionResponse
     | ModelNotFoundExceptionResponse
@@ -467,27 +433,19 @@ export const getInstitutionsProgramsStudentsStoreMutationOptions = <
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsStore>>,
+    Awaited<ReturnType<typeof programsStudentsStore>>,
     TError,
-    {
-      institution: string;
-      program: string;
-      data: InstitutionsProgramsStudentsStoreBody;
-    },
+    { program: string; data: ProgramsStudentsStoreBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsStore>>,
+  Awaited<ReturnType<typeof programsStudentsStore>>,
   TError,
-  {
-    institution: string;
-    program: string;
-    data: InstitutionsProgramsStudentsStoreBody;
-  },
+  { program: string; data: ProgramsStudentsStoreBody },
   TContext
 > => {
-  const mutationKey = ["institutionsProgramsStudentsStore"];
+  const mutationKey = ["programsStudentsStore"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -497,37 +455,27 @@ export const getInstitutionsProgramsStudentsStoreMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsStore>>,
-    {
-      institution: string;
-      program: string;
-      data: InstitutionsProgramsStudentsStoreBody;
-    }
+    Awaited<ReturnType<typeof programsStudentsStore>>,
+    { program: string; data: ProgramsStudentsStoreBody }
   > = (props) => {
-    const { institution, program, data } = props ?? {};
+    const { program, data } = props ?? {};
 
-    return institutionsProgramsStudentsStore(
-      institution,
-      program,
-      data,
-      requestOptions,
-    );
+    return programsStudentsStore(program, data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type InstitutionsProgramsStudentsStoreMutationResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsStore>>
+export type ProgramsStudentsStoreMutationResult = NonNullable<
+  Awaited<ReturnType<typeof programsStudentsStore>>
 >;
-export type InstitutionsProgramsStudentsStoreMutationBody =
-  InstitutionsProgramsStudentsStoreBody;
-export type InstitutionsProgramsStudentsStoreMutationError =
+export type ProgramsStudentsStoreMutationBody = ProgramsStudentsStoreBody;
+export type ProgramsStudentsStoreMutationError =
   | AuthenticationExceptionResponse
   | ModelNotFoundExceptionResponse
   | ValidationExceptionResponse;
 
-export const useInstitutionsProgramsStudentsStore = <
+export const useProgramsStudentsStore = <
   TError =
     | AuthenticationExceptionResponse
     | ModelNotFoundExceptionResponse
@@ -536,79 +484,69 @@ export const useInstitutionsProgramsStudentsStore = <
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof institutionsProgramsStudentsStore>>,
+      Awaited<ReturnType<typeof programsStudentsStore>>,
       TError,
-      {
-        institution: string;
-        program: string;
-        data: InstitutionsProgramsStudentsStoreBody;
-      },
+      { program: string; data: ProgramsStudentsStoreBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsStore>>,
+  Awaited<ReturnType<typeof programsStudentsStore>>,
   TError,
-  {
-    institution: string;
-    program: string;
-    data: InstitutionsProgramsStudentsStoreBody;
-  },
+  { program: string; data: ProgramsStudentsStoreBody },
   TContext
 > => {
   return useMutation(
-    getInstitutionsProgramsStudentsStoreMutationOptions(options),
+    getProgramsStudentsStoreMutationOptions(options),
     queryClient,
   );
 };
-export type institutionsProgramsStudentsShowResponse200 = {
-  data: InstitutionsProgramsStudentsShow200;
+export type programsStudentsShowResponse200 = {
+  data: ProgramsStudentsShow200;
   status: 200;
 };
 
-export type institutionsProgramsStudentsShowResponse401 = {
+export type programsStudentsShowResponse401 = {
   data: AuthenticationExceptionResponse;
   status: 401;
 };
 
-export type institutionsProgramsStudentsShowResponse404 = {
+export type programsStudentsShowResponse404 = {
   data: ModelNotFoundExceptionResponse;
   status: 404;
 };
 
-export type institutionsProgramsStudentsShowResponseSuccess =
-  institutionsProgramsStudentsShowResponse200 & {
+export type programsStudentsShowResponseSuccess =
+  programsStudentsShowResponse200 & {
     headers: Headers;
   };
-export type institutionsProgramsStudentsShowResponseError = (
-  | institutionsProgramsStudentsShowResponse401
-  | institutionsProgramsStudentsShowResponse404
+export type programsStudentsShowResponseError = (
+  | programsStudentsShowResponse401
+  | programsStudentsShowResponse404
 ) & {
   headers: Headers;
 };
 
-export type institutionsProgramsStudentsShowResponse =
-  | institutionsProgramsStudentsShowResponseSuccess
-  | institutionsProgramsStudentsShowResponseError;
+export type programsStudentsShowResponse =
+  | programsStudentsShowResponseSuccess
+  | programsStudentsShowResponseError;
 
-export const getInstitutionsProgramsStudentsShowUrl = (
-  institution: string,
+export const getProgramsStudentsShowUrl = (
   program: string,
   student: string,
 ) => {
-  return `/institutions/${institution}/programs/${program}/students/${student}`;
+  return `/programs/${program}/students/${student}`;
 };
 
-export const institutionsProgramsStudentsShow = async (
-  institution: string,
+export const programsStudentsShow = async (
   program: string,
   student: string,
   options?: RequestInit,
-): Promise<institutionsProgramsStudentsShowResponse> => {
-  return $api<institutionsProgramsStudentsShowResponse>(
-    getInstitutionsProgramsStudentsShowUrl(institution, program, student),
+): Promise<programsStudentsShowResponse> => {
+  return $api<programsStudentsShowResponse>(
+    getProgramsStudentsShowUrl(program, student),
     {
       ...options,
       method: "GET",
@@ -616,27 +554,23 @@ export const institutionsProgramsStudentsShow = async (
   );
 };
 
-export const getInstitutionsProgramsStudentsShowQueryKey = (
-  institution: string,
+export const getProgramsStudentsShowQueryKey = (
   program: string,
   student: string,
 ) => {
-  return [
-    `/institutions/${institution}/programs/${program}/students/${student}`,
-  ] as const;
+  return [`/programs/${program}/students/${student}`] as const;
 };
 
-export const getInstitutionsProgramsStudentsShowQueryOptions = <
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+export const getProgramsStudentsShowQueryOptions = <
+  TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+        Awaited<ReturnType<typeof programsStudentsShow>>,
         TError,
         TData
       >
@@ -647,56 +581,51 @@ export const getInstitutionsProgramsStudentsShowQueryOptions = <
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ??
-    getInstitutionsProgramsStudentsShowQueryKey(institution, program, student);
+    queryOptions?.queryKey ?? getProgramsStudentsShowQueryKey(program, student);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>
+    Awaited<ReturnType<typeof programsStudentsShow>>
   > = ({ signal }) =>
-    institutionsProgramsStudentsShow(institution, program, student, {
-      signal,
-      ...requestOptions,
-    });
+    programsStudentsShow(program, student, { signal, ...requestOptions });
 
   return {
     queryKey,
     queryFn,
-    enabled: !!(institution && program && student),
+    enabled: !!(program && student),
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+    Awaited<ReturnType<typeof programsStudentsShow>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type InstitutionsProgramsStudentsShowQueryResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>
+export type ProgramsStudentsShowQueryResult = NonNullable<
+  Awaited<ReturnType<typeof programsStudentsShow>>
 >;
-export type InstitutionsProgramsStudentsShowQueryError =
+export type ProgramsStudentsShowQueryError =
   | AuthenticationExceptionResponse
   | ModelNotFoundExceptionResponse;
 
-export function useInstitutionsProgramsStudentsShow<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+export function useProgramsStudentsShow<
+  TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   student: string,
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+        Awaited<ReturnType<typeof programsStudentsShow>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+          Awaited<ReturnType<typeof programsStudentsShow>>,
           TError,
-          Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>
+          Awaited<ReturnType<typeof programsStudentsShow>>
         >,
         "initialData"
       >;
@@ -706,26 +635,25 @@ export function useInstitutionsProgramsStudentsShow<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsStudentsShow<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+export function useProgramsStudentsShow<
+  TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+        Awaited<ReturnType<typeof programsStudentsShow>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+          Awaited<ReturnType<typeof programsStudentsShow>>,
           TError,
-          Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>
+          Awaited<ReturnType<typeof programsStudentsShow>>
         >,
         "initialData"
       >;
@@ -735,17 +663,16 @@ export function useInstitutionsProgramsStudentsShow<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsStudentsShow<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+export function useProgramsStudentsShow<
+  TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+        Awaited<ReturnType<typeof programsStudentsShow>>,
         TError,
         TData
       >
@@ -757,17 +684,16 @@ export function useInstitutionsProgramsStudentsShow<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useInstitutionsProgramsStudentsShow<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+export function useProgramsStudentsShow<
+  TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+        Awaited<ReturnType<typeof programsStudentsShow>>,
         TError,
         TData
       >
@@ -778,8 +704,7 @@ export function useInstitutionsProgramsStudentsShow<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getInstitutionsProgramsStudentsShowQueryOptions(
-    institution,
+  const queryOptions = getProgramsStudentsShowQueryOptions(
     program,
     student,
     options,
@@ -793,17 +718,16 @@ export function useInstitutionsProgramsStudentsShow<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export const getInstitutionsProgramsStudentsShowSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+export const getProgramsStudentsShowSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+        Awaited<ReturnType<typeof programsStudentsShow>>,
         TError,
         TData
       >
@@ -814,42 +738,37 @@ export const getInstitutionsProgramsStudentsShowSuspenseQueryOptions = <
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ??
-    getInstitutionsProgramsStudentsShowQueryKey(institution, program, student);
+    queryOptions?.queryKey ?? getProgramsStudentsShowQueryKey(program, student);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>
+    Awaited<ReturnType<typeof programsStudentsShow>>
   > = ({ signal }) =>
-    institutionsProgramsStudentsShow(institution, program, student, {
-      signal,
-      ...requestOptions,
-    });
+    programsStudentsShow(program, student, { signal, ...requestOptions });
 
   return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+    Awaited<ReturnType<typeof programsStudentsShow>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type InstitutionsProgramsStudentsShowSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>
+export type ProgramsStudentsShowSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof programsStudentsShow>>
 >;
-export type InstitutionsProgramsStudentsShowSuspenseQueryError =
+export type ProgramsStudentsShowSuspenseQueryError =
   | AuthenticationExceptionResponse
   | ModelNotFoundExceptionResponse;
 
-export function useInstitutionsProgramsStudentsShowSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+export function useProgramsStudentsShowSuspense<
+  TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   student: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+        Awaited<ReturnType<typeof programsStudentsShow>>,
         TError,
         TData
       >
@@ -860,17 +779,16 @@ export function useInstitutionsProgramsStudentsShowSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsStudentsShowSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+export function useProgramsStudentsShowSuspense<
+  TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+        Awaited<ReturnType<typeof programsStudentsShow>>,
         TError,
         TData
       >
@@ -881,17 +799,16 @@ export function useInstitutionsProgramsStudentsShowSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useInstitutionsProgramsStudentsShowSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+export function useProgramsStudentsShowSuspense<
+  TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+        Awaited<ReturnType<typeof programsStudentsShow>>,
         TError,
         TData
       >
@@ -903,17 +820,16 @@ export function useInstitutionsProgramsStudentsShowSuspense<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useInstitutionsProgramsStudentsShowSuspense<
-  TData = Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+export function useProgramsStudentsShowSuspense<
+  TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: string,
   program: string,
   student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof institutionsProgramsStudentsShow>>,
+        Awaited<ReturnType<typeof programsStudentsShow>>,
         TError,
         TData
       >
@@ -924,8 +840,7 @@ export function useInstitutionsProgramsStudentsShowSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getInstitutionsProgramsStudentsShowSuspenseQueryOptions(
-    institution,
+  const queryOptions = getProgramsStudentsShowSuspenseQueryOptions(
     program,
     student,
     options,
@@ -941,69 +856,67 @@ export function useInstitutionsProgramsStudentsShowSuspense<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export type institutionsProgramsStudentsUpdateResponse200 = {
-  data: InstitutionsProgramsStudentsUpdate200;
+export type programsStudentsUpdateResponse200 = {
+  data: ProgramsStudentsUpdate200;
   status: 200;
 };
 
-export type institutionsProgramsStudentsUpdateResponse401 = {
+export type programsStudentsUpdateResponse401 = {
   data: AuthenticationExceptionResponse;
   status: 401;
 };
 
-export type institutionsProgramsStudentsUpdateResponse404 = {
+export type programsStudentsUpdateResponse404 = {
   data: ModelNotFoundExceptionResponse;
   status: 404;
 };
 
-export type institutionsProgramsStudentsUpdateResponse422 = {
+export type programsStudentsUpdateResponse422 = {
   data: ValidationExceptionResponse;
   status: 422;
 };
 
-export type institutionsProgramsStudentsUpdateResponseSuccess =
-  institutionsProgramsStudentsUpdateResponse200 & {
+export type programsStudentsUpdateResponseSuccess =
+  programsStudentsUpdateResponse200 & {
     headers: Headers;
   };
-export type institutionsProgramsStudentsUpdateResponseError = (
-  | institutionsProgramsStudentsUpdateResponse401
-  | institutionsProgramsStudentsUpdateResponse404
-  | institutionsProgramsStudentsUpdateResponse422
+export type programsStudentsUpdateResponseError = (
+  | programsStudentsUpdateResponse401
+  | programsStudentsUpdateResponse404
+  | programsStudentsUpdateResponse422
 ) & {
   headers: Headers;
 };
 
-export type institutionsProgramsStudentsUpdateResponse =
-  | institutionsProgramsStudentsUpdateResponseSuccess
-  | institutionsProgramsStudentsUpdateResponseError;
+export type programsStudentsUpdateResponse =
+  | programsStudentsUpdateResponseSuccess
+  | programsStudentsUpdateResponseError;
 
-export const getInstitutionsProgramsStudentsUpdateUrl = (
-  institution: string,
+export const getProgramsStudentsUpdateUrl = (
   program: string,
   student: string,
 ) => {
-  return `/institutions/${institution}/programs/${program}/students/${student}`;
+  return `/programs/${program}/students/${student}`;
 };
 
-export const institutionsProgramsStudentsUpdate = async (
-  institution: string,
+export const programsStudentsUpdate = async (
   program: string,
   student: string,
-  institutionsProgramsStudentsUpdateBody: InstitutionsProgramsStudentsUpdateBody,
+  programsStudentsUpdateBody: ProgramsStudentsUpdateBody,
   options?: RequestInit,
-): Promise<institutionsProgramsStudentsUpdateResponse> => {
-  return $api<institutionsProgramsStudentsUpdateResponse>(
-    getInstitutionsProgramsStudentsUpdateUrl(institution, program, student),
+): Promise<programsStudentsUpdateResponse> => {
+  return $api<programsStudentsUpdateResponse>(
+    getProgramsStudentsUpdateUrl(program, student),
     {
       ...options,
       method: "PUT",
       headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(institutionsProgramsStudentsUpdateBody),
+      body: JSON.stringify(programsStudentsUpdateBody),
     },
   );
 };
 
-export const getInstitutionsProgramsStudentsUpdateMutationOptions = <
+export const getProgramsStudentsUpdateMutationOptions = <
   TError =
     | AuthenticationExceptionResponse
     | ModelNotFoundExceptionResponse
@@ -1011,29 +924,19 @@ export const getInstitutionsProgramsStudentsUpdateMutationOptions = <
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsUpdate>>,
+    Awaited<ReturnType<typeof programsStudentsUpdate>>,
     TError,
-    {
-      institution: string;
-      program: string;
-      student: string;
-      data: InstitutionsProgramsStudentsUpdateBody;
-    },
+    { program: string; student: string; data: ProgramsStudentsUpdateBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsUpdate>>,
+  Awaited<ReturnType<typeof programsStudentsUpdate>>,
   TError,
-  {
-    institution: string;
-    program: string;
-    student: string;
-    data: InstitutionsProgramsStudentsUpdateBody;
-  },
+  { program: string; student: string; data: ProgramsStudentsUpdateBody },
   TContext
 > => {
-  const mutationKey = ["institutionsProgramsStudentsUpdate"];
+  const mutationKey = ["programsStudentsUpdate"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1043,39 +946,27 @@ export const getInstitutionsProgramsStudentsUpdateMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsUpdate>>,
-    {
-      institution: string;
-      program: string;
-      student: string;
-      data: InstitutionsProgramsStudentsUpdateBody;
-    }
+    Awaited<ReturnType<typeof programsStudentsUpdate>>,
+    { program: string; student: string; data: ProgramsStudentsUpdateBody }
   > = (props) => {
-    const { institution, program, student, data } = props ?? {};
+    const { program, student, data } = props ?? {};
 
-    return institutionsProgramsStudentsUpdate(
-      institution,
-      program,
-      student,
-      data,
-      requestOptions,
-    );
+    return programsStudentsUpdate(program, student, data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type InstitutionsProgramsStudentsUpdateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsUpdate>>
+export type ProgramsStudentsUpdateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof programsStudentsUpdate>>
 >;
-export type InstitutionsProgramsStudentsUpdateMutationBody =
-  InstitutionsProgramsStudentsUpdateBody;
-export type InstitutionsProgramsStudentsUpdateMutationError =
+export type ProgramsStudentsUpdateMutationBody = ProgramsStudentsUpdateBody;
+export type ProgramsStudentsUpdateMutationError =
   | AuthenticationExceptionResponse
   | ModelNotFoundExceptionResponse
   | ValidationExceptionResponse;
 
-export const useInstitutionsProgramsStudentsUpdate = <
+export const useProgramsStudentsUpdate = <
   TError =
     | AuthenticationExceptionResponse
     | ModelNotFoundExceptionResponse
@@ -1084,81 +975,69 @@ export const useInstitutionsProgramsStudentsUpdate = <
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof institutionsProgramsStudentsUpdate>>,
+      Awaited<ReturnType<typeof programsStudentsUpdate>>,
       TError,
-      {
-        institution: string;
-        program: string;
-        student: string;
-        data: InstitutionsProgramsStudentsUpdateBody;
-      },
+      { program: string; student: string; data: ProgramsStudentsUpdateBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsUpdate>>,
+  Awaited<ReturnType<typeof programsStudentsUpdate>>,
   TError,
-  {
-    institution: string;
-    program: string;
-    student: string;
-    data: InstitutionsProgramsStudentsUpdateBody;
-  },
+  { program: string; student: string; data: ProgramsStudentsUpdateBody },
   TContext
 > => {
   return useMutation(
-    getInstitutionsProgramsStudentsUpdateMutationOptions(options),
+    getProgramsStudentsUpdateMutationOptions(options),
     queryClient,
   );
 };
-export type institutionsProgramsStudentsDestroyResponse200 = {
-  data: InstitutionsProgramsStudentsDestroy200;
+export type programsStudentsDestroyResponse200 = {
+  data: ProgramsStudentsDestroy200;
   status: 200;
 };
 
-export type institutionsProgramsStudentsDestroyResponse401 = {
+export type programsStudentsDestroyResponse401 = {
   data: AuthenticationExceptionResponse;
   status: 401;
 };
 
-export type institutionsProgramsStudentsDestroyResponse404 = {
+export type programsStudentsDestroyResponse404 = {
   data: ModelNotFoundExceptionResponse;
   status: 404;
 };
 
-export type institutionsProgramsStudentsDestroyResponseSuccess =
-  institutionsProgramsStudentsDestroyResponse200 & {
+export type programsStudentsDestroyResponseSuccess =
+  programsStudentsDestroyResponse200 & {
     headers: Headers;
   };
-export type institutionsProgramsStudentsDestroyResponseError = (
-  | institutionsProgramsStudentsDestroyResponse401
-  | institutionsProgramsStudentsDestroyResponse404
+export type programsStudentsDestroyResponseError = (
+  | programsStudentsDestroyResponse401
+  | programsStudentsDestroyResponse404
 ) & {
   headers: Headers;
 };
 
-export type institutionsProgramsStudentsDestroyResponse =
-  | institutionsProgramsStudentsDestroyResponseSuccess
-  | institutionsProgramsStudentsDestroyResponseError;
+export type programsStudentsDestroyResponse =
+  | programsStudentsDestroyResponseSuccess
+  | programsStudentsDestroyResponseError;
 
-export const getInstitutionsProgramsStudentsDestroyUrl = (
-  institution: string,
+export const getProgramsStudentsDestroyUrl = (
   program: string,
   student: string,
 ) => {
-  return `/institutions/${institution}/programs/${program}/students/${student}`;
+  return `/programs/${program}/students/${student}`;
 };
 
-export const institutionsProgramsStudentsDestroy = async (
-  institution: string,
+export const programsStudentsDestroy = async (
   program: string,
   student: string,
   options?: RequestInit,
-): Promise<institutionsProgramsStudentsDestroyResponse> => {
-  return $api<institutionsProgramsStudentsDestroyResponse>(
-    getInstitutionsProgramsStudentsDestroyUrl(institution, program, student),
+): Promise<programsStudentsDestroyResponse> => {
+  return $api<programsStudentsDestroyResponse>(
+    getProgramsStudentsDestroyUrl(program, student),
     {
       ...options,
       method: "DELETE",
@@ -1166,24 +1045,24 @@ export const institutionsProgramsStudentsDestroy = async (
   );
 };
 
-export const getInstitutionsProgramsStudentsDestroyMutationOptions = <
+export const getProgramsStudentsDestroyMutationOptions = <
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsDestroy>>,
+    Awaited<ReturnType<typeof programsStudentsDestroy>>,
     TError,
-    { institution: string; program: string; student: string },
+    { program: string; student: string },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsDestroy>>,
+  Awaited<ReturnType<typeof programsStudentsDestroy>>,
   TError,
-  { institution: string; program: string; student: string },
+  { program: string; student: string },
   TContext
 > => {
-  const mutationKey = ["institutionsProgramsStudentsDestroy"];
+  const mutationKey = ["programsStudentsDestroy"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1193,52 +1072,47 @@ export const getInstitutionsProgramsStudentsDestroyMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof institutionsProgramsStudentsDestroy>>,
-    { institution: string; program: string; student: string }
+    Awaited<ReturnType<typeof programsStudentsDestroy>>,
+    { program: string; student: string }
   > = (props) => {
-    const { institution, program, student } = props ?? {};
+    const { program, student } = props ?? {};
 
-    return institutionsProgramsStudentsDestroy(
-      institution,
-      program,
-      student,
-      requestOptions,
-    );
+    return programsStudentsDestroy(program, student, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type InstitutionsProgramsStudentsDestroyMutationResult = NonNullable<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsDestroy>>
+export type ProgramsStudentsDestroyMutationResult = NonNullable<
+  Awaited<ReturnType<typeof programsStudentsDestroy>>
 >;
 
-export type InstitutionsProgramsStudentsDestroyMutationError =
+export type ProgramsStudentsDestroyMutationError =
   | AuthenticationExceptionResponse
   | ModelNotFoundExceptionResponse;
 
-export const useInstitutionsProgramsStudentsDestroy = <
+export const useProgramsStudentsDestroy = <
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof institutionsProgramsStudentsDestroy>>,
+      Awaited<ReturnType<typeof programsStudentsDestroy>>,
       TError,
-      { institution: string; program: string; student: string },
+      { program: string; student: string },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof institutionsProgramsStudentsDestroy>>,
+  Awaited<ReturnType<typeof programsStudentsDestroy>>,
   TError,
-  { institution: string; program: string; student: string },
+  { program: string; student: string },
   TContext
 > => {
   return useMutation(
-    getInstitutionsProgramsStudentsDestroyMutationOptions(options),
+    getProgramsStudentsDestroyMutationOptions(options),
     queryClient,
   );
 };
