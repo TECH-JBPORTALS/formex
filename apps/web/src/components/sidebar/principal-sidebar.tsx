@@ -47,7 +47,7 @@ export function PrincipalSidebar({
       {...props}
     >
       <SidebarHeader className="flex-row h-12 border-b items-center">
-        <span className="text-lg text-primary px-1.5 font-bold font-heading">
+        <span className="text-2xl text-primary px-1.5 font-medium font-brand">
           FORMEX
         </span>
         <Badge

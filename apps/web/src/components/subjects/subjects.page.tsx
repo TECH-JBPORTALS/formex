@@ -12,7 +12,7 @@ import type { z } from "zod";
 import Container from "@/components/container";
 import { DataTable } from "@/components/data-table";
 import Header from "@/components/header";
-import { columns } from "@/components/subjects/columns";
+import { getSubjectColumns } from "@/components/subjects/columns";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -59,7 +59,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 function clampSemester(value: string | null): number {
   const n = Number(value);
@@ -83,6 +83,15 @@ export function SubjectsPage() {
 
   const rows =
     subjectsQuery.data?.status === 200 ? subjectsQuery.data.data.data : [];
+
+  const subjectColumns = useMemo(
+    () =>
+      getSubjectColumns({
+        programId,
+        listSemester: selectedSemester,
+      }),
+    [programId, selectedSemester],
+  );
 
   return (
     <>
@@ -120,17 +129,19 @@ export function SubjectsPage() {
             </InputGroupAddon>
             <InputGroupInput placeholder="Search subjects…" />
           </InputGroup>
-          <CreateSubjectDialog
-            programId={programId}
-            semester={selectedSemester}
-          >
-            <Button>
-              Add <HugeiconsIcon icon={PlusSignIcon} />
-            </Button>
-          </CreateSubjectDialog>
+          {programId ? (
+            <CreateSubjectDialog
+              programId={programId}
+              semester={selectedSemester}
+            >
+              <Button>
+                Add <HugeiconsIcon icon={PlusSignIcon} />
+              </Button>
+            </CreateSubjectDialog>
+          ) : null}
         </div>
 
-        <DataTable columns={columns} data={rows} />
+        <DataTable columns={subjectColumns} data={rows} />
       </Container>
     </>
   );

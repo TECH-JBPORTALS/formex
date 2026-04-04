@@ -7,7 +7,7 @@ export default function Container({
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("py-6 px-14", className)} {...props}>
+    <div className={cn("p-6", className)} {...props}>
       {children}
     </div>
   );
