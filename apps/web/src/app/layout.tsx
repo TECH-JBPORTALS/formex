@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Oswald, Roboto, Space_Grotesk } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import { QueryProvider } from "../components/providers/query-provider";
 import { TooltipProvider } from "../components/ui/tooltip";
@@ -38,10 +39,12 @@ export default async function RootLayout({
         className={`${roboto.variable} ${spaceGroteskHeading.variable} ${oswald.variable} border-border bg-background antialiased`}
       >
         <QueryProvider>
-          <TooltipProvider>
-            {children}
-            <Toaster />
-          </TooltipProvider>
+          <NuqsAdapter>
+            <TooltipProvider>
+              {children}
+              <Toaster />
+            </TooltipProvider>
+          </NuqsAdapter>
         </QueryProvider>
       </body>
     </html>

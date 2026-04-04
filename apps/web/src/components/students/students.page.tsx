@@ -5,7 +5,6 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import Container from "@/components/container";
 import { DataTable } from "@/components/data-table";
 import Header from "@/components/header";
@@ -25,19 +24,8 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { $api } from "@/lib/api/mutator";
-import type { Student } from "@/lib/api/generated/models/student";
 import { useProgramsShow } from "@/lib/api/hooks/useProgramsShow";
 import { useProgramsStudentsIndex } from "@/lib/api/generated/student/student";
-type ApiEnvelope<T> = {
-  data: T;
-  status: number;
-  headers: Headers;
-};
-
-type StudentsIndexJson = {
-  data: Student[];
-};
 
 function clampSemester(value: string | null): number {
   const n = Number(value);
