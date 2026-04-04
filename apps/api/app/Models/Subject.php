@@ -13,13 +13,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'name',
     'short_name',
     'type',
+    'semester',
+    'scheme',
     'program_id',
     'institution_id'
 ])]
+
 class Subject extends Model
 {
     use HasUlids, HasFactory;
 
+    protected function casts(): array
+    {
+        return [
+            'semester' => 'integer',
+        ];
+    }
     public function program(): BelongsTo
     {
         return $this->belongsTo(Program::class);
@@ -29,8 +38,10 @@ class Subject extends Model
     {
         return $this->belongsTo(Institution::class);
     }
+
     public function roomreports(): HasMany
     {
         return $this->hasMany(Roomreport::class);
     }
+
 }
