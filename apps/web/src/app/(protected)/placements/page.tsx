@@ -1,3 +1,5 @@
+import { PlacementsPage } from "@/components/placements/placements.page";
+
 export default function Page() {
-  return <div>Placements</div>;
+  return <PlacementsPage />;
 }
