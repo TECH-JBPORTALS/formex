@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
     'valuation',
     'principal_remarks',
 ])]
-class Roomreport extends Model
+class RoomReport extends Model
 {
     use HasUlids, HasFactory;
     public function institution(): BelongsTo

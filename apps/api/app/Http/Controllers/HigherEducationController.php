@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Highereducation;
+use App\Models\HigherEducation;
 use App\Models\Student;
 use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ class HigherEducationController
      */
     public function listByStudent(Student $student)
     {
-        $highereducations = $student->highereducations()->get();
+        $highereducations = $student->higher_educations()->get();
         return response()->json([
             'data' => $highereducations
         ]);
@@ -24,7 +24,7 @@ class HigherEducationController
     public function index(Request $request)
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
-        $highereducations = $institution->highereducations()->get();
+        $highereducations = $institution->higher_educations()->get();
         return response()->json([
             'data' => $highereducations
         ]);
@@ -32,7 +32,7 @@ class HigherEducationController
 
     public function listByProgram(Program $program)
     {
-        $highereducations = $program->highereducations()->get();
+        $highereducations = $program->higher_educations()->get();
         return response()->json([
             'data' => $highereducations
         ]);
@@ -50,7 +50,7 @@ class HigherEducationController
             'rank' => 'required|integer|min:1',
         ]);
         $highereducation = $student
-            ->higherEducations()
+            ->higher_educations()
             ->create(
                 [
                     ...$validated,
@@ -68,41 +68,41 @@ class HigherEducationController
     /**
      * Display the specified resource.
      */
-    public function show(Highereducation $highereducation)
+    public function show(HigherEducation $higher_education)
     {
         //
         return response()->json([
-            'data' => $highereducation
+            'data' => $higher_education
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Highereducation $highereducation)
+    public function update(Request $request, HigherEducation $higher_education)
     {
         //
         $validated = $request->validate([
             'college_name' => 'required|string|max:255',
             'rank' => 'required|integer|min:1',
         ]);
-        $highereducation->update($validated);
+        $higher_education->update($validated);
         return response()->json([
             'message' => 'Higher Education updated successfully',
-            'data' => $highereducation
+            'data' => $higher_education
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Highereducation $highereducation)
+    public function destroy(HigherEducation $higher_education)
     {
         //
-        $highereducation->delete();
+        $higher_education->delete();
         return response()->json([
             'message' => 'Higher Education deleted successfully',
-            'data' => $highereducation
+            'data' => $higher_education
         ]);
     }
 }

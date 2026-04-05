@@ -1995,6 +1995,935 @@
                 }
             }
         },
+        "/room-reports": {
+            "get": {
+                "operationId": "room-reports.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "RoomReport"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Roomreport"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/room-reports/{room_report}": {
+            "get": {
+                "operationId": "room-reports.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "RoomReport"
+                ],
+                "parameters": [
+                    {
+                        "name": "room_report",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Roomreport"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "room-reports.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "RoomReport"
+                ],
+                "parameters": [
+                    {
+                        "name": "room_report",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "room_number": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "acad_year": {
+                                        "type": "integer",
+                                        "minimum": 2000
+                                    },
+                                    "semester": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "strength": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "present": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "attendance_register": {
+                                        "type": "string",
+                                        "enum": [
+                                            "maintained",
+                                            "not_maintained"
+                                        ]
+                                    },
+                                    "student_attendance": {
+                                        "type": "string",
+                                        "enum": [
+                                            "present",
+                                            "absent"
+                                        ]
+                                    },
+                                    "topic_planned": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "topic_taught": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "pedagogy_used": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "aids_used": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "teaching_skill": {
+                                        "type": "string",
+                                        "enum": [
+                                            "satisfactory",
+                                            "good"
+                                        ]
+                                    },
+                                    "interaction": {
+                                        "type": "string",
+                                        "enum": [
+                                            "satisfactory",
+                                            "good"
+                                        ]
+                                    },
+                                    "learning_outcome": {
+                                        "type": "string",
+                                        "enum": [
+                                            "achieved",
+                                            "not_achieved"
+                                        ]
+                                    },
+                                    "valuation": {
+                                        "type": "string",
+                                        "enum": [
+                                            "done",
+                                            "not_done"
+                                        ]
+                                    },
+                                    "principal_remarks": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "report_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Room report not found"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Room report updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Roomreport"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "room-reports.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "RoomReport"
+                ],
+                "parameters": [
+                    {
+                        "name": "room_report",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Room report not found"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Room report deleted successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Roomreport"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/programs/{program}/room-reports": {
+            "get": {
+                "operationId": "roomReport.listByProgram",
+                "tags": [
+                    "RoomReport"
+                ],
+                "parameters": [
+                    {
+                        "name": "program",
+                        "in": "path",
+                        "required": true,
+                        "description": "The program ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Roomreport"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/students/{student}/room-reports": {
+            "post": {
+                "operationId": "roomReport.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "RoomReport"
+                ],
+                "parameters": [
+                    {
+                        "name": "student",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "room_number": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "acad_year": {
+                                        "type": "integer",
+                                        "minimum": 2000
+                                    },
+                                    "semester": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "strength": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "present": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "attendance_register": {
+                                        "type": "string",
+                                        "enum": [
+                                            " maintained",
+                                            " not_maintained"
+                                        ]
+                                    },
+                                    "student_attendance": {
+                                        "type": "string",
+                                        "enum": [
+                                            " present",
+                                            " absent"
+                                        ]
+                                    },
+                                    "topic_planned": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "topic_taught": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "pedagogy_used": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "aids_used": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "teaching_skill": {
+                                        "type": "string",
+                                        "enum": [
+                                            " satisfactory",
+                                            "good"
+                                        ]
+                                    },
+                                    "interaction": {
+                                        "type": "string",
+                                        "enum": [
+                                            "satisfactory",
+                                            "good"
+                                        ]
+                                    },
+                                    "learning_outcome": {
+                                        "type": "string",
+                                        "enum": [
+                                            " achieved",
+                                            "not_achieved"
+                                        ]
+                                    },
+                                    "valuation": {
+                                        "type": "string",
+                                        "enum": [
+                                            "done",
+                                            "not_done"
+                                        ]
+                                    },
+                                    "principal_remarks": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "report_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                },
+                                "required": [
+                                    "room_number",
+                                    "acad_year",
+                                    "semester",
+                                    "strength",
+                                    "present",
+                                    "attendance_register",
+                                    "student_attendance",
+                                    "topic_planned",
+                                    "topic_taught",
+                                    "pedagogy_used",
+                                    "aids_used",
+                                    "teaching_skill",
+                                    "interaction",
+                                    "learning_outcome",
+                                    "valuation",
+                                    "principal_remarks",
+                                    "report_date"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Room report created successfully"
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/skill-programs": {
+            "get": {
+                "operationId": "skill-programs.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "SkillProgram"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Skillprogram"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/skill-programs/{skill_program}": {
+            "get": {
+                "operationId": "skill-programs.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "SkillProgram"
+                ],
+                "parameters": [
+                    {
+                        "name": "skill_program",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Skillprogram"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "skill-programs.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "SkillProgram"
+                ],
+                "parameters": [
+                    {
+                        "name": "skill_program",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "details": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "resource_person_name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "company_name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "designation": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "conducted_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "academic_year": {
+                                        "type": "integer",
+                                        "minimum": 2000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Skillprogram"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "skill-programs.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "SkillProgram"
+                ],
+                "parameters": [
+                    {
+                        "name": "skill_program",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Skillprogram"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/programs/{program}/skill-programs/{semester}": {
+            "get": {
+                "operationId": "skillProgram.listByProgram",
+                "tags": [
+                    "SkillProgram"
+                ],
+                "parameters": [
+                    {
+                        "name": "program",
+                        "in": "path",
+                        "required": true,
+                        "description": "The program ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "semester",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Skillprogram"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/programs/{program}/skill-programs": {
+            "get": {
+                "operationId": "skillProgram.listBySemester",
+                "tags": [
+                    "SkillProgram"
+                ],
+                "parameters": [
+                    {
+                        "name": "program",
+                        "in": "path",
+                        "required": true,
+                        "description": "The program ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Skillprogram"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/students/{student}/skill-programs": {
+            "post": {
+                "operationId": "skillProgram.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "SkillProgram"
+                ],
+                "parameters": [
+                    {
+                        "name": "student",
+                        "in": "path",
+                        "required": true,
+                        "description": "The student ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "program_id": {
+                                        "type": "string"
+                                    },
+                                    "institution_id": {
+                                        "type": "string"
+                                    },
+                                    "student_id": {
+                                        "type": "string"
+                                    },
+                                    "semester": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "details": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "resource_person_name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "company_name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "designation": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "conducted_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "academic_year": {
+                                        "type": "integer",
+                                        "minimum": 2000
+                                    }
+                                },
+                                "required": [
+                                    "program_id",
+                                    "institution_id",
+                                    "student_id",
+                                    "semester",
+                                    "details",
+                                    "resource_person_name",
+                                    "company_name",
+                                    "designation",
+                                    "conducted_date",
+                                    "academic_year"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Skillprogram"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
         "/programs/{program}/students": {
             "get": {
                 "operationId": "programs.students.index",
@@ -3079,6 +4008,186 @@
                     "updated_at"
                 ],
                 "title": "Program"
+            },
+            "Roomreport": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "institution_id": {
+                        "type": "string"
+                    },
+                    "program_id": {
+                        "type": "string"
+                    },
+                    "subject_id": {
+                        "type": "string"
+                    },
+                    "users_id": {
+                        "type": "string"
+                    },
+                    "room_number": {
+                        "type": "string"
+                    },
+                    "acad_year": {
+                        "type": "integer"
+                    },
+                    "semester": {
+                        "type": "integer"
+                    },
+                    "strength": {
+                        "type": "integer"
+                    },
+                    "present": {
+                        "type": "integer"
+                    },
+                    "attendance_register": {
+                        "type": "string"
+                    },
+                    "student_attendance": {
+                        "type": "string"
+                    },
+                    "topic_planned": {
+                        "type": "string"
+                    },
+                    "topic_taught": {
+                        "type": "string"
+                    },
+                    "pedagogy_used": {
+                        "type": "string"
+                    },
+                    "aids_used": {
+                        "type": "string"
+                    },
+                    "teaching_skill": {
+                        "type": "string"
+                    },
+                    "interaction": {
+                        "type": "string"
+                    },
+                    "learning_outcome": {
+                        "type": "string"
+                    },
+                    "valuation": {
+                        "type": "string"
+                    },
+                    "principal_remarks": {
+                        "type": "string"
+                    },
+                    "report_date": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "institution_id",
+                    "program_id",
+                    "subject_id",
+                    "users_id",
+                    "room_number",
+                    "acad_year",
+                    "semester",
+                    "strength",
+                    "present",
+                    "attendance_register",
+                    "student_attendance",
+                    "topic_planned",
+                    "topic_taught",
+                    "pedagogy_used",
+                    "aids_used",
+                    "teaching_skill",
+                    "interaction",
+                    "learning_outcome",
+                    "valuation",
+                    "principal_remarks",
+                    "report_date",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "Roomreport"
+            },
+            "Skillprogram": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "program_id": {
+                        "type": "string"
+                    },
+                    "institution_id": {
+                        "type": "string"
+                    },
+                    "student_id": {
+                        "type": "string"
+                    },
+                    "semester": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "string"
+                    },
+                    "resource_person_name": {
+                        "type": "string"
+                    },
+                    "company_name": {
+                        "type": "string"
+                    },
+                    "designation": {
+                        "type": "string"
+                    },
+                    "conducted_date": {
+                        "type": "string"
+                    },
+                    "academic_year": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "program_id",
+                    "institution_id",
+                    "student_id",
+                    "semester",
+                    "details",
+                    "resource_person_name",
+                    "company_name",
+                    "designation",
+                    "conducted_date",
+                    "academic_year",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "Skillprogram"
             },
             "Student": {
                 "type": "object",

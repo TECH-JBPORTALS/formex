@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Program;
-use App\Models\Roomreport;
+use App\Models\RoomReport;
 use App\Models\Subject;
 use App\Models\User;
 use App\Support\CurrentInstitutionSession;
@@ -17,14 +17,14 @@ class RoomReportController
     public function index(Request $request)
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
-        $roomreports = $institution->roomreports()->latest()->get();
+        $roomreports = $institution->room_reports()->latest()->get();
         return response()->json([
             'data' => $roomreports
         ]);
     }
     public function listByProgram(Program $program)
     {
-        $roomreports = $program->roomreports()->get();
+        $roomreports = $program->room_reports()->get();
         return response()->json([
             'data' => $roomreports
         ]);
@@ -55,7 +55,7 @@ class RoomReportController
             'report_date' => 'required|date',
         ]);
         $roomreport = $user
-            ->roomreports()
+            ->room_reports()
             ->create(
                 [
                     ...$validated,
@@ -76,18 +76,18 @@ class RoomReportController
     /**
      * Display the specified resource.
      */
-    public function show(Roomreport $roomreport)
+    public function show(RoomReport $room_report)
     {
         //
         return response()->json([
-            'data' => $roomreport
+            'data' => $room_report
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Roomreport $roomreport)
+    public function update(Request $request, RoomReport $room_report)
     {
         //
         $validated = $request->validate([
@@ -108,12 +108,12 @@ class RoomReportController
             'principal_remarks' => 'sometimes|required|string|max:255',
             'report_date' => 'sometimes|required|date',
         ]);
-        $roomreport->update($validated);
+        $room_report->update($validated);
         return response()->json([
             'message' => 'Room report updated successfully',
-            'data' => $roomreport
+            'data' => $room_report
         ]);
-        if (!$roomreport) {
+        if (!$room_report) {
             return response()->json([
                 'message' => 'Room report not found'
             ], 404);
@@ -123,15 +123,15 @@ class RoomReportController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Roomreport $roomreport)
+    public function destroy(RoomReport $room_report)
     {
         //
-        $roomreport->delete();
+        $room_report->delete();
         return response()->json([
             'message' => 'Room report deleted successfully',
-            'data' => $roomreport
+            'data' => $room_report
         ]);
-        if (!$roomreport) {
+        if (!$room_report) {
             return response()->json([
                 'message' => 'Room report not found'
             ], 404);

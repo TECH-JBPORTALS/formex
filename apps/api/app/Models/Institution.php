@@ -38,13 +38,17 @@ class Institution extends Model
     {
         return $this->hasMany(Placement::class);
     }
-    public function highereducations(): HasMany
+    public function higher_educations(): HasMany
     {
-        return $this->hasMany(Highereducation::class);
+        return $this->hasMany(HigherEducation::class);
     }
 
-    public function roomreports(): HasMany
+    public function room_reports(): HasMany
     {
-        return $this->hasMany(Roomreport::class);
+        return $this->hasMany(RoomReport::class);
+    }
+    public function skill_programs(): HasMany
+    {
+        return $this->hasMany(SkillProgram::class);
     }
 }

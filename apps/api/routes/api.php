@@ -5,6 +5,8 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\HigherEducationController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\InternshipController;
+use App\Http\Controllers\RoomReportController;
+use App\Http\Controllers\SkillProgramController;
 use App\Http\Controllers\PlacementController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
@@ -55,9 +57,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/students/{student}/higher-educations', [HigherEducationController::class, 'store']);
 
     // Room Reports Paths
-    // Route::apiResource('room-reports', RoomReportController::class)->except(['store']);
-    // Route::get('/programs/{program}/room-reports', [RoomReportController::class, 'listByProgram']);
-    // Route::get('/subjects/{subject}/room-reports', [RoomReportController::class, 'listBySubject']);
-    // Route::post('/programs/{program}/subjects/{subject}/room-reports', [RoomReportController::class, 'store']);
+    Route::apiResource('room-reports', RoomReportController::class)->except(['store']);
+    Route::get('/programs/{program}/room-reports', [RoomReportController::class, 'listByProgram']);
+    Route::get('/subjects/{subject}/room-reports', [RoomReportController::class, 'listBySubject']);
+    Route::post('/students/{student}/room-reports', [RoomReportController::class, 'store']);
 
+    // Skill Programs Paths
+    Route::apiResource('skill-programs', SkillProgramController::class)->except(['store']);
+    Route::get('/programs/{program}/skill-programs', [SkillProgramController::class, 'listByProgram']);
+    Route::get('/programs/{program}/skill-programs/{semester}', [SkillProgramController::class, 'listBySemester']);
+    Route::post('/students/{student}/skill-programs', [SkillProgramController::class, 'store']);
 });
