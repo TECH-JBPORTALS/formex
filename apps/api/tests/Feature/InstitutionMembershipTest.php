@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Testing\Fluent\AssertableJson;
 
 uses(RefreshDatabase::class);
 
@@ -45,7 +46,8 @@ test('user payload includes institutions for onboarding', function () {
         ->assertJsonPath('user.email', 'solo@example.com')
         ->assertJsonPath('user.institutions', [])
         ->assertJsonPath('current_institution', null)
-        ->assertJsonPath('current_institution_id', null);
+        ->assertJsonPath('current_institution_id', null)
+        ->assertJsonPath('current_academic_year', null);
 });
 
 test('creating institution attaches user and lists only their institutions', function () {
@@ -85,7 +87,8 @@ test('creating institution attaches user and lists only their institutions', fun
         ->assertOk()
         ->assertJsonCount(1, 'user.institutions')
         ->assertJsonPath('current_institution.code', 'TC001')
-        ->assertJson(fn (\Illuminate\Testing\Fluent\AssertableJson $json) => $json
+        ->assertJsonPath('current_academic_year', (int) date('Y'))
+        ->assertJson(fn (AssertableJson $json) => $json
             ->whereType('current_institution_id', 'string')
             ->etc());
 
@@ -194,4 +197,57 @@ test('set current institution rejects non-membership', function () {
     ], institutionSpaHeaders())
         ->assertUnprocessable()
         ->assertJsonPath('errors.institution_id.0', 'You do not belong to this institution.');
+});
+
+test('academic year defaults to calendar year and is stored per institution', function () {
+    $user = User::factory()->create([
+        'email' => 'years@example.com',
+        'password' => 'password123',
+    ]);
+
+    $a = Institution::factory()->create(['name' => 'First', 'code' => 'F1']);
+    $b = Institution::factory()->create(['name' => 'Second', 'code' => 'S1']);
+    $user->institutions()->attach([$a->id, $b->id]);
+
+    $this->withCredentials();
+
+    $this->postJson('/api/login', [
+        'email' => 'years@example.com',
+        'password' => 'password123',
+    ], institutionSpaHeaders())
+        ->assertOk();
+
+    Auth::forgetGuards();
+
+    $this->withCredentials();
+
+    $this->postJson('/api/user/current-institution', [
+        'institution_id' => $a->id,
+    ], institutionSpaHeaders())
+        ->assertOk()
+        ->assertJsonPath('current_academic_year', (int) date('Y'));
+
+    $this->postJson('/api/user/academic-year', [
+        'academic_year' => 2024,
+    ], institutionSpaHeaders())
+        ->assertOk()
+        ->assertJsonPath('current_academic_year', 2024);
+
+    $this->postJson('/api/user/current-institution', [
+        'institution_id' => $b->id,
+    ], institutionSpaHeaders())
+        ->assertOk()
+        ->assertJsonPath('current_academic_year', (int) date('Y'));
+
+    $this->postJson('/api/user/academic-year', [
+        'academic_year' => 2023,
+    ], institutionSpaHeaders())
+        ->assertOk()
+        ->assertJsonPath('current_academic_year', 2023);
+
+    $this->postJson('/api/user/current-institution', [
+        'institution_id' => $a->id,
+    ], institutionSpaHeaders())
+        ->assertOk()
+        ->assertJsonPath('current_academic_year', 2024);
 });

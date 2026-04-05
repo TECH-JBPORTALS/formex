@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Session payload for `/api/user` and `/api/user/current-institution`.
  *
- * @property array{user: User, current_institution: Institution|null, current_institution_id: string|null} $resource
+ * @property array{user: User, current_institution: Institution|null, current_institution_id: string|null, current_academic_year: int|null} $resource
  */
 #[SchemaName('AuthSession')]
 class AuthSessionResource extends JsonResource
@@ -29,6 +29,7 @@ class AuthSessionResource extends JsonResource
                 ? InstitutionResource::make($this->resource['current_institution'])
                 : null,
             'current_institution_id' => $this->resource['current_institution_id'],
+            'current_academic_year' => $this->resource['current_academic_year'],
         ];
     }
 }

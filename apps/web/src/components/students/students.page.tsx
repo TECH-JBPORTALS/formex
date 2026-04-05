@@ -27,6 +27,7 @@ import {
 import { useProgramsShow } from "@/lib/api/hooks/useProgramsShow";
 import { useProgramsStudentsIndex } from "@/lib/api/generated/student/student";
 import { Spinner } from "../ui/spinner";
+import { useAuthUserSuspense } from "@/lib/api/generated/auth/auth";
 
 function clampSemester(value: string | null): number {
   const n = Number(value);
@@ -38,7 +39,11 @@ export function StudentsPage() {
   const { programId } = useParams<{ programId: string }>();
   const searchParams = useSearchParams();
   const selectedSemester = clampSemester(searchParams.get("semester"));
-  const currentYear = new Date().getFullYear();
+  const { data: authData } = useAuthUserSuspense();
+  const academicYearDefault =
+    authData?.status === 200 && authData.data.current_academic_year != null
+      ? authData.data.current_academic_year
+      : new Date().getFullYear();
 
   const studentsQuery = useProgramsStudentsIndex(programId, {
     query: { enabled: !!programId },
@@ -115,7 +120,7 @@ export function StudentsPage() {
             <CreateStudentSheet
               programId={programId}
               semester={selectedSemester}
-              academicYearDefault={currentYear}
+              academicYearDefault={academicYearDefault}
             >
               <Button>
                 Add <HugeiconsIcon icon={PlusSignIcon} />

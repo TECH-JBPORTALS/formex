@@ -111,15 +111,31 @@ class AuthController
         return $this->authSessionResponse($request);
     }
 
+    /**
+     * Persist the academic year for the current institution (membership validated; stored per institution in session).
+     */
+    public function setAcademicYear(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'academic_year' => ['required', 'integer', 'min:2000', 'max:2100'],
+        ]);
+
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        CurrentInstitutionSession::setAcademicYear($request, $institution->id, $validated['academic_year']);
+
+        return $this->authSessionResponse($request);
+    }
+
     private function authSessionResponse(Request $request): JsonResponse
     {
         $user = $request->user()->load('institutions');
-        [$currentInstitution, $currentInstitutionId] = CurrentInstitutionSession::sync($request, $user);
+        [$currentInstitution, $currentInstitutionId, $currentAcademicYear] = CurrentInstitutionSession::sync($request, $user);
 
         return AuthSessionResource::make([
             'user' => $user,
             'current_institution' => $currentInstitution,
             'current_institution_id' => $currentInstitutionId,
+            'current_academic_year' => $currentAcademicYear,
         ])->response();
     }
 }

@@ -1,14 +1,13 @@
 <?php
 
-use App\Http\Controllers\HigherEducationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContextProgramController;
+use App\Http\Controllers\HigherEducationController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\InternshipController;
-use App\Http\Controllers\RoomReportController;
+use App\Http\Controllers\PlacementController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\PlacementController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('web')->group(function () {
@@ -20,9 +19,15 @@ Route::middleware('web')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/user/current-institution', [AuthController::class, 'setCurrentInstitution']);
+    Route::post('/user/academic-year', [AuthController::class, 'setAcademicYear']);
+
+    // Institutions Paths
     Route::apiResource('institutions', InstitutionController::class);
+
+    // Programs Paths
     Route::apiResource('programs', ContextProgramController::class);
 
+    // Program Students Paths
     Route::apiResource('programs.students', StudentController::class)->scoped();
 
     // Subjects Paths
@@ -43,7 +48,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/students/{student}/placements', [PlacementController::class, 'listByStudent']);
     Route::post('/students/{student}/placements', [PlacementController::class, 'store']);
 
-
     // Higher Education Paths
     Route::apiResource('higher-educations', HigherEducationController::class)->except(['store']);
     Route::get('/students/{student}/higher-educations', [HigherEducationController::class, 'listByStudent']);
@@ -57,4 +61,3 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::post('/programs/{program}/subjects/{subject}/room-reports', [RoomReportController::class, 'store']);
 
 });
-

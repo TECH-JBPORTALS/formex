@@ -10,6 +10,7 @@ export * from "./authLogin200";
 export * from "./authLoginBody";
 export * from "./authRegisterBody";
 export * from "./authSession";
+export * from "./authSetAcademicYearBody";
 export * from "./authSetCurrentInstitutionBody";
 export * from "./higherEducationListByProgram200";
 export * from "./higherEducationListByStudent200";

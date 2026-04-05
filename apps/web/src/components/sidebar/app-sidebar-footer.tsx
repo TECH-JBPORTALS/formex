@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { signOutSession } from "@/auth/client";
 import {
   getAuthUserQueryKey,
+  useAuthSetAcademicYear,
   useAuthSetCurrentInstitution,
   useAuthUserSuspense,
 } from "@/lib/api/generated/auth/auth";
@@ -26,6 +27,20 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 
+function academicYearMenuRange(
+  selected: number | null | undefined,
+): number[] {
+  const y = new Date().getFullYear();
+  const s = selected ?? y;
+  const lo = Math.min(s, y - 5);
+  const hi = Math.max(s, y + 1);
+  const out: number[] = [];
+  for (let n = lo; n <= hi; n++) {
+    out.push(n);
+  }
+  return out;
+}
+
 export function AppSidebarFooter() {
   const queryClient = useQueryClient();
   const { data } = useAuthUserSuspense();
@@ -38,6 +53,17 @@ export function AppSidebarFooter() {
           });
           void queryClient.invalidateQueries({
             queryKey: getProgramsIndexQueryKey(),
+          });
+        },
+      },
+    });
+
+  const { mutate: setAcademicYear, isPending: isSettingYear } =
+    useAuthSetAcademicYear({
+      mutation: {
+        onSettled: () => {
+          void queryClient.invalidateQueries({
+            queryKey: getAuthUserQueryKey(),
           });
         },
       },
@@ -113,6 +139,31 @@ export function AppSidebarFooter() {
                       {institution.name}
                     </DropdownMenuItem>
                   ))}
+                  <DropdownMenuSeparator />
+                </>
+              ) : null}
+
+              {currentInstitution ? (
+                <>
+                  <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
+                    Academic year
+                  </DropdownMenuLabel>
+                  {academicYearMenuRange(session?.current_academic_year).map(
+                    (year) => (
+                      <DropdownMenuItem
+                        key={year}
+                        disabled={
+                          isSettingYear ||
+                          year === session?.current_academic_year
+                        }
+                        onClick={() => {
+                          setAcademicYear({ data: { academic_year: year } });
+                        }}
+                      >
+                        {year}
+                      </DropdownMenuItem>
+                    ),
+                  )}
                   <DropdownMenuSeparator />
                 </>
               ) : null}

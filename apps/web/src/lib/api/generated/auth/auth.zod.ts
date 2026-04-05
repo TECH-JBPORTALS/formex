@@ -72,7 +72,8 @@ export const AuthUserResponse = zod.object({
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
 }),zod.null()]),
-  "current_institution_id": zod.string()
+  "current_institution_id": zod.string(),
+  "current_academic_year": zod.number().nullable()
 })
 
 /**
@@ -109,6 +110,50 @@ export const AuthSetCurrentInstitutionResponse = zod.object({
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
 }),zod.null()]),
-  "current_institution_id": zod.string()
+  "current_institution_id": zod.string(),
+  "current_academic_year": zod.number().nullable()
+})
+
+/**
+ * @summary Persist the academic year for the current institution (membership validated; stored per institution in session)
+ */
+export const authSetAcademicYearBodyAcademicYearMin = 2000;
+export const authSetAcademicYearBodyAcademicYearMax = 2100;
+
+
+
+export const AuthSetAcademicYearBody = zod.object({
+  "academic_year": zod.number().min(authSetAcademicYearBodyAcademicYearMin).max(authSetAcademicYearBodyAcademicYearMax)
+})
+
+export const AuthSetAcademicYearResponse = zod.object({
+  "user": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "email_verified_at": zod.iso.datetime({}).nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "institutions": zod.array(zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}))
+}),
+  "current_institution": zod.union([zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}),zod.null()]),
+  "current_institution_id": zod.string(),
+  "current_academic_year": zod.number().nullable()
 })
 

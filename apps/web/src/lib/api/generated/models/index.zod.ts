@@ -10,6 +10,7 @@ export * from './authLogin200.zod';
 export * from './authLoginBody.zod';
 export * from './authRegisterBody.zod';
 export * from './authSession.zod';
+export * from './authSetAcademicYearBody.zod';
 export * from './authSetCurrentInstitutionBody.zod';
 export * from './highereducation.zod';
 export * from './higherEducationListByProgram200.zod';

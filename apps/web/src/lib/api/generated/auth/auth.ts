@@ -29,6 +29,7 @@ import type {
   AuthLoginBody,
   AuthRegisterBody,
   AuthSession,
+  AuthSetAcademicYearBody,
   AuthSetCurrentInstitutionBody,
   ValidationExceptionResponse,
 } from "../models";
@@ -752,6 +753,129 @@ export const useAuthSetCurrentInstitution = <
 > => {
   return useMutation(
     getAuthSetCurrentInstitutionMutationOptions(options),
+    queryClient,
+  );
+};
+/**
+ * @summary Persist the academic year for the current institution (membership validated; stored per institution in session)
+ */
+export type authSetAcademicYearResponse200 = {
+  data: AuthSession;
+  status: 200;
+};
+
+export type authSetAcademicYearResponse401 = {
+  data: AuthenticationExceptionResponse;
+  status: 401;
+};
+
+export type authSetAcademicYearResponse422 = {
+  data: ValidationExceptionResponse;
+  status: 422;
+};
+
+export type authSetAcademicYearResponseSuccess =
+  authSetAcademicYearResponse200 & {
+    headers: Headers;
+  };
+export type authSetAcademicYearResponseError = (
+  | authSetAcademicYearResponse401
+  | authSetAcademicYearResponse422
+) & {
+  headers: Headers;
+};
+
+export type authSetAcademicYearResponse =
+  | authSetAcademicYearResponseSuccess
+  | authSetAcademicYearResponseError;
+
+export const getAuthSetAcademicYearUrl = () => {
+  return `/user/academic-year`;
+};
+
+export const authSetAcademicYear = async (
+  authSetAcademicYearBody: AuthSetAcademicYearBody,
+  options?: RequestInit,
+): Promise<authSetAcademicYearResponse> => {
+  return $api<authSetAcademicYearResponse>(getAuthSetAcademicYearUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(authSetAcademicYearBody),
+  });
+};
+
+export const getAuthSetAcademicYearMutationOptions = <
+  TError = AuthenticationExceptionResponse | ValidationExceptionResponse,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof authSetAcademicYear>>,
+    TError,
+    { data: AuthSetAcademicYearBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof $api>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof authSetAcademicYear>>,
+  TError,
+  { data: AuthSetAcademicYearBody },
+  TContext
+> => {
+  const mutationKey = ["authSetAcademicYear"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof authSetAcademicYear>>,
+    { data: AuthSetAcademicYearBody }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return authSetAcademicYear(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type AuthSetAcademicYearMutationResult = NonNullable<
+  Awaited<ReturnType<typeof authSetAcademicYear>>
+>;
+export type AuthSetAcademicYearMutationBody = AuthSetAcademicYearBody;
+export type AuthSetAcademicYearMutationError =
+  | AuthenticationExceptionResponse
+  | ValidationExceptionResponse;
+
+/**
+ * @summary Persist the academic year for the current institution (membership validated; stored per institution in session)
+ */
+export const useAuthSetAcademicYear = <
+  TError = AuthenticationExceptionResponse | ValidationExceptionResponse,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof authSetAcademicYear>>,
+      TError,
+      { data: AuthSetAcademicYearBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof $api>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof authSetAcademicYear>>,
+  TError,
+  { data: AuthSetAcademicYearBody },
+  TContext
+> => {
+  return useMutation(
+    getAuthSetAcademicYearMutationOptions(options),
     queryClient,
   );
 };

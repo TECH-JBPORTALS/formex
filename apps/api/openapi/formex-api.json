@@ -207,6 +207,53 @@
                 }
             }
         },
+        "/user/academic-year": {
+            "post": {
+                "operationId": "auth.setAcademicYear",
+                "summary": "Persist the academic year for the current institution (membership validated; stored per institution in session)",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "academic_year": {
+                                        "type": "integer",
+                                        "minimum": 2000,
+                                        "maximum": 2100
+                                    }
+                                },
+                                "required": [
+                                    "academic_year"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`AuthSession`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthSession"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
         "/programs": {
             "get": {
                 "operationId": "programs.index",
@@ -2791,12 +2838,19 @@
                     },
                     "current_institution_id": {
                         "type": "string"
+                    },
+                    "current_academic_year": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
                     }
                 },
                 "required": [
                     "user",
                     "current_institution",
-                    "current_institution_id"
+                    "current_institution_id",
+                    "current_academic_year"
                 ],
                 "title": "AuthSession"
             },
