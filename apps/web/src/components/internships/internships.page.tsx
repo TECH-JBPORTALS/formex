@@ -30,6 +30,8 @@ import {
   useProgramsIndex,
 } from "@/lib/api/generated/context-program/context-program";
 import { useInternshipsIndex } from "@/lib/api/generated/internship/internship";
+import { Spinner } from "../ui/spinner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function InternshipsPage() {
   const [search, setSearch] = useQueryState(
@@ -38,6 +40,7 @@ export function InternshipsPage() {
       limitUrlUpdates: throttle(300),
     }),
   );
+  const queryClient = useQueryClient();
 
   const { data: authData } = useAuthUser();
   const institutionId =
@@ -62,7 +65,7 @@ export function InternshipsPage() {
     return map;
   }, [programsQuery.data]);
 
-  const internshipsQuery = useInternshipsIndex();
+  const internshipsQuery = useInternshipsIndex(undefined, queryClient);
 
   const rows =
     internshipsQuery.data?.status === 200
@@ -133,7 +136,13 @@ export function InternshipsPage() {
           </CreateInternshipSheet>
         </div>
 
-        <DataTable columns={columns} data={visibleRows} />
+        {internshipsQuery.isLoading ? (
+          <div className="flex h-[calc(100svh-40svh)] w-full items-center justify-center">
+            <Spinner className="size-8" />
+          </div>
+        ) : (
+          <DataTable columns={columns} data={visibleRows} />
+        )}
       </Container>
     </>
   );

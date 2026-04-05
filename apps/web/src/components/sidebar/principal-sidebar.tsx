@@ -47,7 +47,7 @@ export function PrincipalSidebar({
   return (
     <Sidebar
       collapsible="none"
-      className={cn("flex-1 w-[16rem]! border-r", className)}
+      className={cn("w-[16rem]! border-r", className)}
       {...props}
     >
       <SidebarHeader className="flex-row h-12  border-b items-center">

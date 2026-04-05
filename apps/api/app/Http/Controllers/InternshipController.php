@@ -6,7 +6,6 @@ use App\Models\Internship;
 use App\Models\Student;
 use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\Request;
-use App\Models\Institution;
 use App\Models\Program;
 
 class InternshipController

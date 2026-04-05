@@ -99,10 +99,6 @@ export function getStudentColumns(
       header: "Email",
     },
     {
-      accessorKey: "semester",
-      header: "Semester",
-    },
-    {
       accessorKey: "academic_year",
       header: "Academic Year",
     },
