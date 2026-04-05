@@ -15,7 +15,7 @@ class SkillProgramController
     public function index(Request $request)
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
-        $skillprograms = $institution->skillprograms()
+        $skillprograms = $institution->skillPrograms()
             ->latest()
             ->get();
         return response()->json([
@@ -24,12 +24,12 @@ class SkillProgramController
     }
     public function listByProgram(Program $program)
     {
-        $skillprograms = $program->skillprograms()->get();
+        $skillprograms = $program->skillPrograms()->get();
         return response()->json(["data" => $skillprograms]);
     }
     public function listBySemester(Program $program,int $semester)
     {
-        $skillprograms = $program->skillprograms()->where('semester', $semester)->get();
+        $skillprograms = $program->skillPrograms()->where('semester', $semester)->get();
         return response()->json(["data" => $skillprograms]);
     }
 
@@ -48,7 +48,7 @@ class SkillProgramController
             'conducted_date' => 'required|date',
             'academic_year' => 'required|integer|min:2000',
         ]);
-        $skillprogram = $student->skillprograms()->create([...$validated, "institution_id" => $student->institution_id, "program_id" => $student->program_id, "student_id" => $student->id]);
+        $skillprogram = $student->skillPrograms()->create([...$validated, "institution_id" => $student->institution_id, "program_id" => $student->program_id, "student_id" => $student->id]);
         return response()->json(["data" => $skillprogram]);
 
     }
@@ -84,7 +84,7 @@ class SkillProgramController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Skillprogram $skillprogram)
+    public function destroy(SkillProgram $skillprogram)
     {
         //
         $skillprogram->delete();

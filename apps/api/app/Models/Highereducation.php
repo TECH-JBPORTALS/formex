@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
     'program_id',
 ])]
 
-class Highereducation extends Model
+class HigherEducation extends Model
 {
     //
     use HasUlids, HasFactory;

@@ -57,12 +57,13 @@ class Student extends Model
     {
         return $this->hasMany(Placement::class);
     }
-    public function higherEducations(): HasMany
+    public function higher_educations(): HasMany
     {
-        return $this->hasMany(Highereducation::class);
+        return $this->hasMany(HigherEducation::class);
     }
-    public function skillprograms(): HasMany
+    public function skill_programs(): HasMany
     {
-        return $this->hasMany(Skillprogram::class);
+        return $this->hasMany(SkillProgram::class);
     }
+
 }
