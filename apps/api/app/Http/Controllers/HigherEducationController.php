@@ -6,7 +6,6 @@ use App\Models\Highereducation;
 use App\Models\Student;
 use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\Request;
-use App\Models\Institution;
 use App\Models\Program;
 
 class HigherEducationController
@@ -45,13 +44,21 @@ class HigherEducationController
      */
     public function store(Request $request, Student $student)
     {
-        //
+        $institution = CurrentInstitutionSession::requireInstitution($request);
         $validated = $request->validate([
             'college_name' => 'required|string|max:255',
             'rank' => 'required|integer|min:1',
-            'acad_year' => 'required|integer|min:2000',
         ]);
-        $highereducation = $student->highereducations()->create([...$validated, "institution_id" => $student->institution->id, "program_id" => $student->program->id]);
+        $highereducation = $student
+            ->higherEducations()
+            ->create(
+                [
+                    ...$validated,
+                    "institution_id" => $student->institution->id,
+                    "program_id" => $student->program->id,
+                    "academic_year" => $institution->academic_year
+                ]
+            );
         return response()->json([
             'message' => 'Higher Education created successfully',
             'data' => $highereducation
@@ -78,7 +85,6 @@ class HigherEducationController
         $validated = $request->validate([
             'college_name' => 'required|string|max:255',
             'rank' => 'required|integer|min:1',
-            'acad_year' => 'required|integer|min:2000',
         ]);
         $highereducation->update($validated);
         return response()->json([

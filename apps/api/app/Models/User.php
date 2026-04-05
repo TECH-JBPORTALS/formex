@@ -39,4 +39,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Institution::class)->withPivot('role');
     }
+
+    public function higherEducations(): BelongsToMany
+    {
+        return $this->belongsToMany(Highereducation::class);
+    }
 }

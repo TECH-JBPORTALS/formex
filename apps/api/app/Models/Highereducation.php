@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 #[Fillable([
     'college_name',
     'rank',
-    'acad_year',
+    'acadmeic_year',
     'student_id',
     'institution_id',
     'program_id',

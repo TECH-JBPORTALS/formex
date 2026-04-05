@@ -36,7 +36,6 @@ class StudentController
             'full_name' => 'required|string|max:255',
             'date_of_birth' => 'nullable|date',
             'semester' => 'required|integer|min:1',
-            'academic_year' => 'required|integer|min:2000',
             'register_no' => 'nullable|string|max:100',
             'gender' => 'nullable|in:male,female',
             'category' => 'nullable|string',
@@ -49,12 +48,29 @@ class StudentController
             ...$validated,
             // Institution comes from the program, not from the route.
             'institution_id' => $scopedProgram->institution_id,
+            'academic_year' => $institution->academic_year,
         ]);
 
         return response()->json([
             'message' => 'Student created successfully',
             'data' => $student,
         ], 201);
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input("q");
+
+        if (!$query) {
+            return response()->json(["message" => "Search query is required"], 400);
+        }
+
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        $students = $institution->students()
+            ->where('full_name', 'like', '%' . $query . '%')
+            ->where('academic_year', $institution->academic_year)
+            ->get();
+        return response()->json(["data" => $students]);
     }
 
     // 🔍 Show student
@@ -93,7 +109,6 @@ class StudentController
             'full_name' => 'sometimes|required|string|max:255',
             'date_of_birth' => 'nullable|date',
             'semester' => 'sometimes|required|integer|min:1',
-            'academic_year' => 'sometimes|required|integer|min:2000',
             'register_no' => 'nullable|string|max:100',
             'gender' => 'nullable|string',
             'category' => 'nullable|string',

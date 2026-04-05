@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
     'subject_id',
     'user_id',
     'room_number',
-    'acad_year',
+    'academic_year',
     'report_date',
     'strength',
     'present',

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Institution;
 use App\Models\Program;
 use App\Models\Subject;
 use App\Support\CurrentInstitutionSession;
@@ -16,7 +15,7 @@ class SubjectController
     public function index(Request $request)
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
-        $subjects = $institution->subjects()->with('program')->orderBy( 'program_id', 'asc')->orderBy( 'semester', 'asc')->groupBy(['program_id', 'id'])->get();
+        $subjects = $institution->subjects()->with('program')->orderBy('program_id', 'asc')->orderBy('semester', 'asc')->groupBy(['program_id', 'id'])->get();
         return response()->json(["data" => $subjects]);
     }
 
@@ -26,7 +25,7 @@ class SubjectController
         return response()->json(["data" => $subjects]);
     }
 
-    public function listbysemester(Request $request, Program $program,int $semester)
+    public function listbysemester(Request $request, Program $program, int $semester)
     {
         $subjects = $program->subjects()->where('semester', $semester)->get();
         return response()->json(["data" => $subjects]);
@@ -37,6 +36,8 @@ class SubjectController
     public function store(Request $request, Program $program)
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
+
+        /** @var Program $program */
         $program = $institution->programs()->whereKey($program->id)->firstOrFail();
 
         $validated = $request->validate([

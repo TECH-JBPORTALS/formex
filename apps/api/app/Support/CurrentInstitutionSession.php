@@ -58,7 +58,7 @@ class CurrentInstitutionSession
     public static function setAcademicYear(Request $request, string $institutionId, int $year): void
     {
         $map = $request->session()->get(self::ACADEMIC_YEAR_BY_INSTITUTION_KEY, []);
-        if (! is_array($map)) {
+        if (!is_array($map)) {
             $map = [];
         }
 
@@ -69,7 +69,7 @@ class CurrentInstitutionSession
     public static function ensureAcademicYear(Request $request, string $institutionId): int
     {
         $map = $request->session()->get(self::ACADEMIC_YEAR_BY_INSTITUTION_KEY, []);
-        if (! is_array($map)) {
+        if (!is_array($map)) {
             $map = [];
         }
 

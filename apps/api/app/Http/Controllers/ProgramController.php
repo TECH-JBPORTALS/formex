@@ -1,24 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Institution;
-use App\Models\Program;
+use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\Request;
 
 class ProgramController
 {
-    // 📄 List programs
-    public function index(Institution $institution)
+    public function index(Request $request)
     {
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+
         $programs = $institution->programs()->latest()->get();
 
-        return response()->json(["data" => $programs]);
+        return response()->json(['data' => $programs]);
     }
 
-    // ➕ Create program
-    public function store(Request $request, Institution $institution)
+    public function store(Request $request)
     {
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'short_name' => 'required|string|max:50',
@@ -29,41 +29,47 @@ class ProgramController
 
         return response()->json([
             'message' => 'Program created successfully',
-            'data' => $program
+            'data' => $program,
         ], 201);
     }
 
-    // 🔍 Show program
-    public function show(Institution $institution, Program $program)
+    public function show(Request $request, string $program)
     {
-        return response()->json(["data" => $program]);
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        $model = $institution->programs()->whereKey($program)->firstOrFail();
+
+        return response()->json(['data' => $model]);
     }
 
-    // ✏️ Update program
-    public function update(Request $request, Institution $institution, Program $program)
+    public function update(Request $request, string $program)
     {
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        $model = $institution->programs()->whereKey($program)->firstOrFail();
+
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'short_name' => 'sometimes|required|string|max:50',
             'intake' => 'sometimes|required|integer|min:1',
         ]);
 
-        $program->update($validated);
+        $model->update($validated);
 
         return response()->json([
             'message' => 'Program updated successfully',
-            'data' => $program
+            'data' => $model,
         ]);
     }
 
-    // 🗑️ Delete program
-    public function destroy(Institution $institution, Program $program)
+    public function destroy(Request $request, string $program)
     {
-        $program->delete();
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        $model = $institution->programs()->whereKey($program)->firstOrFail();
+
+        $model->delete();
 
         return response()->json([
             'message' => 'Program deleted successfully',
-            "data" => $program
+            'data' => $model,
         ]);
     }
 }

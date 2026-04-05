@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Institution;
 use App\Models\Program;
 use App\Models\Roomreport;
 use App\Models\Subject;
+use App\Models\User;
 use App\Support\CurrentInstitutionSession;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 
 class RoomReportController
@@ -23,7 +22,8 @@ class RoomReportController
             'data' => $roomreports
         ]);
     }
-    public function listByProgram(Program $program) {
+    public function listByProgram(Program $program)
+    {
         $roomreports = $program->roomreports()->get();
         return response()->json([
             'data' => $roomreports
@@ -34,11 +34,10 @@ class RoomReportController
      */
     public function store(Request $request, Program $program, Subject $subject, User $user)
     {
-        //
+        $institution = CurrentInstitutionSession::requireInstitution($request);
 
         $validated = $request->validate([
             'room_number' => 'required|string|max:255',
-            'acad_year' => 'required|integer|min:2000',
             'semester' => 'required|integer|min:1',
             'strength' => 'required|integer|min:1',
             'present' => 'required|integer|min:1',
@@ -55,7 +54,19 @@ class RoomReportController
             'principal_remarks' => 'required|string|max:255',
             'report_date' => 'required|date',
         ]);
-        $roomreport = $user->roomreports()->create([...$validated, "institution_id" => $program->institution_id, "program_id" => $program->id, "subject_id" => $subject->id, "user_id" => $user->id]);
+        $roomreport = $user
+            ->roomreports()
+            ->create(
+                [
+                    ...$validated,
+                    "institution_id" => $program->institution_id,
+                    "program_id" => $program->id,
+                    "subject_id" => $subject->id,
+                    "user_id" => $user->id,
+                    "academic_year" => $institution->academic_year
+                ]
+            );
+
         return response()->json([
             'message' => 'Room report created successfully',
             'data' => $roomreport
@@ -81,7 +92,6 @@ class RoomReportController
         //
         $validated = $request->validate([
             'room_number' => 'sometimes|required|string|max:255',
-            'acad_year' => 'sometimes|required|integer|min:2000',
             'semester' => 'sometimes|required|integer|min:1',
             'strength' => 'sometimes|required|integer|min:1',
             'present' => 'sometimes|required|integer|min:1',

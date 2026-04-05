@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignUlid('student_id')->index();
             $table->foreignUlid('institution_id')->index();
             $table->foreignUlid('program_id')->index();
-            $table->integer('acad_year');
+            $table->integer('academic_year');
             $table->string('industry_name');
             $table->string('industry_address');
             $table->string('role');

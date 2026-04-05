@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ContextProgramController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\HigherEducationController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\InternshipController;
@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('institutions', InstitutionController::class);
 
     // Programs Paths
-    Route::apiResource('programs', ContextProgramController::class);
+    Route::apiResource('programs', ProgramController::class);
 
     // Program Students Paths
     Route::apiResource('programs.students', StudentController::class)->scoped();

@@ -48,7 +48,7 @@ class InternshipController
      */
     public function store(Request $request, Student $student)
     {
-        //
+        $institution = CurrentInstitutionSession::requireInstitution($request);
         $validated = $request->validate([
             'industry_name' => 'required|string|max:255',
             'industry_address' => 'required|string|max:255',
@@ -56,9 +56,19 @@ class InternshipController
             'from_date' => 'required|date',
             'to_date' => 'required|date',
             'semester' => 'required|integer|min:1',
-            'acad_year' => 'required|integer|min:2000',
         ]);
-        $internship = $student->internships()->create([...$validated, "institution_id" => $student->institution_id, "program_id" => $student->program_id]);
+
+        $internship = $student
+            ->internships()
+            ->create(
+                [
+                    ...$validated,
+                    "institution_id" => $student->institution_id,
+                    "program_id" => $student->program_id,
+                    "academic_year" => $institution->academic_year
+                ]
+            );
+
         return response()->json([
             'message' => 'Internship created successfully',
             'data' => $internship
@@ -89,7 +99,6 @@ class InternshipController
             'from_date' => 'sometimes|required|date',
             'to_date' => 'sometimes|required|date',
             'semester' => 'sometimes|required|integer|min:1',
-            'acad_year' => 'sometimes|required|integer|min:2000',
         ]);
         $internship->update($validated);
         return response()->json([

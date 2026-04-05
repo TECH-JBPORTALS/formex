@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'student_id',
     'institution_id',
     'program_id',
-    'acad_year',
+    'academic_year',
 ])]
 class Placement extends Model
 {

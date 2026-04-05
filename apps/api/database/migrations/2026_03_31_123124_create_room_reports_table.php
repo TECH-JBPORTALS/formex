@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->foreignUlid('subject_id')->index();
             $table->foreignUlid('users_id')->index();
             $table->string('room_number');
-            $table->integer('acad_year');
+            $table->integer('academic_year');
             $table->integer('semester');
             $table->integer('strength');
             $table->integer('present');
