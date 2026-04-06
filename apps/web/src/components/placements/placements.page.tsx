@@ -18,22 +18,47 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon, Search01Icon } from "@hugeicons/core-free-icons";
 import { parseAsString, throttle, useQueryState } from "nuqs";
+import { useMemo } from "react";
 import Container from "../container";
 import Link from "next/link";
 import { DataTable } from "../data-table";
-import { columns } from "./columns";
+import { getPlacementColumns } from "./columns";
 import { CreatePlacementSheet } from "./create-placement-sheet";
 import { usePlacementsList } from "@/hooks/react-query/usePlacementsList";
 import { SpinnerPage } from "../spinner-page";
 
 export function PlacementsPage() {
-  const { placemnets, placementsQuery } = usePlacementsList();
+  const { placements, placementsQuery } = usePlacementsList();
   const [search, setSearch] = useQueryState(
     "q",
     parseAsString.withDefault("").withOptions({
       limitUrlUpdates: throttle(300),
     }),
   );
+
+  const rows = placements ?? [];
+
+  const visibleRows = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) {
+      return rows;
+    }
+    return rows.filter((row) => {
+      return [
+        row.industry_name,
+        row.industry_address,
+        row.role,
+        row.ctc,
+        row.student_id,
+        String(row.academic_year),
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(q);
+    });
+  }, [rows, search]);
+
+  const columns = useMemo(() => getPlacementColumns(), []);
 
   return (
     <>
@@ -75,7 +100,7 @@ export function PlacementsPage() {
         {placementsQuery.isLoading ? (
           <SpinnerPage />
         ) : (
-          <DataTable data={placemnets ?? []} columns={columns} />
+          <DataTable data={visibleRows} columns={columns} />
         )}
       </Container>
     </>

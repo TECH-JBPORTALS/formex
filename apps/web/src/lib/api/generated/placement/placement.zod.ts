@@ -8,21 +8,34 @@ import * as zod from 'zod';
 
 
 /**
- * @summary Display a listing of the resource
+ * @summary List the placements in active institution
  */
 export const PlacementsIndexResponse = zod.object({
   "data": zod.array(zod.object({
   "id": zod.string(),
-  "student_id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
-  "academic_year": zod.number(),
   "industry_name": zod.string(),
   "industry_address": zod.string(),
   "role": zod.string(),
   "ctc": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "student": zod.object({
+  "id": zod.string(),
+  "full_name": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
+  "institution_id": zod.string(),
+  "program_id": zod.string(),
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
+}).optional()
 }))
 })
 
@@ -36,16 +49,29 @@ export const PlacementsShowParams = zod.object({
 export const PlacementsShowResponse = zod.object({
   "data": zod.object({
   "id": zod.string(),
-  "student_id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
-  "academic_year": zod.number(),
   "industry_name": zod.string(),
   "industry_address": zod.string(),
   "role": zod.string(),
   "ctc": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "student": zod.object({
+  "id": zod.string(),
+  "full_name": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
+  "institution_id": zod.string(),
+  "program_id": zod.string(),
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
+}).optional()
 })
 })
 
@@ -77,16 +103,29 @@ export const PlacementsUpdateResponse = zod.object({
   "message": zod.literal("Internship updated successfully"),
   "data": zod.object({
   "id": zod.string(),
-  "student_id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
-  "academic_year": zod.number(),
   "industry_name": zod.string(),
   "industry_address": zod.string(),
   "role": zod.string(),
   "ctc": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "student": zod.object({
+  "id": zod.string(),
+  "full_name": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
+  "institution_id": zod.string(),
+  "program_id": zod.string(),
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
+}).optional()
 })
 })
 
@@ -101,19 +140,35 @@ export const PlacementsDestroyResponse = zod.object({
   "message": zod.literal("Internship deleted successfully"),
   "data": zod.object({
   "id": zod.string(),
-  "student_id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
-  "academic_year": zod.number(),
   "industry_name": zod.string(),
   "industry_address": zod.string(),
   "role": zod.string(),
   "ctc": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "student": zod.object({
+  "id": zod.string(),
+  "full_name": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
+  "institution_id": zod.string(),
+  "program_id": zod.string(),
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
+}).optional()
 })
 })
 
+/**
+ * @summary List the placements in program
+ */
 export const PlacementListByProgramParams = zod.object({
   "program": zod.string().describe('The program ID')
 })
@@ -121,16 +176,29 @@ export const PlacementListByProgramParams = zod.object({
 export const PlacementListByProgramResponse = zod.object({
   "data": zod.array(zod.object({
   "id": zod.string(),
-  "student_id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
-  "academic_year": zod.number(),
   "industry_name": zod.string(),
   "industry_address": zod.string(),
   "role": zod.string(),
   "ctc": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "student": zod.object({
+  "id": zod.string(),
+  "full_name": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
+  "institution_id": zod.string(),
+  "program_id": zod.string(),
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
+}).optional()
 }))
 })
 
@@ -141,16 +209,29 @@ export const PlacementListByStudentParams = zod.object({
 export const PlacementListByStudentResponse = zod.object({
   "data": zod.array(zod.object({
   "id": zod.string(),
-  "student_id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
-  "academic_year": zod.number(),
   "industry_name": zod.string(),
   "industry_address": zod.string(),
   "role": zod.string(),
   "ctc": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "student": zod.object({
+  "id": zod.string(),
+  "full_name": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
+  "institution_id": zod.string(),
+  "program_id": zod.string(),
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
+}).optional()
 }))
 })
 
@@ -182,16 +263,29 @@ export const PlacementStoreResponse = zod.object({
   "message": zod.literal("Placement created successfully"),
   "data": zod.object({
   "id": zod.string(),
-  "student_id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
-  "academic_year": zod.number(),
   "industry_name": zod.string(),
   "industry_address": zod.string(),
   "role": zod.string(),
   "ctc": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "student": zod.object({
+  "id": zod.string(),
+  "full_name": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
+  "institution_id": zod.string(),
+  "program_id": zod.string(),
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
+}).optional()
 })
 })
 

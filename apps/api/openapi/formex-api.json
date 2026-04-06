@@ -1328,13 +1328,13 @@
         "/placements": {
             "get": {
                 "operationId": "placements.index",
-                "summary": "Display a listing of the resource",
+                "summary": "List the placements in active institution",
                 "tags": [
                     "Placement"
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Array of `Placement`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1544,6 +1544,7 @@
         "/programs/{program}/placements": {
             "get": {
                 "operationId": "placement.listByProgram",
+                "summary": "List the placements in program",
                 "tags": [
                     "Placement"
                 ],
@@ -1560,7 +1561,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Array of `Placement`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1608,7 +1609,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Array of `Placement`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3903,18 +3904,6 @@
                     "id": {
                         "type": "string"
                     },
-                    "student_id": {
-                        "type": "string"
-                    },
-                    "institution_id": {
-                        "type": "string"
-                    },
-                    "program_id": {
-                        "type": "string"
-                    },
-                    "academic_year": {
-                        "type": "integer"
-                    },
                     "industry_name": {
                         "type": "string"
                     },
@@ -3940,14 +3929,13 @@
                             "null"
                         ],
                         "format": "date-time"
+                    },
+                    "student": {
+                        "$ref": "#/components/schemas/Student"
                     }
                 },
                 "required": [
                     "id",
-                    "student_id",
-                    "institution_id",
-                    "program_id",
-                    "academic_year",
                     "industry_name",
                     "industry_address",
                     "role",

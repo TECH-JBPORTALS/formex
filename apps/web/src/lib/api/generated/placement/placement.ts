@@ -41,7 +41,7 @@ import type {
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 /**
- * @summary Display a listing of the resource
+ * @summary List the placements in active institution
  */
 export type placementsIndexResponse200 = {
   data: PlacementsIndex200;
@@ -181,7 +181,7 @@ export function usePlacementsIndex<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 /**
- * @summary Display a listing of the resource
+ * @summary List the placements in active institution
  */
 
 export function usePlacementsIndex<
@@ -300,7 +300,7 @@ export function usePlacementsIndexSuspense<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 /**
- * @summary Display a listing of the resource
+ * @summary List the placements in active institution
  */
 
 export function usePlacementsIndexSuspense<
@@ -897,6 +897,9 @@ export const usePlacementsDestroy = <
 > => {
   return useMutation(getPlacementsDestroyMutationOptions(options), queryClient);
 };
+/**
+ * @summary List the placements in program
+ */
 export type placementListByProgramResponse200 = {
   data: PlacementListByProgram200;
   status: 200;
@@ -1066,6 +1069,9 @@ export function usePlacementListByProgram<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
+/**
+ * @summary List the placements in program
+ */
 
 export function usePlacementListByProgram<
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
@@ -1193,6 +1199,9 @@ export function usePlacementListByProgramSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
+/**
+ * @summary List the placements in program
+ */
 
 export function usePlacementListByProgramSuspense<
   TData = Awaited<ReturnType<typeof placementListByProgram>>,

@@ -23,47 +23,38 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/current-institution', [AuthController::class, 'setCurrentInstitution']);
     Route::post('/user/academic-year', [AuthController::class, 'setAcademicYear']);
 
-    // Institutions Paths
     Route::apiResource('institutions', InstitutionController::class);
 
-    // Programs Paths
     Route::apiResource('programs', ProgramController::class);
 
-    // Program Students Paths
     Route::apiResource('programs.students', StudentController::class);
     Route::get('/students', [StudentController::class, 'search']);
 
-    // Subjects Paths
     Route::apiResource('subjects', SubjectController::class)->except(['store']);
     Route::get('/programs/{program}/subjects', [SubjectController::class, 'listByProgram']);
     Route::get('/programs/{program}/subjects/{semester}', [SubjectController::class, 'listbysemester']);
     Route::post('/programs/{program}/subjects', [SubjectController::class, 'store']);
 
-    // Internships Paths
     Route::apiResource('internships', InternshipController::class)->except(['store']);
     Route::get('/programs/{program}/internships', [InternshipController::class, 'listByProgram']);
     Route::get('/students/{student}/internships', [InternshipController::class, 'listByStudent']);
     Route::post('/students/{student}/internships', [InternshipController::class, 'store']);
 
-    // Placements Paths
     Route::apiResource('placements', PlacementController::class)->except(['store']);
     Route::get('/programs/{program}/placements', [PlacementController::class, 'listByProgram']);
     Route::get('/students/{student}/placements', [PlacementController::class, 'listByStudent']);
     Route::post('/students/{student}/placements', [PlacementController::class, 'store']);
 
-    // Higher Education Paths
     Route::apiResource('higher-educations', HigherEducationController::class)->except(['store']);
     Route::get('/students/{student}/higher-educations', [HigherEducationController::class, 'listByStudent']);
     Route::get('/programs/{program}/higher-educations', [HigherEducationController::class, 'listByProgram']);
     Route::post('/students/{student}/higher-educations', [HigherEducationController::class, 'store']);
 
-    // Room Reports Paths
     Route::apiResource('room-reports', RoomReportController::class)->except(['store']);
     Route::get('/programs/{program}/room-reports', [RoomReportController::class, 'listByProgram']);
     Route::get('/subjects/{subject}/room-reports', [RoomReportController::class, 'listBySubject']);
     Route::post('/students/{student}/room-reports', [RoomReportController::class, 'store']);
 
-    // Skill Programs Paths
     Route::apiResource('skill-programs', SkillProgramController::class)->except(['store']);
     Route::get('/programs/{program}/skill-programs', [SkillProgramController::class, 'listByProgram']);
     Route::get('/programs/{program}/skill-programs/{semester}', [SkillProgramController::class, 'listBySemester']);

@@ -18,9 +18,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'program_id',
     'academic_year',
 ])]
+
 class Placement extends Model
 {
-    use HasUlids, HasFactory;
+    use HasFactory, HasUlids;
 
     public function institution(): BelongsTo
     {

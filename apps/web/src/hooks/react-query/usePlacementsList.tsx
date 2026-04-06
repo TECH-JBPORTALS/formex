@@ -17,7 +17,7 @@ export function usePlacementsList() {
   );
 
   return {
-    placemnets: data,
+    placements: data,
     placementsQuery,
   };
 }

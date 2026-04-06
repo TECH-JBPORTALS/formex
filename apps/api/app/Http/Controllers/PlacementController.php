@@ -2,41 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PlacementResource;
+use App\Models\Placement;
+use App\Models\Program;
 use App\Models\Student;
 use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\Request;
-use App\Models\Program;
-use App\Models\Placement;
-
 
 class PlacementController
 {
     /**
-     * Display a listing of the resource.
+     * List the placements in active institution.
      */
     public function index(Request $request)
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
-        $placements = $institution->placements()
-            ->latest()
-            ->get();
-        return response()->json([
-            'data' => $placements
-        ]);
+        $placements = $institution->placements()->with('student')->latest()->get();
+
+        return PlacementResource::collection($placements);
     }
+
+    /**
+     * List the placements in program.
+     */
     public function listByProgram(Program $program)
     {
-        $placements = $program->placements()->get();
-        return response()->json([
-            'data' => $placements
-        ]);
+        $placements = $program->placements()->with('student')->latest()->get();
+
+        return PlacementResource::collection($placements);
     }
+
     public function listByStudent(Student $student)
     {
-        $placements = $student->placements()->get();
-        return response()->json([
-            'data' => $placements
-        ]);
+        $placements = $student->placements()->with('student')->latest()->get();
+
+        return PlacementResource::collection($placements);
     }
 
     /**
@@ -57,16 +57,15 @@ class PlacementController
             ->create(
                 [
                     ...$validated,
-                    "institution_id" =>
-                        $student->institution_id,
-                    "program_id" => $student->program_id,
-                    "academic_year" => $institution->academic_year
+                    'institution_id' => $student->institution_id,
+                    'program_id' => $student->program_id,
+                    'academic_year' => $institution->academic_year,
                 ]
             );
 
         return response()->json([
             'message' => 'Placement created successfully',
-            'data' => $placement
+            'data' => PlacementResource::make($placement->loadMissing('student')),
         ]);
     }
 
@@ -76,7 +75,7 @@ class PlacementController
     public function show(Placement $placement)
     {
         return response()->json([
-            'data' => $placement
+            'data' => PlacementResource::make($placement->loadMissing('student')),
         ]);
     }
 
@@ -93,9 +92,10 @@ class PlacementController
             'ctc' => 'required|string|max:255',
         ]);
         $placement->update($validated);
+
         return response()->json([
             'message' => 'Internship updated successfully',
-            'data' => $placement
+            'data' => PlacementResource::make($placement->loadMissing('student')),
         ]);
     }
 
@@ -106,9 +106,10 @@ class PlacementController
     {
         //
         $placement->delete();
+
         return response()->json([
             'message' => 'Internship deleted successfully',
-            'data' => $placement
+            'data' => PlacementResource::make($placement->loadMissing('student')),
         ]);
     }
 }

@@ -4,13 +4,10 @@
  * Formex
  * OpenAPI spec version: 0.0.1
  */
+import type { Student } from './student';
 
 export interface Placement {
   id: string;
-  student_id: string;
-  institution_id: string;
-  program_id: string;
-  academic_year: number;
   industry_name: string;
   industry_address: string;
   role: string;
@@ -19,4 +16,5 @@ export interface Placement {
   created_at: string | null;
   /** @nullable */
   updated_at: string | null;
+  student?: Student;
 }

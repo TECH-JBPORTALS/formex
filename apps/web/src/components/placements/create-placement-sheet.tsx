@@ -12,7 +12,12 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import {
+  placementDetailsDefaults,
+  placementDetailsSchema,
+  toPlacementStoreBody,
+  type PlacementDetailsFormValues,
+} from "@/components/placements/placement-details-form";
 import { useSearchStudent } from "@/hooks/react-query/useSearchStudent";
 import { Button } from "../ui/button";
 import {
@@ -46,24 +51,6 @@ import {
 } from "@/lib/api/generated/placement/placement";
 import { Spinner } from "../ui/spinner";
 
-const placementDetailsSchema = z.object({
-  industry_name: z.string().min(1).max(255),
-  industry_address: z.string().min(1).max(255),
-  role: z.string().min(1).max(255),
-  ctc: z.string().min(1).max(255),
-});
-
-type PlacementDetailsValues = z.infer<typeof placementDetailsSchema>;
-
-function placementDetailsDefaults(): PlacementDetailsValues {
-  return {
-    industry_name: "",
-    industry_address: "",
-    role: "",
-    ctc: "",
-  };
-}
-
 type Step = "search" | "form";
 
 export function CreatePlacementSheet({ children }: { children: ReactNode }) {
@@ -79,7 +66,7 @@ export function CreatePlacementSheet({ children }: { children: ReactNode }) {
     enabled: submittedQuery.trim().length > 0,
   });
 
-  const form = useForm<PlacementDetailsValues>({
+  const form = useForm<PlacementDetailsFormValues>({
     resolver: zodResolver(placementDetailsSchema),
     defaultValues: placementDetailsDefaults(),
   });
@@ -153,14 +140,14 @@ export function CreatePlacementSheet({ children }: { children: ReactNode }) {
     form.reset(placementDetailsDefaults());
   }
 
-  async function onSavePlacement(values: PlacementDetailsValues) {
+  async function onSavePlacement(values: PlacementDetailsFormValues) {
     if (!selectedStudent) {
       toast.error("Select a student");
       return;
     }
     await storeMutation.mutateAsync({
       student: selectedStudent.id,
-      data: values,
+      data: toPlacementStoreBody(values),
     });
   }
 

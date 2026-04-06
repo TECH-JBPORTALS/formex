@@ -52,7 +52,7 @@
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
-        "openapi:export": "@php artisan scramble:export --path=openapi/formex-api.json",
+        "openapi:export": "@php artisan scramble:export",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
