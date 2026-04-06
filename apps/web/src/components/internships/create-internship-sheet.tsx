@@ -1,18 +1,21 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ArrowLeft01Icon,
+  Search01Icon,
+  User02Icon,
+} from "@hugeicons/core-free-icons";
 import { useQueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import {
-  type InternshipFieldsFormValues,
-  internshipFieldsDefaults,
-  internshipFieldsSchema,
-  toInternshipStoreBody,
-} from "@/components/internships/internship-form";
 import { invalidateInternshipCaches } from "@/components/internships/internship-query-invalidation";
+import { useSearchStudent } from "@/lib/api/hooks/useSearchStudent";
+import { useInternshipStore } from "@/lib/api/generated/internship/internship";
+import type { Student } from "@/lib/api/generated/models";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,17 +26,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -41,57 +40,30 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useAuthUser } from "@/lib/api/generated/auth/auth";
-import {
-  getProgramsIndexQueryKey,
-  useProgramsIndex,
-} from "@/lib/api/generated/context-program/context-program";
-import { useInternshipStore } from "@/lib/api/generated/internship/internship";
-import { useProgramsStudentsIndex } from "@/lib/api/generated/student/student";
+import { Spinner } from "@/components/ui/spinner";
+import { InternshipStoreBody } from "@/lib/api/generated/internship/internship.zod";
+import z from "zod";
+import { internshipDefaults } from "./internship-form.helpers";
 
-const SEMESTERS = [1, 2, 3, 4, 5, 6] as const;
+type Step = "search" | "form";
 
 export function CreateInternshipSheet({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
-  const [programId, setProgramId] = useState<string>("");
-  const [studentId, setStudentId] = useState<string>("");
+  const [step, setStep] = useState<Step>("search");
+  const [draftQuery, setDraftQuery] = useState("");
+  const [submittedQuery, setSubmittedQuery] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+
   const queryClient = useQueryClient();
-
-  const { data: authData } = useAuthUser();
-  const institutionId =
-    authData?.status === 200 ? authData.data.current_institution_id : undefined;
-
-  const programsQuery = useProgramsIndex({
-    query: {
-      queryKey: institutionId
-        ? [...getProgramsIndexQueryKey(), institutionId]
-        : getProgramsIndexQueryKey(),
-      enabled: !!institutionId,
-    },
+  const { students, studentSearchQuery } = useSearchStudent({
+    q: submittedQuery,
+    enabled: submittedQuery.trim().length > 0,
   });
 
-  const programs =
-    programsQuery.data?.status === 200 ? programsQuery.data.data.data : [];
-
-  const studentsQuery = useProgramsStudentsIndex(programId, {
-    query: { enabled: !!programId && open },
+  const form = useForm({
+    resolver: zodResolver(InternshipStoreBody),
+    defaultValues: internshipDefaults(),
   });
-
-  const students =
-    studentsQuery.data?.status === 200 ? studentsQuery.data.data.data : [];
-
-  const form = useForm<InternshipFieldsFormValues>({
-    resolver: zodResolver(internshipFieldsSchema),
-    defaultValues: internshipFieldsDefaults(),
-  });
-
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-    setStudentId("");
-    form.reset(internshipFieldsDefaults());
-  }, [open, form.reset]);
 
   const storeMutation = useInternshipStore(
     {
@@ -107,10 +79,8 @@ export function CreateInternshipSheet({ children }: { children: ReactNode }) {
             student_id: created.student_id,
           });
           toast.success("Internship created");
+          resetFlow();
           setOpen(false);
-          setProgramId("");
-          setStudentId("");
-          form.reset(internshipFieldsDefaults());
         },
         onError: (err) => {
           toast.error(
@@ -122,25 +92,59 @@ export function CreateInternshipSheet({ children }: { children: ReactNode }) {
     queryClient,
   );
 
+  function resetFlow() {
+    setStep("search");
+    setDraftQuery("");
+    setSubmittedQuery("");
+    setSelectedStudent(null);
+    form.reset(internshipDefaults());
+  }
+
   function onOpenChange(next: boolean) {
     setOpen(next);
     if (!next) {
-      setProgramId("");
-      setStudentId("");
-      form.reset(internshipFieldsDefaults());
+      resetFlow();
     }
   }
 
-  async function onSubmit(values: InternshipFieldsFormValues) {
-    if (!studentId) {
+  function handleSearchSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const q = draftQuery.trim();
+    if (!q) {
+      toast.error("Enter a search term");
+      return;
+    }
+    setSubmittedQuery(q);
+    setSelectedStudent(null);
+    setStep("search");
+  }
+
+  function selectStudent(student: Student) {
+    setSelectedStudent(student);
+    form.reset(internshipDefaults());
+    setStep("form");
+  }
+
+  function goBackToSearch() {
+    setSelectedStudent(null);
+    setStep("search");
+    form.reset(internshipDefaults());
+  }
+
+  async function onSubmit(values: z.infer<typeof InternshipStoreBody>) {
+    if (!selectedStudent) {
       toast.error("Select a student");
       return;
     }
+
     await storeMutation.mutateAsync({
-      student: studentId,
-      data: toInternshipStoreBody(values),
+      student: selectedStudent.id,
+      data: values,
     });
   }
+
+  const isSearchLoading =
+    studentSearchQuery.isFetching && submittedQuery.trim().length > 0;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -149,203 +153,167 @@ export function CreateInternshipSheet({ children }: { children: ReactNode }) {
         <SheetHeader>
           <SheetTitle>New internship</SheetTitle>
           <SheetDescription>
-            Choose a program and student, then enter placement details.
+            {step === "search"
+              ? "Search for a student, then pick them from results."
+              : `Internship details for ${selectedStudent?.full_name ?? "student"}.`}
           </SheetDescription>
         </SheetHeader>
 
-        <Form {...form}>
-          <form
-            id="create-internship-sheet-form"
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-1 flex-col gap-4 overflow-y-auto px-6 pb-4"
-          >
-            <div className="space-y-2">
-              <Label>Program</Label>
-              <Select
-                value={programId || undefined}
-                onValueChange={(v) => {
-                  setProgramId(v);
-                  setStudentId("");
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select program" />
-                </SelectTrigger>
-                <SelectContent>
-                  {programs.map((p) => (
-                    <SelectItem key={p.id} value={p.id}>
-                      {p.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+        {step === "search" ? (
+          <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4 pb-4">
+            <form
+              className="flex flex-row gap-1.5 py-2"
+              onSubmit={handleSearchSubmit}
+            >
+              <InputGroup className="w-full">
+                <InputGroupAddon>
+                  <HugeiconsIcon icon={Search01Icon} />
+                </InputGroupAddon>
+                <InputGroupInput
+                  placeholder="Search students..."
+                  value={draftQuery}
+                  onChange={(e) => setDraftQuery(e.target.value)}
+                />
+              </InputGroup>
+              <Button type="submit">Search</Button>
+            </form>
 
-            <div className="space-y-2">
-              <Label>Student</Label>
-              <Select
-                value={studentId || undefined}
-                onValueChange={setStudentId}
-                disabled={!programId}
+            {submittedQuery ? (
+              <div className="flex flex-col gap-2">
+                {isSearchLoading ? (
+                  <p className="text-muted-foreground flex items-center gap-1.5 text-sm">
+                    <Spinner />
+                    Searching...
+                  </p>
+                ) : students.length === 0 ? (
+                  <p className="text-muted-foreground text-sm">
+                    No students found. Try a different search.
+                  </p>
+                ) : (
+                  <ul className="flex flex-col gap-1">
+                    {students.map((student) => (
+                      <li key={student.id}>
+                        <button
+                          type="button"
+                          onClick={() => selectStudent(student)}
+                          className="hover:bg-muted/60 flex w-full flex-row items-center gap-2.5 rounded-md border px-3 py-2 text-left text-sm transition-colors"
+                        >
+                          <HugeiconsIcon
+                            className="text-muted-foreground size-4 shrink-0"
+                            icon={User02Icon}
+                          />
+                          <span className="min-w-0 truncate">
+                            {student.full_name}
+                            {student.register_no
+                              ? ` (${student.register_no})`
+                              : ""}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ) : (
+              <p className="text-muted-foreground text-sm">
+                Enter a name, register number, or email, then click Search.
+              </p>
+            )}
+          </div>
+        ) : (
+          <Form {...form}>
+            <form
+              id="create-internship-sheet-form"
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-1 flex-col gap-4 overflow-y-auto px-4 pb-4"
+            >
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-fit gap-1.5 px-2"
+                onClick={goBackToSearch}
               >
-                <SelectTrigger>
-                  <SelectValue
-                    placeholder={
-                      programId ? "Select student" : "Choose a program first"
-                    }
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  {students.map((s) => (
-                    <SelectItem key={s.id} value={s.id}>
-                      {s.full_name}
-                      {s.register_no ? ` (${s.register_no})` : ""}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {programId &&
-              students.length === 0 &&
-              !studentsQuery.isLoading ? (
-                <p className="text-muted-foreground text-sm">
-                  No students in this program.
-                </p>
-              ) : null}
-            </div>
+                <HugeiconsIcon className="size-4" icon={ArrowLeft01Icon} />
+                Change student
+              </Button>
 
-            <FormField
-              control={form.control}
-              name="industry_name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Industry name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Company or organization" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="industry_address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Industry address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Address" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Role</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g. Trainee developer" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="from_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>From</FormLabel>
-                  <FormControl>
-                    <Input type="datetime-local" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="to_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>To</FormLabel>
-                  <FormControl>
-                    <Input type="datetime-local" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="semester"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Semester</FormLabel>
-                  <Select
-                    onValueChange={(v) => field.onChange(Number(v))}
-                    value={String(field.value)}
-                  >
+              <FormField
+                control={form.control}
+                name="industry_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Industry name</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Semester" />
-                      </SelectTrigger>
+                      <Input placeholder="Company or organization" {...field} />
                     </FormControl>
-                    <SelectContent>
-                      {SEMESTERS.map((s) => (
-                        <SelectItem key={s} value={String(s)}>
-                          {s}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="acad_year"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Academic year</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      min={2000}
-                      name={field.name}
-                      ref={field.ref}
-                      onBlur={field.onBlur}
-                      value={field.value}
-                      onChange={(e) => {
-                        const n = e.target.valueAsNumber;
-                        field.onChange(Number.isFinite(n) ? n : 2000);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
-
-        <SheetFooter className="border-t">
-          <SheetClose asChild>
-            <Button type="button" variant="outline">
-              Cancel
-            </Button>
-          </SheetClose>
-          <Button
-            type="submit"
-            form="create-internship-sheet-form"
-            disabled={storeMutation.isPending}
-          >
-            {storeMutation.isPending ? "Saving…" : "Save"}
-          </Button>
-        </SheetFooter>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="industry_address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Industry address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Address" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Role</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. Trainee developer" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="from_date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>From</FormLabel>
+                    <FormControl>
+                      <Input type="date" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="to_date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>To</FormLabel>
+                    <FormControl>
+                      <Input type="date" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+            <SheetFooter className="border-t px-4 py-4 sm:flex-row">
+              <Button
+                type="submit"
+                form="create-internship-sheet-form"
+                disabled={storeMutation.isPending}
+              >
+                {storeMutation.isPending ? "Saving..." : "Save internship"}
+              </Button>
+            </SheetFooter>
+          </Form>
+        )}
       </SheetContent>
     </Sheet>
   );

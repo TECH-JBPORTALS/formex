@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('role');
             $table->date('from_date');
             $table->date('to_date');
-            $table->integer('acad_year');
+            $table->integer('academic_year');
             $table->integer('semester');
             $table->timestamps();
         });

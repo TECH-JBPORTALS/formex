@@ -5,6 +5,7 @@ import {
   Pencil,
   PermanentJobIcon,
   Trash,
+  User02Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -20,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Badge } from "../ui/badge";
 
 function PlacementRowActions({ placement }: { placement: Placement }) {
   const [editOpen, setEditOpen] = useState(false);
@@ -93,13 +95,26 @@ export function getPlacementColumns(): ColumnDef<Placement>[] {
       id: "student",
       header: "Student",
       cell({ row }) {
-        const id = row.original.student;
+        const student = row.original.student;
         return (
           <div className="flex flex-row items-center gap-2.5">
-            <HugeiconsIcon className="size-4" icon={PermanentJobIcon} />
-            <span className="font-mono text-muted-foreground text-xs">
-              {id.length > 12 ? `${id.slice(0, 8)}…` : id}
-            </span>
+            <HugeiconsIcon className="size-4" icon={User02Icon} />
+            <span>{student?.full_name}</span>
+          </div>
+        );
+      },
+    },
+    {
+      id: "branch-semester",
+      header: "Branch & Semester",
+      cell({ row }) {
+        const program = row.original.program;
+        const semester = row.original.student?.semester;
+        return (
+          <div className="flex flex-row items-center gap-2.5">
+            <Badge variant={"secondary"}>
+              {program?.short_name} : SEM {semester}
+            </Badge>
           </div>
         );
       },

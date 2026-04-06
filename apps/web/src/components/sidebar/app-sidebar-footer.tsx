@@ -8,7 +8,6 @@ import {
   getAuthUserQueryKey,
   useAuthSetCurrentInstitution,
 } from "@/lib/api/generated/auth/auth";
-import { getProgramsIndexQueryKey } from "@/lib/api/generated/context-program/context-program";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -24,7 +23,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../ui/sidebar";
-import { useSession } from "@/hooks/react-query/useSession";
+import { useSession } from "@/lib/api/hooks/useSession";
+import { getProgramsIndexQueryKey } from "@/lib/api/generated/program/program";
 
 export function AppSidebarFooter() {
   const queryClient = useQueryClient();

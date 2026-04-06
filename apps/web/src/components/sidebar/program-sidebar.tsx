@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { useProgramsShowSuspense } from "@/lib/api/generated/context-program/context-program";
+import { useProgramsShowSuspense } from "@/lib/api/generated/program/program";
 
 type ProgramSidebarProps = {
   programId: string;

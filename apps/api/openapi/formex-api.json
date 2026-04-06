@@ -925,7 +925,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Array of `Internship`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1038,10 +1038,6 @@
                                     "to_date": {
                                         "type": "string",
                                         "format": "date-time"
-                                    },
-                                    "semester": {
-                                        "type": "integer",
-                                        "minimum": 1
                                     }
                                 }
                             }
@@ -1152,7 +1148,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Array of `Internship`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1200,7 +1196,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Array of `Internship`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1266,15 +1262,11 @@
                                     },
                                     "from_date": {
                                         "type": "string",
-                                        "format": "date-time"
+                                        "format": "date"
                                     },
                                     "to_date": {
                                         "type": "string",
-                                        "format": "date-time"
-                                    },
-                                    "semester": {
-                                        "type": "integer",
-                                        "minimum": 1
+                                        "format": "date"
                                     }
                                 },
                                 "required": [
@@ -1282,8 +1274,7 @@
                                     "industry_address",
                                     "role",
                                     "from_date",
-                                    "to_date",
-                                    "semester"
+                                    "to_date"
                                 ]
                             }
                         }
@@ -3855,10 +3846,12 @@
                         "type": "string"
                     },
                     "from_date": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "date"
                     },
                     "to_date": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "date"
                     },
                     "acad_year": {
                         "type": "integer"
@@ -3879,6 +3872,12 @@
                             "null"
                         ],
                         "format": "date-time"
+                    },
+                    "student": {
+                        "$ref": "#/components/schemas/Student"
+                    },
+                    "program": {
+                        "$ref": "#/components/schemas/Program"
                     }
                 },
                 "required": [
@@ -3932,6 +3931,9 @@
                     },
                     "student": {
                         "$ref": "#/components/schemas/Student"
+                    },
+                    "program": {
+                        "$ref": "#/components/schemas/Program"
                     }
                 },
                 "required": [

@@ -12,13 +12,8 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import {
-  placementDetailsDefaults,
-  placementDetailsSchema,
-  toPlacementStoreBody,
-  type PlacementDetailsFormValues,
-} from "@/components/placements/placement-details-form";
-import { useSearchStudent } from "@/hooks/react-query/useSearchStudent";
+import { placementDefaults } from "@/components/placements/placement-form.helpers";
+import { useSearchStudent } from "@/lib/api/hooks/useSearchStudent";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -45,11 +40,12 @@ import {
 } from "../ui/sheet";
 import type { Student } from "@/lib/api/generated/models";
 import {
-  getPlacementListByStudentQueryKey,
   getPlacementsIndexQueryKey,
   usePlacementStore,
 } from "@/lib/api/generated/placement/placement";
 import { Spinner } from "../ui/spinner";
+import { PlacementStoreBody } from "@/lib/api/generated/placement/placement.zod";
+import z from "zod";
 
 type Step = "search" | "form";
 
@@ -66,9 +62,9 @@ export function CreatePlacementSheet({ children }: { children: ReactNode }) {
     enabled: submittedQuery.trim().length > 0,
   });
 
-  const form = useForm<PlacementDetailsFormValues>({
-    resolver: zodResolver(placementDetailsSchema),
-    defaultValues: placementDetailsDefaults(),
+  const form = useForm({
+    resolver: zodResolver(PlacementStoreBody),
+    defaultValues: placementDefaults(),
   });
 
   const storeMutation = usePlacementStore(
@@ -79,14 +75,11 @@ export function CreatePlacementSheet({ children }: { children: ReactNode }) {
             toast.error("Could not create placement");
             return;
           }
+
           await queryClient.invalidateQueries({
             queryKey: getPlacementsIndexQueryKey(),
           });
-          await queryClient.invalidateQueries({
-            queryKey: getPlacementListByStudentQueryKey(
-              res.data.data.student_id,
-            ),
-          });
+
           toast.success("Placement created");
           resetFlow();
           setOpen(false);
@@ -106,7 +99,7 @@ export function CreatePlacementSheet({ children }: { children: ReactNode }) {
     setDraftQuery("");
     setSubmittedQuery("");
     setSelectedStudent(null);
-    form.reset(placementDetailsDefaults());
+    form.reset(placementDefaults());
   }
 
   function onOpenChange(next: boolean) {
@@ -130,24 +123,24 @@ export function CreatePlacementSheet({ children }: { children: ReactNode }) {
 
   function selectStudent(student: Student) {
     setSelectedStudent(student);
-    form.reset(placementDetailsDefaults());
+    form.reset(placementDefaults());
     setStep("form");
   }
 
   function goBackToSearch() {
     setSelectedStudent(null);
     setStep("search");
-    form.reset(placementDetailsDefaults());
+    form.reset(placementDefaults());
   }
 
-  async function onSavePlacement(values: PlacementDetailsFormValues) {
+  async function onSavePlacement(values: z.infer<typeof PlacementStoreBody>) {
     if (!selectedStudent) {
       toast.error("Select a student");
       return;
     }
     await storeMutation.mutateAsync({
       student: selectedStudent.id,
-      data: toPlacementStoreBody(values),
+      data: values,
     });
   }
 
@@ -211,7 +204,7 @@ export function CreatePlacementSheet({ children }: { children: ReactNode }) {
                             icon={User02Icon}
                           />
                           <span className="min-w-0 truncate">
-                            {student.full_name}
+                            {student.full_name} ({student.register_no})
                           </span>
                         </button>
                       </li>

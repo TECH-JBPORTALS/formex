@@ -5,12 +5,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import {
-  type InternshipFieldsFormValues,
-  internshipFieldsSchema,
-  internshipToFormValues,
-  toInternshipsUpdateBody,
-} from "@/components/internships/internship-form";
 import { invalidateInternshipCaches } from "@/components/internships/internship-query-invalidation";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,13 +17,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Sheet,
   SheetClose,
   SheetContent,
@@ -40,8 +27,9 @@ import {
 } from "@/components/ui/sheet";
 import { useInternshipsUpdate } from "@/lib/api/generated/internship/internship";
 import type { Internship } from "@/lib/api/generated/models";
-
-const SEMESTERS = [1, 2, 3, 4, 5, 6] as const;
+import { InternshipsUpdateBody } from "@/lib/api/generated/internship/internship.zod";
+import z from "zod";
+import { internshipDefaults } from "./internship-form.helpers";
 
 export function EditInternshipSheet({
   internship,
@@ -54,14 +42,20 @@ export function EditInternshipSheet({
 }) {
   const queryClient = useQueryClient();
 
-  const form = useForm<InternshipFieldsFormValues>({
-    resolver: zodResolver(internshipFieldsSchema),
-    defaultValues: internshipToFormValues(internship),
+  const form = useForm({
+    resolver: zodResolver(InternshipsUpdateBody),
+    defaultValues: internshipDefaults(internship),
   });
 
   useEffect(() => {
     if (open) {
-      form.reset(internshipToFormValues(internship));
+      form.reset({
+        from_date: internship?.from_date ?? new Date().toISOString(),
+        to_date: internship?.to_date ?? new Date().toISOString(),
+        industry_name: internship?.industry_name ?? "",
+        industry_address: internship?.industry_address ?? "",
+        role: internship?.role ?? "",
+      });
     }
   }, [open, internship, form]);
 
@@ -87,10 +81,10 @@ export function EditInternshipSheet({
     queryClient,
   );
 
-  async function onSubmit(values: InternshipFieldsFormValues) {
+  async function onSubmit(values: z.infer<typeof InternshipsUpdateBody>) {
     await updateMutation.mutateAsync({
       internship: internship.id,
-      data: toInternshipsUpdateBody(values),
+      data: values,
     });
   }
 
@@ -170,57 +164,6 @@ export function EditInternshipSheet({
                   <FormLabel>To</FormLabel>
                   <FormControl>
                     <Input type="datetime-local" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="semester"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Semester</FormLabel>
-                  <Select
-                    onValueChange={(v) => field.onChange(Number(v))}
-                    value={String(field.value)}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Semester" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {SEMESTERS.map((s) => (
-                        <SelectItem key={s} value={String(s)}>
-                          {s}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="acad_year"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Academic year</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      min={2000}
-                      name={field.name}
-                      ref={field.ref}
-                      onBlur={field.onBlur}
-                      value={field.value}
-                      onChange={(e) => {
-                        const n = e.target.valueAsNumber;
-                        field.onChange(Number.isFinite(n) ? n : 2000);
-                      }}
-                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

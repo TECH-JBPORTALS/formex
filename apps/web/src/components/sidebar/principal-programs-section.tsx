@@ -49,8 +49,8 @@ import {
   programsDestroy,
   programsStore,
   programsUpdate,
-} from "@/lib/api/generated/context-program/context-program";
-import { useProgramsQuery } from "@/hooks/react-query/useProgramsQuery";
+} from "@/lib/api/generated/program/program";
+import { useProgramList } from "@/lib/api/hooks/useProgramList";
 
 function invalidateProgramsList(
   queryClient: ReturnType<typeof useQueryClient>,
@@ -137,9 +137,9 @@ function ProgramsListBody({
   onEdit: (program: Program) => void;
   onDelete: (program: Program) => void;
 }) {
-  const { data: programsResponse, isLoading } = useProgramsQuery();
+  const { programs, programQuery } = useProgramList();
 
-  if (isLoading)
+  if (programQuery.isLoading)
     return (
       <>
         {Array.from({ length: 4 }).map((_, i) => (
@@ -148,7 +148,7 @@ function ProgramsListBody({
       </>
     );
 
-  if (programsResponse?.status !== 200) {
+  if (programQuery.isError) {
     return (
       <p className="px-2 py-1 text-xs text-muted-foreground">
         Could not load programs.
@@ -156,9 +156,7 @@ function ProgramsListBody({
     );
   }
 
-  const programs = programsResponse.data.data;
-
-  if (programs.length === 0) {
+  if (programs?.length === 0) {
     return (
       <p className="px-2 py-1 text-xs text-muted-foreground">
         No programs yet. Use + to add one.
@@ -166,7 +164,7 @@ function ProgramsListBody({
     );
   }
 
-  return programs.map((program) => (
+  return programs?.map((program) => (
     <ProgramListItem
       key={program.id}
       program={program}

@@ -24,7 +24,7 @@ import Link from "next/link";
 import { DataTable } from "../data-table";
 import { getPlacementColumns } from "./columns";
 import { CreatePlacementSheet } from "./create-placement-sheet";
-import { usePlacementsList } from "@/hooks/react-query/usePlacementsList";
+import { usePlacementsList } from "@/lib/api/hooks/usePlacementsList";
 import { SpinnerPage } from "../spinner-page";
 
 export function PlacementsPage() {
@@ -37,26 +37,6 @@ export function PlacementsPage() {
   );
 
   const rows = placements ?? [];
-
-  const visibleRows = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    if (!q) {
-      return rows;
-    }
-    return rows.filter((row) => {
-      return [
-        row.industry_name,
-        row.industry_address,
-        row.role,
-        row.ctc,
-        row.student_id,
-        String(row.academic_year),
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(q);
-    });
-  }, [rows, search]);
 
   const columns = useMemo(() => getPlacementColumns(), []);
 
@@ -100,7 +80,7 @@ export function PlacementsPage() {
         {placementsQuery.isLoading ? (
           <SpinnerPage />
         ) : (
-          <DataTable data={visibleRows} columns={columns} />
+          <DataTable data={rows} columns={columns} />
         )}
       </Container>
     </>

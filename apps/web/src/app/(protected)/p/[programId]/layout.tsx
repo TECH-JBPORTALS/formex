@@ -1,7 +1,7 @@
 import {
   getProgramsShowQueryKey,
   getProgramsShowQueryOptions,
-} from "@/lib/api/generated/context-program/context-program";
+} from "@/lib/api/generated/program/program";
 import { prefetch } from "@/lib/prefetch";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { headers } from "next/headers";

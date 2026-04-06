@@ -6,17 +6,27 @@ import {
 } from "@/lib/api/generated/internship/internship";
 import type { Internship } from "@/lib/api/generated/models";
 
+type InternshipInvalidateTarget = Pick<Internship, "program_id" | "student_id"> &
+  Partial<Pick<Internship, "program" | "student">>;
+
 export async function invalidateInternshipCaches(
   queryClient: QueryClient,
-  internship: Pick<Internship, "program_id" | "student_id">,
+  internship: InternshipInvalidateTarget,
 ) {
+  const programId = internship.program_id || internship.program?.id;
+  const studentId = internship.student_id || internship.student?.id;
+
   await queryClient.invalidateQueries({
     queryKey: getInternshipsIndexQueryKey(),
   });
-  await queryClient.invalidateQueries({
-    queryKey: getInternshipListByProgramQueryKey(internship.program_id),
-  });
-  await queryClient.invalidateQueries({
-    queryKey: getInternshipListByStudentQueryKey(internship.student_id),
-  });
+  if (programId) {
+    await queryClient.invalidateQueries({
+      queryKey: getInternshipListByProgramQueryKey(programId),
+    });
+  }
+  if (studentId) {
+    await queryClient.invalidateQueries({
+      queryKey: getInternshipListByStudentQueryKey(studentId),
+    });
+  }
 }

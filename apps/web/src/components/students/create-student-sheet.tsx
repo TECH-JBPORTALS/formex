@@ -50,7 +50,6 @@ type CreateStudentFormValues = z.infer<typeof CreateStudentFormSchema>;
 function defaultCreateValues(academicYear: number): CreateStudentFormValues {
   return {
     full_name: "",
-    academic_year: academicYear,
     date_of_birth: undefined,
     register_no: undefined,
     gender: undefined,
@@ -185,24 +184,7 @@ export function CreateStudentSheet({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="academic_year"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Academic year</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      min={2000}
-                      {...field}
-                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="date_of_birth"

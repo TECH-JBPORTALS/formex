@@ -4,6 +4,7 @@
  * Formex
  * OpenAPI spec version: 0.0.1
  */
+import type { Program } from "./program";
 import type { Student } from "./student";
 
 export interface Placement {
@@ -17,4 +18,5 @@ export interface Placement {
   /** @nullable */
   updated_at: string | null;
   student?: Student;
+  program?: Program;
 }

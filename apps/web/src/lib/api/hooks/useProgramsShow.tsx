@@ -1,5 +1,5 @@
 import React from "react";
-import { useProgramsShowSuspense } from "../generated/context-program/context-program";
+import { useProgramsShowSuspense } from "../generated/program/program";
 
 export function useProgramsShow(programId: string) {
   const { data: programShow, ...props } = useProgramsShowSuspense(programId);

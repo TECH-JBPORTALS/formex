@@ -14,6 +14,4 @@ export type InternshipStoreBody = {
   role: string;
   from_date: string;
   to_date: string;
-  /** @minimum 1 */
-  semester: number;
 };

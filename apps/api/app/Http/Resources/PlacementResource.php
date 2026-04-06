@@ -24,6 +24,7 @@ class PlacementResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'student' => StudentResource::make($this->whenLoaded('student')),
+            'program' => ProgramResource::make($this->whenLoaded('program')),
         ];
     }
 }

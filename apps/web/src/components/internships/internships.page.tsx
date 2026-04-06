@@ -24,14 +24,8 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { useAuthUser } from "@/lib/api/generated/auth/auth";
-import {
-  getProgramsIndexQueryKey,
-  useProgramsIndex,
-} from "@/lib/api/generated/context-program/context-program";
-import { useInternshipsIndex } from "@/lib/api/generated/internship/internship";
-import { Spinner } from "../ui/spinner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useInternshipsList } from "@/lib/api/hooks/useInternshipsList";
+import { SpinnerPage } from "../spinner-page";
 
 export function InternshipsPage() {
   const [search, setSearch] = useQueryState(
@@ -40,64 +34,33 @@ export function InternshipsPage() {
       limitUrlUpdates: throttle(300),
     }),
   );
-  const queryClient = useQueryClient();
 
-  const { data: authData } = useAuthUser();
-  const institutionId =
-    authData?.status === 200 ? authData.data.current_institution_id : undefined;
+  const { internships, internshipsQuery } = useInternshipsList();
 
-  const programsQuery = useProgramsIndex({
-    query: {
-      queryKey: institutionId
-        ? [...getProgramsIndexQueryKey(), institutionId]
-        : getProgramsIndexQueryKey(),
-      enabled: !!institutionId,
-    },
-  });
-
-  const programLabelById = useMemo(() => {
-    const map = new Map<string, string>();
-    if (programsQuery.data?.status === 200) {
-      for (const p of programsQuery.data.data.data) {
-        map.set(p.id, p.name);
-      }
-    }
-    return map;
-  }, [programsQuery.data]);
-
-  const internshipsQuery = useInternshipsIndex(undefined, queryClient);
-
-  const rows =
-    internshipsQuery.data?.status === 200
-      ? internshipsQuery.data.data.data
-      : [];
+  const rows = internships ?? [];
 
   const visibleRows = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) {
       return rows;
     }
+
     return rows.filter((row) => {
-      const programName = programLabelById.get(row.program_id) ?? "";
-      return [
+      const haystack = [
         row.industry_name,
-        row.industry_address,
         row.role,
-        programName,
-        row.student_id,
-        String(row.semester),
-        String(row.acad_year),
+        row.student?.full_name ?? "",
+        row.student?.register_no ?? "",
+        row.program?.short_name ?? "",
       ]
         .join(" ")
-        .toLowerCase()
-        .includes(q);
-    });
-  }, [rows, search, programLabelById]);
+        .toLowerCase();
 
-  const columns = useMemo(
-    () => getInternshipColumns({ programLabelById }),
-    [programLabelById],
-  );
+      return haystack.includes(q);
+    });
+  }, [rows, search]);
+
+  const columns = useMemo(() => getInternshipColumns(), []);
 
   return (
     <>
@@ -137,9 +100,7 @@ export function InternshipsPage() {
         </div>
 
         {internshipsQuery.isLoading ? (
-          <div className="flex h-[calc(100svh-40svh)] w-full items-center justify-center">
-            <Spinner className="size-8" />
-          </div>
+          <SpinnerPage />
         ) : (
           <DataTable columns={columns} data={visibleRows} />
         )}

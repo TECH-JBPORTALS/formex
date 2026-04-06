@@ -17,7 +17,7 @@ class PlacementController
     public function index(Request $request)
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
-        $placements = $institution->placements()->with('student')->latest()->get();
+        $placements = $institution->placements()->with('student')->with('program')->latest()->get();
 
         return PlacementResource::collection($placements);
     }

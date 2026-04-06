@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { useSession } from "@/hooks/react-query/useSession";
+import { useSession } from "@/lib/api/hooks/useSession";
 import { useAcademicYearSwitch } from "../providers/academic-year-switch-provider";
 
 function academicYearMenuRange(selected: number | null | undefined): number[] {

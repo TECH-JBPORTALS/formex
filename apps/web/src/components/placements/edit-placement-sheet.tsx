@@ -5,12 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import {
-  placementDetailsSchema,
-  placementToFormValues,
-  toPlacementsUpdateBody,
-  type PlacementDetailsFormValues,
-} from "@/components/placements/placement-details-form";
+import { placementToFormValues } from "@/components/placements/placement-form.helpers";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -31,10 +26,11 @@ import {
 } from "@/components/ui/sheet";
 import type { Placement } from "@/lib/api/generated/models";
 import {
-  getPlacementListByStudentQueryKey,
   getPlacementsIndexQueryKey,
   usePlacementsUpdate,
 } from "@/lib/api/generated/placement/placement";
+import { PlacementsUpdateBody } from "@/lib/api/generated/placement/placement.zod";
+import z from "zod";
 
 export function EditPlacementSheet({
   placement,
@@ -47,8 +43,8 @@ export function EditPlacementSheet({
 }) {
   const queryClient = useQueryClient();
 
-  const form = useForm<PlacementDetailsFormValues>({
-    resolver: zodResolver(placementDetailsSchema),
+  const form = useForm({
+    resolver: zodResolver(PlacementsUpdateBody),
     defaultValues: placementToFormValues(placement),
   });
 
@@ -69,9 +65,6 @@ export function EditPlacementSheet({
           await queryClient.invalidateQueries({
             queryKey: getPlacementsIndexQueryKey(),
           });
-          await queryClient.invalidateQueries({
-            queryKey: getPlacementListByStudentQueryKey(placement.student_id),
-          });
           toast.success("Placement updated");
           onOpenChange(false);
         },
@@ -85,10 +78,10 @@ export function EditPlacementSheet({
     queryClient,
   );
 
-  async function onSubmit(values: PlacementDetailsFormValues) {
+  async function onSubmit(values: z.infer<typeof PlacementsUpdateBody>) {
     await updateMutation.mutateAsync({
       placement: placement.id,
-      data: toPlacementsUpdateBody(values),
+      data: values,
     });
   }
 

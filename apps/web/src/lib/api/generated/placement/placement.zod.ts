@@ -35,6 +35,15 @@ export const PlacementsIndexResponse = zod.object({
   "appar_id": zod.string().nullable(),
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
+}).optional(),
+  "program": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string(),
+  "intake": zod.number(),
+  "institution_id": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 }))
 })
@@ -69,6 +78,15 @@ export const PlacementsShowResponse = zod.object({
   "email": zod.string().nullable(),
   "mobile": zod.string().nullable(),
   "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}).optional(),
+  "program": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string(),
+  "intake": zod.number(),
+  "institution_id": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
@@ -125,6 +143,15 @@ export const PlacementsUpdateResponse = zod.object({
   "appar_id": zod.string().nullable(),
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
+}).optional(),
+  "program": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string(),
+  "intake": zod.number(),
+  "institution_id": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 })
 })
@@ -160,6 +187,15 @@ export const PlacementsDestroyResponse = zod.object({
   "email": zod.string().nullable(),
   "mobile": zod.string().nullable(),
   "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}).optional(),
+  "program": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string(),
+  "intake": zod.number(),
+  "institution_id": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
@@ -198,6 +234,15 @@ export const PlacementListByProgramResponse = zod.object({
   "appar_id": zod.string().nullable(),
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
+}).optional(),
+  "program": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string(),
+  "intake": zod.number(),
+  "institution_id": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 }))
 })
@@ -229,6 +274,15 @@ export const PlacementListByStudentResponse = zod.object({
   "email": zod.string().nullable(),
   "mobile": zod.string().nullable(),
   "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}).optional(),
+  "program": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string(),
+  "intake": zod.number(),
+  "institution_id": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
@@ -283,6 +337,15 @@ export const PlacementStoreResponse = zod.object({
   "email": zod.string().nullable(),
   "mobile": zod.string().nullable(),
   "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}).optional(),
+  "program": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string(),
+  "intake": zod.number(),
+  "institution_id": zod.string(),
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
 }).optional()

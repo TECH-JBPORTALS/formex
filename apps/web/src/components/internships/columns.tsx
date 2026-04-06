@@ -20,10 +20,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-
-export type InternshipColumnsContext = {
-  programLabelById: Map<string, string>;
-};
+import { Badge } from "../ui/badge";
 
 function InternshipRowActions({ internship }: { internship: Internship }) {
   const [editOpen, setEditOpen] = useState(false);
@@ -89,11 +86,7 @@ function formatRange(from: string, to: string) {
   }
 }
 
-export function getInternshipColumns(
-  ctx: InternshipColumnsContext,
-): ColumnDef<Internship>[] {
-  const { programLabelById } = ctx;
-
+export function getInternshipColumns(): ColumnDef<Internship>[] {
   return [
     {
       accessorKey: "industry_name",
@@ -109,27 +102,37 @@ export function getInternshipColumns(
       },
     },
     {
-      accessorKey: "role",
-      header: "Role",
-    },
-    {
-      id: "program",
-      header: "Program",
-      cell: ({ row }) => {
-        const name = programLabelById.get(row.original.program_id);
-        return name ?? <span className="text-muted-foreground">—</span>;
+      id: "branch-semester",
+      header: "Branch & Semester",
+      cell({ row }) {
+        const program = row.original.program;
+        const semester = row.original.student?.semester;
+        return (
+          <div className="flex flex-row items-center gap-2.5">
+            <Badge variant={"secondary"}>
+              {program?.short_name} : SEM {semester}
+            </Badge>
+          </div>
+        );
       },
     },
     {
-      accessorKey: "student_id",
+      accessorKey: "role",
+      header: "Role",
+    },
+
+    {
+      id: "student",
       header: "Student",
       cell: ({ row }) => {
-        const id = row.original.student_id;
-        return (
-          <span className="font-mono text-muted-foreground text-xs">
-            {id.length > 12 ? `${id.slice(0, 8)}…` : id}
-          </span>
-        );
+        const student = row.original.student;
+        if (!student) {
+          return <span className="text-muted-foreground">—</span>;
+        }
+
+        return student.register_no
+          ? `${student.full_name} (${student.register_no})`
+          : student.full_name;
       },
     },
     {
@@ -137,14 +140,6 @@ export function getInternshipColumns(
       header: "Period",
       cell: ({ row }) =>
         formatRange(row.original.from_date, row.original.to_date),
-    },
-    {
-      accessorKey: "semester",
-      header: "Sem.",
-    },
-    {
-      accessorKey: "acad_year",
-      header: "Year",
     },
     {
       id: "actions",
