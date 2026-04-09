@@ -254,11 +254,12 @@
                 }
             }
         },
-        "/programs": {
+        "/bridges": {
             "get": {
-                "operationId": "programs.index",
+                "operationId": "bridges.index",
+                "summary": "Display a listing of the resource",
                 "tags": [
-                    "ContextProgram"
+                    "Bridgre"
                 ],
                 "responses": {
                     "200": {
@@ -271,7 +272,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Program"
+                                                "$ref": "#/components/schemas/Bridge"
                                             }
                                         }
                                     },
@@ -286,11 +287,69 @@
                         "$ref": "#/components/responses/AuthenticationException"
                     }
                 }
-            },
-            "post": {
-                "operationId": "programs.store",
+            }
+        },
+        "/bridges/{bridge}": {
+            "get": {
+                "operationId": "bridges.show",
+                "summary": "Display the specified resource",
                 "tags": [
-                    "ContextProgram"
+                    "Bridgre"
+                ],
+                "parameters": [
+                    {
+                        "name": "bridge",
+                        "in": "path",
+                        "required": true,
+                        "description": "The bridge ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Bridge"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "bridges.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Bridgre"
+                ],
+                "parameters": [
+                    {
+                        "name": "bridge",
+                        "in": "path",
+                        "required": true,
+                        "description": "The bridge ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
                 ],
                 "requestBody": {
                     "required": true,
@@ -299,46 +358,71 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "maxLength": 255
+                                    "curriculum_gap": {
+                                        "type": "string"
                                     },
-                                    "short_name": {
-                                        "type": "string",
-                                        "maxLength": 50
+                                    "details": {
+                                        "type": "string"
                                     },
-                                    "intake": {
-                                        "type": "integer",
-                                        "minimum": 1
+                                    "conducted_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "venue": {
+                                        "type": "string"
+                                    },
+                                    "resource_person_name": {
+                                        "type": "string"
+                                    },
+                                    "company_name": {
+                                        "type": "string"
+                                    },
+                                    "designation": {
+                                        "type": "string"
+                                    },
+                                    "students_present": {
+                                        "type": "integer"
+                                    },
+                                    "relevance": {
+                                        "type": "string"
+                                    },
+                                    "academic_year": {
+                                        "type": "integer"
+                                    },
+                                    "semester": {
+                                        "type": "integer"
                                     }
                                 },
                                 "required": [
-                                    "name",
-                                    "short_name",
-                                    "intake"
+                                    "curriculum_gap",
+                                    "details",
+                                    "conducted_date",
+                                    "venue",
+                                    "resource_person_name",
+                                    "company_name",
+                                    "designation",
+                                    "students_present",
+                                    "relevance",
+                                    "academic_year",
+                                    "semester"
                                 ]
                             }
                         }
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "const": "Program created successfully"
-                                        },
                                         "data": {
-                                            "$ref": "#/components/schemas/Program"
+                                            "$ref": "#/components/schemas/Bridge"
                                         }
                                     },
                                     "required": [
-                                        "message",
                                         "data"
                                     ]
                                 }
@@ -348,116 +432,8 @@
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
                     },
-                    "401": {
-                        "$ref": "#/components/responses/AuthenticationException"
-                    }
-                }
-            }
-        },
-        "/programs/{program}": {
-            "get": {
-                "operationId": "programs.show",
-                "tags": [
-                    "ContextProgram"
-                ],
-                "parameters": [
-                    {
-                        "name": "program",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/Program"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/AuthenticationException"
-                    }
-                }
-            },
-            "put": {
-                "operationId": "programs.update",
-                "tags": [
-                    "ContextProgram"
-                ],
-                "parameters": [
-                    {
-                        "name": "program",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "maxLength": 255
-                                    },
-                                    "short_name": {
-                                        "type": "string",
-                                        "maxLength": 50
-                                    },
-                                    "intake": {
-                                        "type": "integer",
-                                        "minimum": 1
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "const": "Program updated successfully"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/Program"
-                                        }
-                                    },
-                                    "required": [
-                                        "message",
-                                        "data"
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "$ref": "#/components/responses/ValidationException"
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -465,15 +441,67 @@
                 }
             },
             "delete": {
-                "operationId": "programs.destroy",
+                "operationId": "bridges.destroy",
+                "summary": "Remove the specified resource from storage",
                 "tags": [
-                    "ContextProgram"
+                    "Bridgre"
+                ],
+                "parameters": [
+                    {
+                        "name": "bridge",
+                        "in": "path",
+                        "required": true,
+                        "description": "The bridge ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Bridge"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Bridge deleted successfully"
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/programs/{program}/bridges": {
+            "get": {
+                "operationId": "bridgre.listByProgram",
+                "tags": [
+                    "Bridgre"
                 ],
                 "parameters": [
                     {
                         "name": "program",
                         "in": "path",
                         "required": true,
+                        "description": "The program ID",
                         "schema": {
                             "type": "string"
                         }
@@ -487,21 +515,176 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "const": "Program deleted successfully"
-                                        },
                                         "data": {
-                                            "$ref": "#/components/schemas/Program"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Bridge"
+                                            }
                                         }
                                     },
                                     "required": [
-                                        "message",
                                         "data"
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/subjects/{subject}/bridges": {
+            "get": {
+                "operationId": "bridgre.listBySubject",
+                "tags": [
+                    "Bridgre"
+                ],
+                "parameters": [
+                    {
+                        "name": "subject",
+                        "in": "path",
+                        "required": true,
+                        "description": "The subject ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Bridge"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "bridgre.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Bridgre"
+                ],
+                "parameters": [
+                    {
+                        "name": "subject",
+                        "in": "path",
+                        "required": true,
+                        "description": "The subject ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "curriculum_gap": {
+                                        "type": "string"
+                                    },
+                                    "details": {
+                                        "type": "string"
+                                    },
+                                    "conducted_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "venue": {
+                                        "type": "string"
+                                    },
+                                    "resource_person_name": {
+                                        "type": "string"
+                                    },
+                                    "company_name": {
+                                        "type": "string"
+                                    },
+                                    "designation": {
+                                        "type": "string"
+                                    },
+                                    "students_present": {
+                                        "type": "integer"
+                                    },
+                                    "relevance": {
+                                        "type": "string"
+                                    },
+                                    "academic_year": {
+                                        "type": "integer"
+                                    },
+                                    "semester": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "curriculum_gap",
+                                    "details",
+                                    "conducted_date",
+                                    "venue",
+                                    "resource_person_name",
+                                    "company_name",
+                                    "designation",
+                                    "students_present",
+                                    "relevance",
+                                    "academic_year",
+                                    "semester"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Bridge"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -526,7 +709,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Highereducation"
+                                                "$ref": "#/components/schemas/HigherEducation"
                                             }
                                         }
                                     },
@@ -555,8 +738,9 @@
                         "name": "higher_education",
                         "in": "path",
                         "required": true,
+                        "description": "The higher education ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -569,7 +753,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Highereducation"
+                                            "$ref": "#/components/schemas/HigherEducation"
                                         }
                                     },
                                     "required": [
@@ -578,6 +762,9 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -595,8 +782,9 @@
                         "name": "higher_education",
                         "in": "path",
                         "required": true,
+                        "description": "The higher education ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -614,16 +802,11 @@
                                     "rank": {
                                         "type": "integer",
                                         "minimum": 1
-                                    },
-                                    "acad_year": {
-                                        "type": "integer",
-                                        "minimum": 2000
                                     }
                                 },
                                 "required": [
                                     "college_name",
-                                    "rank",
-                                    "acad_year"
+                                    "rank"
                                 ]
                             }
                         }
@@ -642,7 +825,7 @@
                                             "const": "Higher Education updated successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/Highereducation"
+                                            "$ref": "#/components/schemas/HigherEducation"
                                         }
                                     },
                                     "required": [
@@ -655,6 +838,9 @@
                     },
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -672,8 +858,9 @@
                         "name": "higher_education",
                         "in": "path",
                         "required": true,
+                        "description": "The higher education ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -690,7 +877,7 @@
                                             "const": "Higher Education deleted successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/Highereducation"
+                                            "$ref": "#/components/schemas/HigherEducation"
                                         }
                                     },
                                     "required": [
@@ -700,6 +887,9 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -736,7 +926,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Highereducation"
+                                                "$ref": "#/components/schemas/HigherEducation"
                                             }
                                         }
                                     },
@@ -786,16 +976,11 @@
                                     "rank": {
                                         "type": "integer",
                                         "minimum": 1
-                                    },
-                                    "acad_year": {
-                                        "type": "integer",
-                                        "minimum": 2000
                                     }
                                 },
                                 "required": [
                                     "college_name",
-                                    "rank",
-                                    "acad_year"
+                                    "rank"
                                 ]
                             }
                         }
@@ -814,7 +999,7 @@
                                             "const": "Higher Education created successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/Highereducation"
+                                            "$ref": "#/components/schemas/HigherEducation"
                                         }
                                     },
                                     "required": [
@@ -865,7 +1050,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Highereducation"
+                                                "$ref": "#/components/schemas/HigherEducation"
                                             }
                                         }
                                     },
@@ -1295,10 +1480,6 @@
                                     "semester": {
                                         "type": "integer",
                                         "minimum": 1
-                                    },
-                                    "acad_year": {
-                                        "type": "integer",
-                                        "minimum": 2000
                                     }
                                 }
                             }
@@ -1532,10 +1713,6 @@
                                     "semester": {
                                         "type": "integer",
                                         "minimum": 1
-                                    },
-                                    "acad_year": {
-                                        "type": "integer",
-                                        "minimum": 2000
                                     }
                                 },
                                 "required": [
@@ -1544,8 +1721,7 @@
                                     "role",
                                     "from_date",
                                     "to_date",
-                                    "semester",
-                                    "acad_year"
+                                    "semester"
                                 ]
                             }
                         }
@@ -1706,18 +1882,13 @@
                                     "ctc": {
                                         "type": "string",
                                         "maxLength": 255
-                                    },
-                                    "acad_year": {
-                                        "type": "integer",
-                                        "minimum": 2000
                                     }
                                 },
                                 "required": [
                                     "industry_name",
                                     "industry_address",
                                     "role",
-                                    "ctc",
-                                    "acad_year"
+                                    "ctc"
                                 ]
                             }
                         }
@@ -1942,18 +2113,13 @@
                                     "ctc": {
                                         "type": "string",
                                         "maxLength": 255
-                                    },
-                                    "acad_year": {
-                                        "type": "integer",
-                                        "minimum": 2000
                                     }
                                 },
                                 "required": [
                                     "industry_name",
                                     "industry_address",
                                     "role",
-                                    "ctc",
-                                    "acad_year"
+                                    "ctc"
                                 ]
                             }
                         }
@@ -1995,6 +2161,261 @@
                 }
             }
         },
+        "/programs": {
+            "get": {
+                "operationId": "programs.index",
+                "tags": [
+                    "Program"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Program"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "programs.store",
+                "tags": [
+                    "Program"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "short_name": {
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
+                                    "intake": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "short_name",
+                                    "intake"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Program created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Program"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/programs/{program}": {
+            "get": {
+                "operationId": "programs.show",
+                "tags": [
+                    "Program"
+                ],
+                "parameters": [
+                    {
+                        "name": "program",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Program"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "programs.update",
+                "tags": [
+                    "Program"
+                ],
+                "parameters": [
+                    {
+                        "name": "program",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "short_name": {
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
+                                    "intake": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Program updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Program"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "programs.destroy",
+                "tags": [
+                    "Program"
+                ],
+                "parameters": [
+                    {
+                        "name": "program",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Program deleted successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Program"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
         "/room-reports": {
             "get": {
                 "operationId": "room-reports.index",
@@ -2013,7 +2434,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Roomreport"
+                                                "$ref": "#/components/schemas/RoomReport"
                                             }
                                         }
                                     },
@@ -2042,6 +2463,7 @@
                         "name": "room_report",
                         "in": "path",
                         "required": true,
+                        "description": "The room report ID",
                         "schema": {
                             "type": "string"
                         }
@@ -2056,7 +2478,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Roomreport"
+                                            "$ref": "#/components/schemas/RoomReport"
                                         }
                                     },
                                     "required": [
@@ -2065,6 +2487,9 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -2082,6 +2507,7 @@
                         "name": "room_report",
                         "in": "path",
                         "required": true,
+                        "description": "The room report ID",
                         "schema": {
                             "type": "string"
                         }
@@ -2096,10 +2522,6 @@
                                     "room_number": {
                                         "type": "string",
                                         "maxLength": 255
-                                    },
-                                    "acad_year": {
-                                        "type": "integer",
-                                        "minimum": 2000
                                     },
                                     "semester": {
                                         "type": "integer",
@@ -2186,23 +2608,7 @@
                 },
                 "responses": {
                     "404": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "const": "Room report not found"
-                                        }
-                                    },
-                                    "required": [
-                                        "message"
-                                    ]
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "200": {
                         "description": "",
@@ -2216,7 +2622,7 @@
                                             "const": "Room report updated successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/Roomreport"
+                                            "$ref": "#/components/schemas/RoomReport"
                                         }
                                     },
                                     "required": [
@@ -2246,6 +2652,7 @@
                         "name": "room_report",
                         "in": "path",
                         "required": true,
+                        "description": "The room report ID",
                         "schema": {
                             "type": "string"
                         }
@@ -2253,23 +2660,7 @@
                 ],
                 "responses": {
                     "404": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "const": "Room report not found"
-                                        }
-                                    },
-                                    "required": [
-                                        "message"
-                                    ]
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "200": {
                         "description": "",
@@ -2283,7 +2674,7 @@
                                             "const": "Room report deleted successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/Roomreport"
+                                            "$ref": "#/components/schemas/RoomReport"
                                         }
                                     },
                                     "required": [
@@ -2328,7 +2719,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Roomreport"
+                                                "$ref": "#/components/schemas/RoomReport"
                                             }
                                         }
                                     },
@@ -2375,10 +2766,6 @@
                                     "room_number": {
                                         "type": "string",
                                         "maxLength": 255
-                                    },
-                                    "acad_year": {
-                                        "type": "integer",
-                                        "minimum": 2000
                                     },
                                     "semester": {
                                         "type": "integer",
@@ -2461,7 +2848,6 @@
                                 },
                                 "required": [
                                     "room_number",
-                                    "acad_year",
                                     "semester",
                                     "strength",
                                     "present",
@@ -2495,7 +2881,7 @@
                                             "const": "Room report created successfully"
                                         },
                                         "data": {
-                                            "type": "string"
+                                            "$ref": "#/components/schemas/RoomReport"
                                         }
                                     },
                                     "required": [
@@ -2531,10 +2917,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Skillprogram"
-                                            }
+                                            "type": "string"
                                         }
                                     },
                                     "required": [
@@ -2562,6 +2945,7 @@
                         "name": "skill_program",
                         "in": "path",
                         "required": true,
+                        "description": "The skill program ID",
                         "schema": {
                             "type": "string"
                         }
@@ -2576,7 +2960,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Skillprogram"
+                                            "$ref": "#/components/schemas/SkillProgram"
                                         }
                                     },
                                     "required": [
@@ -2585,6 +2969,9 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -2602,6 +2989,7 @@
                         "name": "skill_program",
                         "in": "path",
                         "required": true,
+                        "description": "The skill program ID",
                         "schema": {
                             "type": "string"
                         }
@@ -2613,6 +3001,10 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
+                                    "semester": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
                                     "details": {
                                         "type": "string",
                                         "maxLength": 255
@@ -2651,7 +3043,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Skillprogram"
+                                            "$ref": "#/components/schemas/SkillProgram"
                                         }
                                     },
                                     "required": [
@@ -2663,6 +3055,9 @@
                     },
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -2694,7 +3089,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Skillprogram"
+                                            "$ref": "#/components/schemas/SkillProgram"
                                         }
                                     },
                                     "required": [
@@ -2710,7 +3105,7 @@
                 }
             }
         },
-        "/programs/{program}/skill-programs/{semester}": {
+        "/programs/{program}/skill-programs": {
             "get": {
                 "operationId": "skillProgram.listByProgram",
                 "tags": [
@@ -2725,14 +3120,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "semester",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "responses": {
@@ -2744,10 +3131,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Skillprogram"
-                                            }
+                                            "type": "string"
                                         }
                                     },
                                     "required": [
@@ -2766,7 +3150,7 @@
                 }
             }
         },
-        "/programs/{program}/skill-programs": {
+        "/programs/{program}/skill-programs/{semester}": {
             "get": {
                 "operationId": "skillProgram.listBySemester",
                 "tags": [
@@ -2781,6 +3165,14 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "semester",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
@@ -2792,10 +3184,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Skillprogram"
-                                            }
+                                            "type": "string"
                                         }
                                     },
                                     "required": [
@@ -2839,15 +3228,6 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "program_id": {
-                                        "type": "string"
-                                    },
-                                    "institution_id": {
-                                        "type": "string"
-                                    },
-                                    "student_id": {
-                                        "type": "string"
-                                    },
                                     "semester": {
                                         "type": "integer",
                                         "minimum": 1
@@ -2878,9 +3258,6 @@
                                     }
                                 },
                                 "required": [
-                                    "program_id",
-                                    "institution_id",
-                                    "student_id",
                                     "semester",
                                     "details",
                                     "resource_person_name",
@@ -2902,7 +3279,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Skillprogram"
+                                            "type": "string"
                                         }
                                     },
                                     "required": [
@@ -3009,10 +3386,6 @@
                                         "type": "integer",
                                         "minimum": 1
                                     },
-                                    "academic_year": {
-                                        "type": "integer",
-                                        "minimum": 2000
-                                    },
                                     "register_no": {
                                         "type": [
                                             "string",
@@ -3060,8 +3433,7 @@
                                 },
                                 "required": [
                                     "full_name",
-                                    "semester",
-                                    "academic_year"
+                                    "semester"
                                 ]
                             }
                         }
@@ -3201,10 +3573,6 @@
                                     "semester": {
                                         "type": "integer",
                                         "minimum": 1
-                                    },
-                                    "academic_year": {
-                                        "type": "integer",
-                                        "minimum": 2000
                                     },
                                     "register_no": {
                                         "type": [
@@ -3783,7 +4151,7 @@
                 ],
                 "title": "AuthSession"
             },
-            "Highereducation": {
+            "Bridge": {
                 "type": "array",
                 "items": {
                     "type": "string"
@@ -3791,7 +4159,17 @@
                 "minItems": 0,
                 "maxItems": 0,
                 "additionalItems": false,
-                "title": "Highereducation"
+                "title": "Bridge"
+            },
+            "HigherEducation": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "minItems": 0,
+                "maxItems": 0,
+                "additionalItems": false,
+                "title": "HigherEducation"
             },
             "Institution": {
                 "type": "object",
@@ -3920,7 +4298,7 @@
                     "program_id": {
                         "type": "string"
                     },
-                    "acad_year": {
+                    "academic_year": {
                         "type": "integer"
                     },
                     "industry_name": {
@@ -3955,7 +4333,7 @@
                     "student_id",
                     "institution_id",
                     "program_id",
-                    "acad_year",
+                    "academic_year",
                     "industry_name",
                     "industry_address",
                     "role",
@@ -4009,7 +4387,7 @@
                 ],
                 "title": "Program"
             },
-            "Roomreport": {
+            "RoomReport": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -4030,7 +4408,7 @@
                     "room_number": {
                         "type": "string"
                     },
-                    "acad_year": {
+                    "academic_year": {
                         "type": "integer"
                     },
                     "semester": {
@@ -4100,7 +4478,7 @@
                     "subject_id",
                     "users_id",
                     "room_number",
-                    "acad_year",
+                    "academic_year",
                     "semester",
                     "strength",
                     "present",
@@ -4119,13 +4497,13 @@
                     "created_at",
                     "updated_at"
                 ],
-                "title": "Roomreport"
+                "title": "RoomReport"
             },
-            "Skillprogram": {
+            "SkillProgram": {
                 "type": "object",
                 "properties": {
                     "id": {
-                        "type": "integer"
+                        "type": "string"
                     },
                     "program_id": {
                         "type": "string"
@@ -4137,7 +4515,7 @@
                         "type": "string"
                     },
                     "semester": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "details": {
                         "type": "string"
@@ -4155,7 +4533,7 @@
                         "type": "string"
                     },
                     "academic_year": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "created_at": {
                         "type": [
@@ -4187,7 +4565,7 @@
                     "created_at",
                     "updated_at"
                 ],
-                "title": "Skillprogram"
+                "title": "SkillProgram"
             },
             "Student": {
                 "type": "object",
