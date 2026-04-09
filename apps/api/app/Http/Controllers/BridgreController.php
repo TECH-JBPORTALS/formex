@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BridgeResource;
 use App\Models\Program;
 use App\Models\Subject;
 use App\Models\Bridge;
 use App\Support\CurrentInstitutionSession;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 
 class BridgreController
@@ -17,25 +17,19 @@ class BridgreController
     public function index(Request $request)
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
-        $bridges = $institution->bridges()->get();
-        return response()->json([
-            'data' => $bridges,
-        ]);
+        $bridges = $institution->bridges()->get()->load('program', 'subject');
+        return BridgeResource::collection($bridges);
     }
 
     public function listByProgram(Program $program)
     {
-        $bridges = $program->bridges()->get();
-        return response()->json([
-            'data' => $bridges,
-        ]);
+        $bridges = $program->bridges()->get()->load('subject');
+        return BridgeResource::collection($bridges);
     }
     public function listBySubject(Subject $subject)
     {
-        $bridges = $subject->bridges()->get();
-        return response()->json([
-            'data' => $bridges,
-        ]);
+        $bridges = $subject->bridges()->get()->load('program');
+        return BridgeResource::collection($bridges);
     }
 
     /**
@@ -62,13 +56,11 @@ class BridgreController
         $bridge = $subject->bridges()->create([
             ...$validated,
             'institution_id' => $subject->institution_id,
-            'program_id'=>$subject->program_id,
+            'program_id' => $subject->program_id,
             'subject_id' => $subject->id,
             'academic_year' => $institution->academic_year,
         ]);
-        return response()->json([
-            'data' => $bridge,
-        ]);
+        return BridgeResource::make($bridge);
     }
 
     /**
@@ -77,9 +69,7 @@ class BridgreController
     public function show(Bridge $bridge)
     {
         //
-        return response()->json([
-            'data' => $bridge,
-        ]);
+        return BridgeResource::make($bridge->load('subject', 'program'));
     }
 
     /**
@@ -102,9 +92,7 @@ class BridgreController
             'semester' => 'required|integer',
         ]);
         $bridge->update($validated);
-        return response()->json([
-            'data' => $bridge,
-        ]);
+        return BridgeResource::make($bridge);
     }
 
     /**
@@ -114,9 +102,6 @@ class BridgreController
     {
         //
         $bridge->delete();
-        return response()->json([
-            'data' => $bridge,
-            'message' => 'Bridge deleted successfully',
-        ]);
+        return BridgeResource::make($bridge);
     }
 }
