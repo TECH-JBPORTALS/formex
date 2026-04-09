@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BridgreController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\HigherEducationController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\InternshipController;
@@ -59,4 +61,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/programs/{program}/skill-programs', [SkillProgramController::class, 'listByProgram']);
     Route::get('/programs/{program}/skill-programs/{semester}', [SkillProgramController::class, 'listBySemester']);
     Route::post('/students/{student}/skill-programs', [SkillProgramController::class, 'store']);
+
+    // Bridges Paths
+    Route::apiResource('bridges', BridgreController::class)->except(['store']);
+    Route::get('/programs/{program}/bridges', [BridgreController::class, 'listByProgram']);
+    Route::get('/subjects/{subject}/bridges', [BridgreController::class, 'listBySubject']);
+    Route::post('/subjects/{subject}/bridges', [BridgreController::class, 'store']);
 });

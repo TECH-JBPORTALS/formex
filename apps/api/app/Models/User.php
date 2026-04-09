@@ -31,17 +31,21 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function roomreports(): HasMany
+    public function room_reports(): HasMany
     {
-        return $this->hasMany(Roomreport::class);
+        return $this->hasMany(RoomReport::class);
     }
     public function institutions(): BelongsToMany
     {
         return $this->belongsToMany(Institution::class)->withPivot('role');
     }
 
-    public function higherEducations(): BelongsToMany
+    public function higher_educations(): BelongsToMany
     {
-        return $this->belongsToMany(Highereducation::class);
+        return $this->belongsToMany(HigherEducation::class);
+    }
+    public function bridges(): HasMany
+    {
+        return $this->hasMany(Bridge::class);
     }
 }

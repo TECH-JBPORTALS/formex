@@ -43,5 +43,8 @@ class Subject extends Model
     {
         return $this->hasMany(Roomreport::class);
     }
-
+    public function bridges(): HasMany
+    {
+        return $this->hasMany(Bridge::class);
+    }
 }

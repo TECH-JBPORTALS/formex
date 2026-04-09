@@ -53,6 +53,11 @@ class Institution extends Model
     {
         return $this->hasMany(SkillProgram::class);
     }
+  
+    public function bridges(): HasMany
+    {
+        return $this->hasMany(Bridge::class);
+    }
 
     public function students(): HasMany
     {
