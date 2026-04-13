@@ -137,7 +137,7 @@ export const BridgesUpdateBody = zod.object({
   "students_present": zod.number(),
   "relevance": zod.string(),
   "academic_year": zod.number(),
-  "semester": zod.number()
+  "course_coordinator_id": zod.string()
 })
 
 export const BridgesUpdateResponse = zod.object({
@@ -376,7 +376,6 @@ export const BridgreStoreBody = zod.object({
   "designation": zod.string(),
   "students_present": zod.number(),
   "relevance": zod.string(),
-  "semester": zod.number(),
   "course_coordinator_id": zod.string()
 })
 

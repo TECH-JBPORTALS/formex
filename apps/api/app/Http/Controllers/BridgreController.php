@@ -17,18 +17,18 @@ class BridgreController
     public function index(Request $request)
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
-        $bridges = $institution->bridges()->get()->load('program', 'subject');
+        $bridges = $institution->bridges()->with('program', 'subject')->get();
         return BridgeResource::collection($bridges);
     }
 
     public function listByProgram(Program $program)
     {
-        $bridges = $program->bridges()->get()->load('subject');
+        $bridges = $program->bridges()->with('subject')->get();
         return BridgeResource::collection($bridges);
     }
     public function listBySubject(Subject $subject)
     {
-        $bridges = $subject->bridges()->get()->load('program');
+        $bridges = $subject->bridges()->get();
         return BridgeResource::collection($bridges);
     }
 
@@ -50,7 +50,6 @@ class BridgreController
             'designation' => 'required|string',
             'students_present' => 'required|integer',
             'relevance' => 'required|string',
-            'semester' => 'required|integer',
             'course_coordinator_id' => 'required|ulid|exists:users,id',
         ]);
         $bridge = $subject->bridges()->create([
@@ -59,6 +58,7 @@ class BridgreController
             'program_id' => $subject->program_id,
             'subject_id' => $subject->id,
             'academic_year' => $institution->academic_year,
+            'semester' => $subject->semester,
         ]);
         return BridgeResource::make($bridge);
     }
@@ -89,9 +89,16 @@ class BridgreController
             'students_present' => 'required|integer',
             'relevance' => 'required|string',
             'academic_year' => 'required|integer',
-            'semester' => 'required|integer',
+            'course_coordinator_id' => 'required|ulid|exists:users,id',
         ]);
-        $bridge->update($validated);
+        $subjectSemester = Subject::query()
+            ->whereKey($bridge->subject_id)
+            ->value('semester');
+
+        $bridge->update([
+            ...$validated,
+            'semester' => $subjectSemester ?? $bridge->semester,
+        ]);
         return BridgeResource::make($bridge);
     }
 

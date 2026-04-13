@@ -15,6 +15,5 @@ export type BridgreStoreBody = {
   designation: string;
   students_present: number;
   relevance: string;
-  semester: number;
   course_coordinator_id: string;
 };

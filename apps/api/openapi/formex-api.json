@@ -389,8 +389,8 @@
                                     "academic_year": {
                                         "type": "integer"
                                     },
-                                    "semester": {
-                                        "type": "integer"
+                                    "course_coordinator_id": {
+                                        "type": "string"
                                     }
                                 },
                                 "required": [
@@ -404,7 +404,7 @@
                                     "students_present",
                                     "relevance",
                                     "academic_year",
-                                    "semester"
+                                    "course_coordinator_id"
                                 ]
                             }
                         }
@@ -632,9 +632,6 @@
                                     "relevance": {
                                         "type": "string"
                                     },
-                                    "semester": {
-                                        "type": "integer"
-                                    },
                                     "course_coordinator_id": {
                                         "type": "string"
                                     }
@@ -649,7 +646,6 @@
                                     "designation",
                                     "students_present",
                                     "relevance",
-                                    "semester",
                                     "course_coordinator_id"
                                 ]
                             }

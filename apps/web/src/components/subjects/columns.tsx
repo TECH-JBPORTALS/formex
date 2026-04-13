@@ -8,9 +8,12 @@ import {
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import type { ColumnDef } from "@tanstack/react-table";
+import { formatDistanceToNowStrict } from "date-fns";
+import Link from "next/link";
 import { useState } from "react";
 import { DeleteSubjectDialog } from "@/components/subjects/delete-subject-dialog";
 import { EditSubjectDialog } from "@/components/subjects/edit-subject-dialog";
+import type { Subject } from "@/lib/api/generated/models";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import {
@@ -19,8 +22,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Subject } from "@/lib/api/generated/models";
-import { formatDistanceToNowStrict } from "date-fns";
 
 export type SubjectColumnsContext = {
   programId: string | undefined;
@@ -101,12 +102,19 @@ export function getSubjectColumns(
       header: "Name of Subject",
       cell(props) {
         const original = props.row.original;
-
-        return (
+        const subjectLabel = (
           <div className="flex flex-row gap-2.5 items-center">
             <HugeiconsIcon className="size-4" icon={Book02Icon} />
             <span>{original.name}</span>
           </div>
+        );
+
+        if (!programId) {
+          return subjectLabel;
+        }
+
+        return (
+          <Link href={`/p/${programId}/s/${original.id}`}>{subjectLabel}</Link>
         );
       },
     },
@@ -118,13 +126,13 @@ export function getSubjectColumns(
       accessorKey: "type",
       header: "Type",
       cell(props) {
-        const type = props.getValue() as Subject["type"];
+        const type = props.row.original.type;
         return (
           <Badge
-            variant={type == "theory" ? "secondary" : "outline"}
+            variant={type === "theory" ? "secondary" : "outline"}
             className={"capitalize"}
           >
-            {props.getValue() as string}
+            {type}
           </Badge>
         );
       },

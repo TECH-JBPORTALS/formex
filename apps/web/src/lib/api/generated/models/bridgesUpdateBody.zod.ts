@@ -16,5 +16,5 @@ export type BridgesUpdateBody = {
   students_present: number;
   relevance: string;
   academic_year: number;
-  semester: number;
+  course_coordinator_id: string;
 };

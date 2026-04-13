@@ -1,10 +1,10 @@
-import { SubjectPage } from "@/components/subjects/subjects.page";
+import { BridgesBySubjectPage } from "@/components/bridges/bridges-by-subject.page";
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ subjectId: string }>;
+  params: Promise<{ programId: string; subjectId: string }>;
 }) {
-  const { subjectId } = await params;
-  return <SubjectPage {...{ subjectId }} />;
+  const { programId, subjectId } = await params;
+  return <BridgesBySubjectPage programId={programId} subjectId={subjectId} />;
 }
