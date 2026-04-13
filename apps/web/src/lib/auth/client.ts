@@ -1,13 +1,13 @@
 "use client";
 
-import { ensureSanctumCsrf } from "../lib/api/csrf";
+import { ensureSanctumCsrf } from "../api/csrf";
 import {
   authLogin,
   authLogout,
   authRegister,
-} from "../lib/api/generated/auth/auth";
-import { facultyInvitationAccept, facultyInvitationShow } from "../lib/api/generated/faculty-invitation/faculty-invitation";
-import type { ValidationExceptionResponse } from "../lib/api/generated/models";
+} from "../api/generated/auth/auth";
+import { facultyInvitationAccept, facultyInvitationShow } from "../api/generated/faculty-invitation/faculty-invitation";
+import type { ValidationExceptionResponse } from "../api/generated/models";
 
 function validationMessage(body: ValidationExceptionResponse): string {
   const errs = body.errors;

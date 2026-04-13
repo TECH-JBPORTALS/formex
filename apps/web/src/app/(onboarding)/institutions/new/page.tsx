@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getServerSessionUser } from "@/auth/session";
+import { getServerSessionUser } from "@/lib/auth/session";
 import { CreateInstitutionForm } from "./create-institution-form";
 
 export const metadata = {

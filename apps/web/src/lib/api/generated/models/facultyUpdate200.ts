@@ -4,9 +4,8 @@
  * Formex
  * OpenAPI spec version: 0.0.1
  */
-import type { FacultyUpdate200Data } from "./facultyUpdate200Data";
+import type { InstitutionFaculty } from "./institutionFaculty";
 
 export type FacultyUpdate200 = {
-  message: "Faculty assignment updated successfully.";
-  data: FacultyUpdate200Data;
+  data: InstitutionFaculty;
 };

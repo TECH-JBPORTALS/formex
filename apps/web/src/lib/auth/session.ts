@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import type { AuthSession } from "@/lib/api/generated/models/authSession";
 import type { User } from "@/lib/api/generated/models/user";
 import { getStatefulHeadersForLaravel } from "@/lib/api/laravel-stateful-headers";
-import { getIncomingCookieHeader } from "../lib/server/incoming-cookie-header";
+import { getIncomingCookieHeader } from "../server/incoming-cookie-header";
 
 export type { AuthSession };
 

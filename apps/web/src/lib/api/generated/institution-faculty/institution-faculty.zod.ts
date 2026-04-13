@@ -11,7 +11,22 @@ import * as zod from 'zod';
  * @summary List coordinator faculty in the current institution
  */
 export const FacultyIndexResponse = zod.object({
-  "data": zod.string()
+  "data": zod.array(zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "role": zod.string(),
+  "programs": zod.array(zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string()
+})),
+  "subjects": zod.array(zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string()
+}))
+}))
 })
 
 /**
@@ -38,14 +53,21 @@ export const FacultyUpdateBody = zod.object({
 })
 
 export const FacultyUpdateResponse = zod.object({
-  "message": zod.literal("Faculty assignment updated successfully."),
   "data": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "email": zod.string(),
   "role": zod.string(),
-  "programs": zod.string(),
-  "subjects": zod.string()
+  "programs": zod.array(zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string()
+})),
+  "subjects": zod.array(zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "short_name": zod.string()
+}))
 })
 })
 

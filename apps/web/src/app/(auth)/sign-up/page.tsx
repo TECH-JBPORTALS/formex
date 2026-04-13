@@ -10,7 +10,7 @@ import {
   getFacultyInvitation,
   signUpWithInvitation,
   signUpWithPassword,
-} from "@/auth/client";
+} from "@/lib/auth/client";
 import { Button } from "@/components/ui/button";
 import {
   Card,

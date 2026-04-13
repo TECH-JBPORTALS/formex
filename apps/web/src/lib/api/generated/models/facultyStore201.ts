@@ -4,9 +4,8 @@
  * Formex
  * OpenAPI spec version: 0.0.1
  */
-import type { FacultyStore201Data } from "./facultyStore201Data";
+import type { InstitutionFaculty } from "./institutionFaculty";
 
 export type FacultyStore201 = {
-  message: "Faculty assignment saved successfully.";
-  data: FacultyStore201Data;
+  data: InstitutionFaculty;
 };

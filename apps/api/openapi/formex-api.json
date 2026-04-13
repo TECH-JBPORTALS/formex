@@ -1515,14 +1515,17 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Array of `InstitutionFaculty`",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "string"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/InstitutionFaculty"
+                                            }
                                         }
                                     },
                                     "required": [
@@ -1589,50 +1592,17 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "",
+                        "description": "`InstitutionFaculty`",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "const": "Faculty assignment saved successfully."
-                                        },
                                         "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "string"
-                                                },
-                                                "name": {
-                                                    "type": "string"
-                                                },
-                                                "email": {
-                                                    "type": "string"
-                                                },
-                                                "role": {
-                                                    "type": "string"
-                                                },
-                                                "programs": {
-                                                    "type": "string"
-                                                },
-                                                "subjects": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "id",
-                                                "name",
-                                                "email",
-                                                "role",
-                                                "programs",
-                                                "subjects"
-                                            ]
+                                            "$ref": "#/components/schemas/InstitutionFaculty"
                                         }
                                     },
                                     "required": [
-                                        "message",
                                         "data"
                                     ]
                                 }
@@ -1711,50 +1681,17 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "`InstitutionFaculty`",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "const": "Faculty assignment updated successfully."
-                                        },
                                         "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "string"
-                                                },
-                                                "name": {
-                                                    "type": "string"
-                                                },
-                                                "email": {
-                                                    "type": "string"
-                                                },
-                                                "role": {
-                                                    "type": "string"
-                                                },
-                                                "programs": {
-                                                    "type": "string"
-                                                },
-                                                "subjects": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "id",
-                                                "name",
-                                                "email",
-                                                "role",
-                                                "programs",
-                                                "subjects"
-                                            ]
+                                            "$ref": "#/components/schemas/InstitutionFaculty"
                                         }
                                     },
                                     "required": [
-                                        "message",
                                         "data"
                                     ]
                                 }
@@ -4759,6 +4696,46 @@
                 ],
                 "title": "Bridge"
             },
+            "FacultyProgram": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "short_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "short_name"
+                ],
+                "title": "FacultyProgram"
+            },
+            "FacultySubject": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "short_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "short_name"
+                ],
+                "title": "FacultySubject"
+            },
             "HigherEducation": {
                 "type": "object",
                 "properties": {
@@ -4862,6 +4839,44 @@
                     "updated_at"
                 ],
                 "title": "Institution"
+            },
+            "InstitutionFaculty": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "programs": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FacultyProgram"
+                        }
+                    },
+                    "subjects": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FacultySubject"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "role",
+                    "programs",
+                    "subjects"
+                ],
+                "title": "InstitutionFaculty"
             },
             "Internship": {
                 "type": "object",

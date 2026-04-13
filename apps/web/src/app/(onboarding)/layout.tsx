@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import type React from "react";
-import { getServerSessionUser } from "../../auth/session";
+import { getServerSessionUser } from "../../lib/auth/session";
 
 export default async function OnboardingLayout({
   children,

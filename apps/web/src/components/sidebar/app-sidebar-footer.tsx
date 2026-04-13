@@ -3,7 +3,7 @@
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { signOutSession } from "@/auth/client";
+import { signOutSession } from "@/lib/auth/client";
 import {
   getAuthUserQueryKey,
   useAuthSetCurrentInstitution,

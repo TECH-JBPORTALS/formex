@@ -3,7 +3,7 @@ import type React from "react";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { AppSidebarProvider } from "@/components/sidebar/app-sidebar-provider";
 import { AppSidebarRail } from "@/components/sidebar/app-sidebar-rail";
-import { getServerSession } from "../../auth/session";
+import { getServerSession } from "../../lib/auth/session";
 import { SidebarInset } from "../../components/ui/sidebar";
 import { prefetch } from "@/lib/prefetch";
 import { getAuthUserQueryOptions } from "@/lib/api/generated/auth/auth";
@@ -34,7 +34,11 @@ export default async function Layout({
   return (
     <QueryHydrationBoundary state={dehydratedState}>
       <AcademicYearSwitchProvider>
-        <NextjsTopLoader color="var(--primary)" showSpinner={false} height={2} />
+        <NextjsTopLoader
+          color="var(--primary)"
+          showSpinner={false}
+          height={2}
+        />
         <AppSidebarProvider>
           <AppSidebar>
             <AppSidebarRail />

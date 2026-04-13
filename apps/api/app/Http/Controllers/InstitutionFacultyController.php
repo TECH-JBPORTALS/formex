@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\InstitutionFacultyResource;
 use App\Models\Program;
 use App\Models\Subject;
 use App\Models\User;
@@ -29,7 +30,7 @@ class InstitutionFacultyController
             return $this->membershipPayload($institution->id, $user->id);
         })->values();
 
-        return response()->json(['data' => $data]);
+        return InstitutionFacultyResource::collection($data);
     }
 
     /**
@@ -72,10 +73,9 @@ class InstitutionFacultyController
         }
         $this->syncAssignments($institution->id, $user->id, $programIds, $subjectIds);
 
-        return response()->json([
-            'message' => 'Faculty assignment saved successfully.',
-            'data' => $this->membershipPayload($institution->id, $user->id),
-        ], 201);
+        return InstitutionFacultyResource::make(
+            $this->membershipPayload($institution->id, $user->id)
+        )->response()->setStatusCode(201);
     }
 
     /**
@@ -114,10 +114,9 @@ class InstitutionFacultyController
         ]);
         $this->syncAssignments($institution->id, $faculty->id, $programIds, $subjectIds);
 
-        return response()->json([
-            'message' => 'Faculty assignment updated successfully.',
-            'data' => $this->membershipPayload($institution->id, $faculty->id),
-        ]);
+        return InstitutionFacultyResource::make(
+            $this->membershipPayload($institution->id, $faculty->id)
+        );
     }
 
     /**

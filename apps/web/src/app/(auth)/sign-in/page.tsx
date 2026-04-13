@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { signInWithPassword } from "@/auth/client";
+import { signInWithPassword } from "@/lib/auth/client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
