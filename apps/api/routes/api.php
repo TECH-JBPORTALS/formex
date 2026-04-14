@@ -13,6 +13,7 @@ use App\Http\Controllers\RoomReportController;
 use App\Http\Controllers\SkillProgramController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TimetableController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('web')->group(function () {
@@ -44,6 +45,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/programs/{program}/subjects', [SubjectController::class, 'listByProgram']);
     Route::get('/programs/{program}/subjects/{semester}', [SubjectController::class, 'listbysemester']);
     Route::post('/programs/{program}/subjects', [SubjectController::class, 'store']);
+    Route::get('/programs/{program}/timetable', [TimetableController::class, 'show']);
+    Route::put('/programs/{program}/timetable', [TimetableController::class, 'upsertSlot']);
 
     Route::apiResource('internships', InternshipController::class)->except(['store']);
     Route::get('/programs/{program}/internships', [InternshipController::class, 'listByProgram']);

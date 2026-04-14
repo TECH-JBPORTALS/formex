@@ -51,10 +51,15 @@ class Subject extends Model
         return $this->hasMany(Bridge::class);
     }
 
-    public function assignedStaff(): BelongsToMany
+    public function assigned_staff(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'institution_user_subject', 'subject_id', 'user_id')
             ->withPivot('institution_id')
             ->withTimestamps();
+    }
+
+    public function time_table_slot_subjects(): HasMany
+    {
+        return $this->hasMany(TimeTableSlotSubject::class);
     }
 }

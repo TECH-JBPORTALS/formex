@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.0.1
  */
 import type { Program } from './program';
+import type { SubjectAssignedStaff } from './subjectAssignedStaff';
 
 export interface Subject {
   id: string;
@@ -18,4 +19,5 @@ export interface Subject {
   /** @nullable */
   updated_at: string | null;
   program?: Program;
+  assigned_staff: SubjectAssignedStaff[] | string[];
 }

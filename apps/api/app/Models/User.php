@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Bridge::class);
     }
+
+    public function time_table_slot_subjects(): HasMany
+    {
+        return $this->hasMany(TimeTableSlotSubject::class, 'course_coordinator_id');
+    }
 }

@@ -831,14 +831,21 @@ export type skillProgramsDestroyResponse401 = {
   status: 401;
 };
 
+export type skillProgramsDestroyResponse404 = {
+  data: ModelNotFoundExceptionResponse;
+  status: 404;
+};
+
 export type skillProgramsDestroyResponseSuccess =
   skillProgramsDestroyResponse200 & {
     headers: Headers;
   };
-export type skillProgramsDestroyResponseError =
-  skillProgramsDestroyResponse401 & {
-    headers: Headers;
-  };
+export type skillProgramsDestroyResponseError = (
+  | skillProgramsDestroyResponse401
+  | skillProgramsDestroyResponse404
+) & {
+  headers: Headers;
+};
 
 export type skillProgramsDestroyResponse =
   | skillProgramsDestroyResponseSuccess
@@ -862,7 +869,7 @@ export const skillProgramsDestroy = async (
 };
 
 export const getSkillProgramsDestroyMutationOptions = <
-  TError = AuthenticationExceptionResponse,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -903,13 +910,15 @@ export type SkillProgramsDestroyMutationResult = NonNullable<
   Awaited<ReturnType<typeof skillProgramsDestroy>>
 >;
 
-export type SkillProgramsDestroyMutationError = AuthenticationExceptionResponse;
+export type SkillProgramsDestroyMutationError =
+  | AuthenticationExceptionResponse
+  | ModelNotFoundExceptionResponse;
 
 /**
  * @summary Remove the specified resource from storage
  */
 export const useSkillProgramsDestroy = <
-  TError = AuthenticationExceptionResponse,
+  TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
   TContext = unknown,
 >(
   options?: {

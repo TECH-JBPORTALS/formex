@@ -178,7 +178,7 @@ export const SkillProgramsUpdateResponse = zod.object({
  * @summary Remove the specified resource from storage
  */
 export const SkillProgramsDestroyParams = zod.object({
-  "skill_program": zod.string()
+  "skill_program": zod.string().describe('The skill program ID')
 })
 
 export const SkillProgramsDestroyResponse = zod.object({

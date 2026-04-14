@@ -3459,6 +3459,7 @@
                         "name": "skill_program",
                         "in": "path",
                         "required": true,
+                        "description": "The skill program ID",
                         "schema": {
                             "type": "string"
                         }
@@ -3482,6 +3483,9 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -4162,7 +4166,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Array of `Subject`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4208,7 +4212,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "`Subject`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4288,7 +4292,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "`Subject`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4335,7 +4339,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "`Subject`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4380,7 +4384,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Array of `Subject`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4471,7 +4475,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "`Subject`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4527,7 +4531,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Array of `Subject`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4546,6 +4550,290 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/programs/{program}/timetable": {
+            "get": {
+                "operationId": "timetable.show",
+                "tags": [
+                    "Timetable"
+                ],
+                "parameters": [
+                    {
+                        "name": "program",
+                        "in": "path",
+                        "required": true,
+                        "description": "The program ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "semester",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 12
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string"
+                                                        },
+                                                        "semester": {
+                                                            "type": "string"
+                                                        },
+                                                        "academic_year": {
+                                                            "type": "string"
+                                                        },
+                                                        "slots": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "day": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "start_hour_no": {
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "end_hour_no": {
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "subjects": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "id",
+                                                                    "day",
+                                                                    "start_hour_no",
+                                                                    "end_hour_no",
+                                                                    "subjects"
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "id",
+                                                        "semester",
+                                                        "academic_year",
+                                                        "slots"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "data"
+                                            ]
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "semester": {
+                                                            "type": "integer"
+                                                        },
+                                                        "academic_year": {
+                                                            "type": "integer"
+                                                        },
+                                                        "slots": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            },
+                                                            "minItems": 0,
+                                                            "maxItems": 0,
+                                                            "additionalItems": false
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "semester",
+                                                        "academic_year",
+                                                        "slots"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "data"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "timetable.upsertSlot",
+                "tags": [
+                    "Timetable"
+                ],
+                "parameters": [
+                    {
+                        "name": "program",
+                        "in": "path",
+                        "required": true,
+                        "description": "The program ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "semester": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 12
+                                    },
+                                    "day": {
+                                        "type": "string"
+                                    },
+                                    "start_hour_no": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 7
+                                    },
+                                    "end_hour_no": {
+                                        "type": "integer",
+                                        "minimum": 2,
+                                        "maximum": 7
+                                    },
+                                    "subjects": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "subject_id": {
+                                                    "type": "string"
+                                                },
+                                                "course_coordinator_id": {
+                                                    "type": "string"
+                                                },
+                                                "batch": {
+                                                    "type": "string",
+                                                    "maxLength": 255
+                                                },
+                                                "room_no": {
+                                                    "type": "string",
+                                                    "maxLength": 255
+                                                }
+                                            },
+                                            "required": [
+                                                "subject_id",
+                                                "course_coordinator_id",
+                                                "batch",
+                                                "room_no"
+                                            ]
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 10
+                                    }
+                                },
+                                "required": [
+                                    "semester",
+                                    "day",
+                                    "start_hour_no",
+                                    "end_hour_no",
+                                    "subjects"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Timetable slot saved successfully."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "day": {
+                                                    "type": "string"
+                                                },
+                                                "start_hour_no": {
+                                                    "type": "integer"
+                                                },
+                                                "end_hour_no": {
+                                                    "type": "integer"
+                                                },
+                                                "subjects": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "id",
+                                                "day",
+                                                "start_hour_no",
+                                                "end_hour_no",
+                                                "subjects"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
                     },
                     "404": {
                         "$ref": "#/components/responses/ModelNotFoundException"
@@ -5364,6 +5652,9 @@
                     },
                     "program": {
                         "$ref": "#/components/schemas/Program"
+                    },
+                    "assigned_staff": {
+                        "type": "string"
                     }
                 },
                 "required": [
@@ -5374,7 +5665,8 @@
                     "semester",
                     "scheme",
                     "created_at",
-                    "updated_at"
+                    "updated_at",
+                    "assigned_staff"
                 ],
                 "title": "Subject"
             },

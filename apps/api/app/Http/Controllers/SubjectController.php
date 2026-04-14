@@ -2,25 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SubjectResource;
 use App\Models\Program;
 use App\Models\Subject;
 use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SubjectController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): AnonymousResourceCollection
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
-        $subjects = $institution->subjects()->with('program')->orderBy('program_id', 'asc')->orderBy('semester', 'asc')->groupBy(['program_id', 'id'])->get();
+        $subjects = $institution->subjects()
+            ->with('program')
+            ->orderBy('program_id', 'asc')
+            ->orderBy('semester', 'asc')
+            ->groupBy(['program_id', 'id'])
+            ->get();
 
-        return response()->json(['data' => $subjects]);
+        return SubjectResource::collection($subjects);
     }
 
-    public function listByProgram(Request $request, Program $program)
+    public function listByProgram(Request $request, Program $program): AnonymousResourceCollection
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
 
@@ -28,7 +35,7 @@ class SubjectController
         $program = $institution->programs()->whereKey($program->id)->firstOrFail();
         $subjects = $program->subjects()
             ->with([
-                'assignedStaff' => function ($query) use ($institution): void {
+                'assigned_staff' => function ($query) use ($institution): void {
                     $query->select('users.id', 'users.name')
                         ->with([
                             'institutions' => function ($institutionQuery) use ($institution): void {
@@ -41,20 +48,10 @@ class SubjectController
             ])
             ->get();
 
-        $subjects->each(function (Subject $subject): void {
-            $subject->setAttribute('assigned_staff', $subject->assignedStaff->map(function ($staff): array {
-                return [
-                    'id' => $staff->id,
-                    'name' => $staff->name,
-                    'role' => $staff->institutions->first()?->pivot?->role ?? 'course_coordinator',
-                ];
-            })->values()->all());
-        });
-
-        return response()->json(['data' => $subjects]);
+        return SubjectResource::collection($subjects);
     }
 
-    public function listbysemester(Request $request, Program $program, int $semester)
+    public function listbysemester(Request $request, Program $program, int $semester): AnonymousResourceCollection
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
 
@@ -63,7 +60,7 @@ class SubjectController
         $subjects = $program->subjects()
             ->where('semester', $semester)
             ->with([
-                'assignedStaff' => function ($query) use ($institution): void {
+                'assigned_staff' => function ($query) use ($institution): void {
                     $query->select('users.id', 'users.name')
                         ->with([
                             'institutions' => function ($institutionQuery) use ($institution): void {
@@ -76,23 +73,13 @@ class SubjectController
             ])
             ->get();
 
-        $subjects->each(function (Subject $subject): void {
-            $subject->setAttribute('assigned_staff', $subject->assignedStaff->map(function ($staff): array {
-                return [
-                    'id' => $staff->id,
-                    'name' => $staff->name,
-                    'role' => $staff->institutions->first()?->pivot?->role ?? 'course_coordinator',
-                ];
-            })->values()->all());
-        });
-
-        return response()->json(['data' => $subjects]);
+        return SubjectResource::collection($subjects);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Program $program)
+    public function store(Request $request, Program $program): SubjectResource
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
 
@@ -109,22 +96,22 @@ class SubjectController
 
         $subject = $program->subjects()->create([...$validated, 'institution_id' => $program->institution_id, 'program_id' => $program->id]);
 
-        return response()->json(['data' => $subject]);
+        return SubjectResource::make($subject);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Subject $subject)
+    public function show(Subject $subject): SubjectResource
     {
         //
-        return response()->json(['data' => $subject]);
+        return SubjectResource::make($subject);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Subject $subject)
+    public function update(Request $request, Subject $subject): SubjectResource
     {
         //
         $validated = $request->validate([
@@ -136,17 +123,17 @@ class SubjectController
         ]);
         $subject->update($validated);
 
-        return response()->json(['data' => $subject]);
+        return SubjectResource::make($subject);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Subject $subject)
+    public function destroy(Subject $subject): SubjectResource
     {
         //
         $subject->delete();
 
-        return response()->json(['data' => $subject]);
+        return SubjectResource::make($subject);
     }
 }

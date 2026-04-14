@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(["name", "short_name", "intake", "institution_id"])]
+#[Fillable(['name', 'short_name', 'intake', 'institution_id'])]
 class Program extends Model
 {
-    use HasUlids, HasFactory;
+    use HasFactory, HasUlids;
 
     public function institution(): BelongsTo
     {
@@ -38,20 +38,29 @@ class Program extends Model
     {
         return $this->hasMany(Placement::class);
     }
+
     public function higher_educations(): HasMany
     {
         return $this->hasMany(HigherEducation::class);
     }
+
     public function room_reports(): HasMany
     {
         return $this->hasMany(RoomReport::class);
     }
+
     public function skill_programs(): HasMany
     {
         return $this->hasMany(SkillProgram::class);
     }
+
     public function bridges(): HasMany
     {
         return $this->hasMany(Bridge::class);
+    }
+
+    public function time_tables(): HasMany
+    {
+        return $this->hasMany(TimeTable::class);
     }
 }
