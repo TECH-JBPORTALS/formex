@@ -16,20 +16,79 @@ class SubjectController
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
         $subjects = $institution->subjects()->with('program')->orderBy('program_id', 'asc')->orderBy('semester', 'asc')->groupBy(['program_id', 'id'])->get();
-        return response()->json(["data" => $subjects]);
+
+        return response()->json(['data' => $subjects]);
     }
 
-    public function listByProgram(Program $program)
+    public function listByProgram(Request $request, Program $program)
     {
-        $subjects = $program->subjects()->get();
-        return response()->json(["data" => $subjects]);
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+
+        /** @var Program $program */
+        $program = $institution->programs()->whereKey($program->id)->firstOrFail();
+        $subjects = $program->subjects()
+            ->with([
+                'assignedStaff' => function ($query) use ($institution): void {
+                    $query->select('users.id', 'users.name')
+                        ->with([
+                            'institutions' => function ($institutionQuery) use ($institution): void {
+                                $institutionQuery
+                                    ->where('institutions.id', $institution->id)
+                                    ->select('institutions.id');
+                            },
+                        ]);
+                },
+            ])
+            ->get();
+
+        $subjects->each(function (Subject $subject): void {
+            $subject->setAttribute('assigned_staff', $subject->assignedStaff->map(function ($staff): array {
+                return [
+                    'id' => $staff->id,
+                    'name' => $staff->name,
+                    'role' => $staff->institutions->first()?->pivot?->role ?? 'course_coordinator',
+                ];
+            })->values()->all());
+        });
+
+        return response()->json(['data' => $subjects]);
     }
 
     public function listbysemester(Request $request, Program $program, int $semester)
     {
-        $subjects = $program->subjects()->where('semester', $semester)->get();
-        return response()->json(["data" => $subjects]);
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+
+        /** @var Program $program */
+        $program = $institution->programs()->whereKey($program->id)->firstOrFail();
+        $subjects = $program->subjects()
+            ->where('semester', $semester)
+            ->with([
+                'assignedStaff' => function ($query) use ($institution): void {
+                    $query->select('users.id', 'users.name')
+                        ->with([
+                            'institutions' => function ($institutionQuery) use ($institution): void {
+                                $institutionQuery
+                                    ->where('institutions.id', $institution->id)
+                                    ->select('institutions.id');
+                            },
+                        ]);
+                },
+            ])
+            ->get();
+
+        $subjects->each(function (Subject $subject): void {
+            $subject->setAttribute('assigned_staff', $subject->assignedStaff->map(function ($staff): array {
+                return [
+                    'id' => $staff->id,
+                    'name' => $staff->name,
+                    'role' => $staff->institutions->first()?->pivot?->role ?? 'course_coordinator',
+                ];
+            })->values()->all());
+        });
+
+        return response()->json(['data' => $subjects]);
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -48,8 +107,9 @@ class SubjectController
             'scheme' => 'required|in:C25',
         ]);
 
-        $subject = $program->subjects()->create([...$validated, "institution_id" => $program->institution_id, "program_id" => $program->id]);
-        return response()->json(["data" => $subject]);
+        $subject = $program->subjects()->create([...$validated, 'institution_id' => $program->institution_id, 'program_id' => $program->id]);
+
+        return response()->json(['data' => $subject]);
     }
 
     /**
@@ -58,7 +118,7 @@ class SubjectController
     public function show(Subject $subject)
     {
         //
-        return response()->json(["data" => $subject]);
+        return response()->json(['data' => $subject]);
     }
 
     /**
@@ -75,7 +135,8 @@ class SubjectController
             'scheme' => 'sometimes|required|in:C25',
         ]);
         $subject->update($validated);
-        return response()->json(["data" => $subject]);
+
+        return response()->json(['data' => $subject]);
     }
 
     /**
@@ -85,8 +146,7 @@ class SubjectController
     {
         //
         $subject->delete();
-        return response()->json(["data" => $subject]);
+
+        return response()->json(['data' => $subject]);
     }
-
-
 }

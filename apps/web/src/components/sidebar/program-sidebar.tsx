@@ -2,6 +2,7 @@
 
 import {
   BookOpen01Icon,
+  Calendar03Icon,
   GridIcon,
   Home01Icon,
   UserSquareIcon,
@@ -61,6 +62,14 @@ const navItems = (programId: string) =>
       href: `/p/${programId}/students`,
       match: (pathname: string) =>
         pathname.startsWith(`/p/${programId}/students`),
+    },
+    {
+      id: "timetable",
+      label: "Timetable",
+      icon: Calendar03Icon,
+      href: `/p/${programId}/timetable`,
+      match: (pathname: string) =>
+        pathname.startsWith(`/p/${programId}/timetable`),
     },
     {
       id: "skill-programs",

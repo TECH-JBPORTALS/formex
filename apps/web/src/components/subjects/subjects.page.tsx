@@ -12,7 +12,10 @@ import type { z } from "zod";
 import Container from "@/components/container";
 import { DataTable } from "@/components/data-table";
 import Header from "@/components/header";
-import { getSubjectColumns } from "@/components/subjects/columns";
+import {
+  getSubjectColumns,
+  type SubjectRow,
+} from "@/components/subjects/columns";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -82,8 +85,10 @@ export function SubjectsPage() {
     },
   );
 
-  const rows =
-    subjectsQuery.data?.status === 200 ? subjectsQuery.data.data.data : [];
+  const rows: SubjectRow[] =
+    subjectsQuery.data?.status === 200
+      ? (subjectsQuery.data.data.data as SubjectRow[])
+      : [];
 
   const subjectColumns = useMemo(
     () =>

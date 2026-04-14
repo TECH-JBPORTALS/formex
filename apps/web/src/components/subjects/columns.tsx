@@ -13,6 +13,10 @@ import Link from "next/link";
 import { useState } from "react";
 import { DeleteSubjectDialog } from "@/components/subjects/delete-subject-dialog";
 import { EditSubjectDialog } from "@/components/subjects/edit-subject-dialog";
+import {
+  SubjectAssignmentCell,
+  type AssignedStaff,
+} from "@/components/subjects/subject-assignment-cell";
 import type { Subject } from "@/lib/api/generated/models";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -28,12 +32,16 @@ export type SubjectColumnsContext = {
   listSemester: number;
 };
 
+export type SubjectRow = Subject & {
+  assigned_staff?: AssignedStaff[];
+};
+
 function SubjectRowActions({
   subject,
   programId,
   listSemester,
 }: {
-  subject: Subject;
+  subject: SubjectRow;
   programId: string;
   listSemester: number;
 }) {
@@ -93,7 +101,7 @@ function SubjectRowActions({
 
 export function getSubjectColumns(
   ctx: SubjectColumnsContext,
-): ColumnDef<Subject>[] {
+): ColumnDef<SubjectRow>[] {
   const { programId, listSemester } = ctx;
 
   return [
@@ -121,6 +129,18 @@ export function getSubjectColumns(
     {
       accessorKey: "short_name",
       header: "Short Name",
+    },
+    {
+      id: "assigned_people",
+      header: "Assigned People",
+      cell(props) {
+        return (
+          <SubjectAssignmentCell
+            subjectId={props.row.original.id}
+            initialAssignedStaff={props.row.original.assigned_staff ?? []}
+          />
+        );
+      },
     },
     {
       accessorKey: "type",
