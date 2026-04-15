@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Calendar03Icon,
   GridIcon,
   Home01Icon,
   UserSquareIcon,
@@ -33,6 +34,12 @@ const institutionFormats = getTemplatePagesByType("institution");
 const items = [
   { id: 1, label: "Home", icon: Home01Icon, href: "/" },
   { id: 2, label: "Faculty", icon: UserSquareIcon, href: "/faculty" },
+  {
+    id: 3,
+    label: "Personal Timetable",
+    icon: Calendar03Icon,
+    href: "/timetable",
+  },
 ];
 
 export function ProgramCoordinatorSidebar({

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Program;
+use App\Models\Student;
 use App\Models\Subject;
 use App\Models\TimeTable;
 use App\Models\TimeTableSlot;
+use App\Models\TimeTableSlotSubject;
 use App\Models\User;
 use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\JsonResponse;
@@ -23,6 +25,11 @@ class TimetableController
         'Thursday',
         'Friday',
         'Saturday',
+    ];
+
+    private const array ALLOWED_PERSONAL_TIMETABLE_ROLES = [
+        'course_coordinator',
+        'program_coordinator',
     ];
 
     public function show(Request $request, Program $program): JsonResponse
@@ -182,6 +189,110 @@ class TimetableController
         return response()->json([
             'message' => 'Timetable slot saved successfully.',
             'data' => $this->serializeSlot($slot),
+        ]);
+    }
+
+    public function personal(Request $request): JsonResponse
+    {
+        $institution = CurrentInstitutionSession::requireInstitution($request);
+        $role = CurrentInstitutionSession::requireRole($request);
+        $user = $request->user();
+
+        if ($user === null) {
+            abort(401);
+        }
+
+        if (! in_array($role, self::ALLOWED_PERSONAL_TIMETABLE_ROLES, true)) {
+            abort(403);
+        }
+
+        $slotSubjects = TimeTableSlotSubject::query()
+            ->where('course_coordinator_id', $user->id)
+            ->whereHas('slot.time_table.program', function ($query) use ($institution): void {
+                $query->where('institution_id', $institution->id);
+            })
+            ->whereHas('slot.time_table', function ($query) use ($institution): void {
+                $query->where('academic_year', $institution->academic_year);
+            })
+            ->with([
+                'slot.time_table.program:id,name',
+                'subject:id,name',
+            ])
+            ->get();
+
+        $programIds = $slotSubjects
+            ->map(fn (TimeTableSlotSubject $entry): ?string => $entry->slot?->time_table?->program_id)
+            ->filter()
+            ->unique()
+            ->values();
+
+        $studentCounts = Student::query()
+            ->selectRaw('program_id, semester, count(*) as total')
+            ->where('institution_id', $institution->id)
+            ->where('academic_year', $institution->academic_year)
+            ->whereIn('program_id', $programIds->all())
+            ->groupBy('program_id', 'semester')
+            ->get()
+            ->mapWithKeys(function ($row): array {
+                return [sprintf('%s|%d', $row->program_id, (int) $row->semester) => (int) $row->total];
+            });
+
+        /** @var array<string, array{
+         *  sl_no:int,
+         *  program_name:string,
+         *  semester:int,
+         *  course_name:string,
+         *  no_of_students:int,
+         *  room_no:string,
+         *  day_slots:array<string, array<int, bool>>
+         * }> $groupedRows
+         */
+        $groupedRows = [];
+        $slNo = 1;
+
+        foreach ($slotSubjects as $entry) {
+            $slot = $entry->slot;
+            $timeTable = $slot?->time_table;
+            $program = $timeTable?->program;
+            $subject = $entry->subject;
+
+            if ($slot === null || $timeTable === null || $program === null || $subject === null) {
+                continue;
+            }
+
+            $groupKey = implode('|', [
+                $program->id,
+                (string) $timeTable->semester,
+                $subject->id,
+                $entry->room_no,
+            ]);
+
+            if (! isset($groupedRows[$groupKey])) {
+                $studentCountKey = sprintf('%s|%d', $program->id, $timeTable->semester);
+                $groupedRows[$groupKey] = [
+                    'sl_no' => $slNo++,
+                    'program_name' => $program->name,
+                    'semester' => $timeTable->semester,
+                    'course_name' => sprintf('%s (%s)', $subject->name, $entry->batch),
+                    'no_of_students' => $studentCounts[$studentCountKey] ?? 0,
+                    'room_no' => $entry->room_no,
+                    'day_slots' => collect(self::DAYS)->mapWithKeys(
+                        fn (string $day): array => [$day => []]
+                    )->all(),
+                ];
+            }
+
+            for ($hour = $slot->start_hour_no; $hour <= $slot->end_hour_no; $hour += 1) {
+                $groupedRows[$groupKey]['day_slots'][$slot->day][$hour] = true;
+            }
+        }
+
+        return response()->json([
+            'data' => [
+                'academic_year' => (int) $institution->academic_year,
+                'days' => self::DAYS,
+                'rows' => array_values($groupedRows),
+            ],
         ]);
     }
 

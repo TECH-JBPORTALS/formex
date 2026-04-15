@@ -83,3 +83,35 @@ export async function saveProgramTimetableSlot(
     throw new Error(message);
   }
 }
+
+export type PersonalTimetableApiRow = {
+  sl_no: number;
+  program_name: string;
+  semester: number;
+  course_name: string;
+  no_of_students: number;
+  room_no: string;
+  day_slots: Record<string, Record<string, boolean>>;
+};
+
+export type PersonalTimetableApiResponse = {
+  data: {
+    academic_year: number;
+    days: string[];
+    rows: PersonalTimetableApiRow[];
+  };
+};
+
+export async function getPersonalTimetable(): Promise<
+  PersonalTimetableApiResponse["data"]
+> {
+  const response = await $api<ApiEnvelope<PersonalTimetableApiResponse>>(
+    "/timetable/personal",
+  );
+
+  if (response.status !== 200) {
+    throw new Error("Could not load personal timetable.");
+  }
+
+  return response.data.data;
+}

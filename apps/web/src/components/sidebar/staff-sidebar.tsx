@@ -1,6 +1,10 @@
 "use client";
 
-import { GridIcon, Home01Icon } from "@hugeicons/core-free-icons";
+import {
+  Calendar03Icon,
+  GridIcon,
+  Home01Icon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -62,6 +66,13 @@ export function StaffSidebar({
               <SidebarMenuButton asChild isActive={pathname === "/"}>
                 <Link href="/">
                   <HugeiconsIcon icon={Home01Icon} /> Home
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === "/timetable"}>
+                <Link href="/timetable">
+                  <HugeiconsIcon icon={Calendar03Icon} /> Personal Timetable
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

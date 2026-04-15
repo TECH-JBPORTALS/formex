@@ -47,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/programs/{program}/subjects', [SubjectController::class, 'store']);
     Route::get('/programs/{program}/timetable', [TimetableController::class, 'show']);
     Route::put('/programs/{program}/timetable', [TimetableController::class, 'upsertSlot']);
+    Route::get('/timetable/personal', [TimetableController::class, 'personal']);
 
     Route::apiResource('internships', InternshipController::class)->except(['store']);
     Route::get('/programs/{program}/internships', [InternshipController::class, 'listByProgram']);
