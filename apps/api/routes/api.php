@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BridgreController;
 use App\Http\Controllers\FacultyInvitationController;
 use App\Http\Controllers\HigherEducationController;
+use App\Http\Controllers\InstitutionCalendarUploadController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\InstitutionFacultyController;
 use App\Http\Controllers\InternshipController;
@@ -38,6 +39,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('institution.role:principal')->group(function () {
         Route::apiResource('/institutions/current/faculty', InstitutionFacultyController::class);
         Route::post('/institutions/current/faculty/invitations', [FacultyInvitationController::class, 'store']);
+
+        Route::get('/institution/calendar-uploads', [InstitutionCalendarUploadController::class, 'index']);
+        Route::post('/institution/calendar-uploads', [InstitutionCalendarUploadController::class, 'store']);
+        Route::delete('/institution/calendar-uploads/{kind}', [InstitutionCalendarUploadController::class, 'destroy']);
+        Route::get('/institution/calendar-uploads/{kind}/file', [InstitutionCalendarUploadController::class, 'download']);
     });
 
     Route::middleware('institution.role:principal,program_coordinator,course_coordinator')->group(function () {

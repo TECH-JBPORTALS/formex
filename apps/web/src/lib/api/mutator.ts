@@ -74,6 +74,26 @@ function cacheAndNextForMethod(
   };
 }
 
+let warnedOffOriginApi = false;
+
+function warnIfBrowserApiOffOrigin(resolved: string): void {
+  if (typeof window === "undefined" || warnedOffOriginApi) {
+    return;
+  }
+  try {
+    const reqUrl = new URL(resolved);
+    if (reqUrl.origin !== window.location.origin) {
+      warnedOffOriginApi = true;
+      console.error(
+        `[api] API URL origin (${reqUrl.origin}) differs from the page (${window.location.origin}). ` +
+          "Session cookies from proxied login will not be sent — use NEXT_PUBLIC_API_BASE_URL=/backend/api (see apps/web/.env.example).",
+      );
+    }
+  } catch {
+    // ignore invalid URL
+  }
+}
+
 function xsrfHeaderForRequest(method: string): Record<string, string> {
   const upper = method.toUpperCase();
   if (["GET", "HEAD", "OPTIONS"].includes(upper)) {
@@ -100,6 +120,7 @@ function xsrfHeaderForRequest(method: string): Record<string, string> {
 
 export async function $api<T>(url: string, init?: RequestInit): Promise<T> {
   const resolved = resolveApiUrl(url);
+  warnIfBrowserApiOffOrigin(resolved);
   const method = (init?.method ?? "GET").toUpperCase();
   const cacheAndNext = cacheAndNextForMethod(method, init);
 
@@ -107,10 +128,7 @@ export async function $api<T>(url: string, init?: RequestInit): Promise<T> {
     ...init,
     ...cacheAndNext,
     credentials: "include",
-    headers: mergeHeaders(
-      init?.headers,
-      xsrfHeaderForRequest(method),
-    ),
+    headers: mergeHeaders(init?.headers, xsrfHeaderForRequest(method)),
   });
 
   const status = res.status;
