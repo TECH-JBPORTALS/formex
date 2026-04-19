@@ -10,8 +10,11 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  email_verified_at: string;
-  created_at: string;
-  updated_at: string;
+  /** @nullable */
+  email_verified_at: string | null;
+  /** @nullable */
+  created_at: string | null;
+  /** @nullable */
+  updated_at: string | null;
   institutions: Institution[];
 }

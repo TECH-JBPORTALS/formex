@@ -71,12 +71,12 @@ export type programsStudentsIndexResponse =
   | programsStudentsIndexResponseSuccess
   | programsStudentsIndexResponseError;
 
-export const getProgramsStudentsIndexUrl = (program: number) => {
+export const getProgramsStudentsIndexUrl = (program: string) => {
   return `/programs/${program}/students`;
 };
 
 export const programsStudentsIndex = async (
-  program: number,
+  program: string,
   options?: RequestInit,
 ): Promise<programsStudentsIndexResponse> => {
   return $api<programsStudentsIndexResponse>(
@@ -88,7 +88,7 @@ export const programsStudentsIndex = async (
   );
 };
 
-export const getProgramsStudentsIndexQueryKey = (program: number) => {
+export const getProgramsStudentsIndexQueryKey = (program: string) => {
   return [`/programs/${program}/students`] as const;
 };
 
@@ -96,7 +96,7 @@ export const getProgramsStudentsIndexQueryOptions = <
   TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -141,7 +141,7 @@ export function useProgramsStudentsIndex<
   TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -168,7 +168,7 @@ export function useProgramsStudentsIndex<
   TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -195,7 +195,7 @@ export function useProgramsStudentsIndex<
   TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -215,7 +215,7 @@ export function useProgramsStudentsIndex<
   TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -244,7 +244,7 @@ export const getProgramsStudentsIndexSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -284,7 +284,7 @@ export function useProgramsStudentsIndexSuspense<
   TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -303,7 +303,7 @@ export function useProgramsStudentsIndexSuspense<
   TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -322,7 +322,7 @@ export function useProgramsStudentsIndexSuspense<
   TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -342,7 +342,7 @@ export function useProgramsStudentsIndexSuspense<
   TData = Awaited<ReturnType<typeof programsStudentsIndex>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -408,12 +408,12 @@ export type programsStudentsStoreResponse =
   | programsStudentsStoreResponseSuccess
   | programsStudentsStoreResponseError;
 
-export const getProgramsStudentsStoreUrl = (program: number) => {
+export const getProgramsStudentsStoreUrl = (program: string) => {
   return `/programs/${program}/students`;
 };
 
 export const programsStudentsStore = async (
-  program: number,
+  program: string,
   programsStudentsStoreBody: ProgramsStudentsStoreBody,
   options?: RequestInit,
 ): Promise<programsStudentsStoreResponse> => {
@@ -438,14 +438,14 @@ export const getProgramsStudentsStoreMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof programsStudentsStore>>,
     TError,
-    { program: number; data: ProgramsStudentsStoreBody },
+    { program: string; data: ProgramsStudentsStoreBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof programsStudentsStore>>,
   TError,
-  { program: number; data: ProgramsStudentsStoreBody },
+  { program: string; data: ProgramsStudentsStoreBody },
   TContext
 > => {
   const mutationKey = ["programsStudentsStore"];
@@ -459,7 +459,7 @@ export const getProgramsStudentsStoreMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof programsStudentsStore>>,
-    { program: number; data: ProgramsStudentsStoreBody }
+    { program: string; data: ProgramsStudentsStoreBody }
   > = (props) => {
     const { program, data } = props ?? {};
 
@@ -489,7 +489,7 @@ export const useProgramsStudentsStore = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof programsStudentsStore>>,
       TError,
-      { program: number; data: ProgramsStudentsStoreBody },
+      { program: string; data: ProgramsStudentsStoreBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -498,7 +498,7 @@ export const useProgramsStudentsStore = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof programsStudentsStore>>,
   TError,
-  { program: number; data: ProgramsStudentsStoreBody },
+  { program: string; data: ProgramsStudentsStoreBody },
   TContext
 > => {
   return useMutation(
@@ -537,15 +537,15 @@ export type programsStudentsShowResponse =
   | programsStudentsShowResponseError;
 
 export const getProgramsStudentsShowUrl = (
-  program: number,
-  student: number,
+  program: string,
+  student: string,
 ) => {
   return `/programs/${program}/students/${student}`;
 };
 
 export const programsStudentsShow = async (
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options?: RequestInit,
 ): Promise<programsStudentsShowResponse> => {
   return $api<programsStudentsShowResponse>(
@@ -558,8 +558,8 @@ export const programsStudentsShow = async (
 };
 
 export const getProgramsStudentsShowQueryKey = (
-  program: number,
-  student: number,
+  program: string,
+  student: string,
 ) => {
   return [`/programs/${program}/students/${student}`] as const;
 };
@@ -568,8 +568,8 @@ export const getProgramsStudentsShowQueryOptions = <
   TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -614,8 +614,8 @@ export function useProgramsStudentsShow<
   TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -642,8 +642,8 @@ export function useProgramsStudentsShow<
   TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -670,8 +670,8 @@ export function useProgramsStudentsShow<
   TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -691,8 +691,8 @@ export function useProgramsStudentsShow<
   TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -725,8 +725,8 @@ export const getProgramsStudentsShowSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -766,8 +766,8 @@ export function useProgramsStudentsShowSuspense<
   TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -786,8 +786,8 @@ export function useProgramsStudentsShowSuspense<
   TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -806,8 +806,8 @@ export function useProgramsStudentsShowSuspense<
   TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -827,8 +827,8 @@ export function useProgramsStudentsShowSuspense<
   TData = Awaited<ReturnType<typeof programsStudentsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -896,15 +896,15 @@ export type programsStudentsUpdateResponse =
   | programsStudentsUpdateResponseError;
 
 export const getProgramsStudentsUpdateUrl = (
-  program: number,
-  student: number,
+  program: string,
+  student: string,
 ) => {
   return `/programs/${program}/students/${student}`;
 };
 
 export const programsStudentsUpdate = async (
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   programsStudentsUpdateBody: ProgramsStudentsUpdateBody,
   options?: RequestInit,
 ): Promise<programsStudentsUpdateResponse> => {
@@ -929,14 +929,14 @@ export const getProgramsStudentsUpdateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof programsStudentsUpdate>>,
     TError,
-    { program: number; student: number; data: ProgramsStudentsUpdateBody },
+    { program: string; student: string; data: ProgramsStudentsUpdateBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof programsStudentsUpdate>>,
   TError,
-  { program: number; student: number; data: ProgramsStudentsUpdateBody },
+  { program: string; student: string; data: ProgramsStudentsUpdateBody },
   TContext
 > => {
   const mutationKey = ["programsStudentsUpdate"];
@@ -950,7 +950,7 @@ export const getProgramsStudentsUpdateMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof programsStudentsUpdate>>,
-    { program: number; student: number; data: ProgramsStudentsUpdateBody }
+    { program: string; student: string; data: ProgramsStudentsUpdateBody }
   > = (props) => {
     const { program, student, data } = props ?? {};
 
@@ -980,7 +980,7 @@ export const useProgramsStudentsUpdate = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof programsStudentsUpdate>>,
       TError,
-      { program: number; student: number; data: ProgramsStudentsUpdateBody },
+      { program: string; student: string; data: ProgramsStudentsUpdateBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -989,7 +989,7 @@ export const useProgramsStudentsUpdate = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof programsStudentsUpdate>>,
   TError,
-  { program: number; student: number; data: ProgramsStudentsUpdateBody },
+  { program: string; student: string; data: ProgramsStudentsUpdateBody },
   TContext
 > => {
   return useMutation(
@@ -1028,15 +1028,15 @@ export type programsStudentsDestroyResponse =
   | programsStudentsDestroyResponseError;
 
 export const getProgramsStudentsDestroyUrl = (
-  program: number,
-  student: number,
+  program: string,
+  student: string,
 ) => {
   return `/programs/${program}/students/${student}`;
 };
 
 export const programsStudentsDestroy = async (
-  program: number,
-  student: number,
+  program: string,
+  student: string,
   options?: RequestInit,
 ): Promise<programsStudentsDestroyResponse> => {
   return $api<programsStudentsDestroyResponse>(
@@ -1055,14 +1055,14 @@ export const getProgramsStudentsDestroyMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof programsStudentsDestroy>>,
     TError,
-    { program: number; student: number },
+    { program: string; student: string },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof programsStudentsDestroy>>,
   TError,
-  { program: number; student: number },
+  { program: string; student: string },
   TContext
 > => {
   const mutationKey = ["programsStudentsDestroy"];
@@ -1076,7 +1076,7 @@ export const getProgramsStudentsDestroyMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof programsStudentsDestroy>>,
-    { program: number; student: number }
+    { program: string; student: string }
   > = (props) => {
     const { program, student } = props ?? {};
 
@@ -1102,7 +1102,7 @@ export const useProgramsStudentsDestroy = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof programsStudentsDestroy>>,
       TError,
-      { program: number; student: number },
+      { program: string; student: string },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -1111,7 +1111,7 @@ export const useProgramsStudentsDestroy = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof programsStudentsDestroy>>,
   TError,
-  { program: number; student: number },
+  { program: string; student: string },
   TContext
 > => {
   return useMutation(

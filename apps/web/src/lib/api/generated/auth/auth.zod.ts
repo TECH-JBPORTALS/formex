@@ -45,25 +45,33 @@ export const AuthLoginResponse = zod.object({
 /**
  * @summary Return the authenticated user for the current session
  */
-export const authUserResponseUserInstitutionsItemMin = 0;
-export const authUserResponseUserInstitutionsItemMax = 0;
-
-export const authUserResponseCurrentInstitutionOneMin = 0;
-export const authUserResponseCurrentInstitutionOneMax = 0;
-
-
-
 export const AuthUserResponse = zod.object({
   "user": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "email": zod.string(),
-  "email_verified_at": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
-  "institutions": zod.array(zod.array(zod.string()).min(authUserResponseUserInstitutionsItemMin).max(authUserResponseUserInstitutionsItemMax))
+  "email_verified_at": zod.iso.datetime({}).nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "institutions": zod.array(zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}))
 }),
-  "current_institution": zod.union([zod.array(zod.string()).min(authUserResponseCurrentInstitutionOneMin).max(authUserResponseCurrentInstitutionOneMax),zod.null()]),
+  "current_institution": zod.union([zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}),zod.null()]),
   "current_institution_id": zod.string(),
   "current_academic_year": zod.number().nullable(),
   "current_institution_role": zod.string()
@@ -76,25 +84,33 @@ export const AuthSetCurrentInstitutionBody = zod.object({
   "institution_id": zod.string()
 })
 
-export const authSetCurrentInstitutionResponseUserInstitutionsItemMin = 0;
-export const authSetCurrentInstitutionResponseUserInstitutionsItemMax = 0;
-
-export const authSetCurrentInstitutionResponseCurrentInstitutionOneMin = 0;
-export const authSetCurrentInstitutionResponseCurrentInstitutionOneMax = 0;
-
-
-
 export const AuthSetCurrentInstitutionResponse = zod.object({
   "user": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "email": zod.string(),
-  "email_verified_at": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
-  "institutions": zod.array(zod.array(zod.string()).min(authSetCurrentInstitutionResponseUserInstitutionsItemMin).max(authSetCurrentInstitutionResponseUserInstitutionsItemMax))
+  "email_verified_at": zod.iso.datetime({}).nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "institutions": zod.array(zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}))
 }),
-  "current_institution": zod.union([zod.array(zod.string()).min(authSetCurrentInstitutionResponseCurrentInstitutionOneMin).max(authSetCurrentInstitutionResponseCurrentInstitutionOneMax),zod.null()]),
+  "current_institution": zod.union([zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}),zod.null()]),
   "current_institution_id": zod.string(),
   "current_academic_year": zod.number().nullable(),
   "current_institution_role": zod.string()
@@ -112,25 +128,33 @@ export const AuthSetAcademicYearBody = zod.object({
   "academic_year": zod.number().min(authSetAcademicYearBodyAcademicYearMin).max(authSetAcademicYearBodyAcademicYearMax)
 })
 
-export const authSetAcademicYearResponseUserInstitutionsItemMin = 0;
-export const authSetAcademicYearResponseUserInstitutionsItemMax = 0;
-
-export const authSetAcademicYearResponseCurrentInstitutionOneMin = 0;
-export const authSetAcademicYearResponseCurrentInstitutionOneMax = 0;
-
-
-
 export const AuthSetAcademicYearResponse = zod.object({
   "user": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "email": zod.string(),
-  "email_verified_at": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
-  "institutions": zod.array(zod.array(zod.string()).min(authSetAcademicYearResponseUserInstitutionsItemMin).max(authSetAcademicYearResponseUserInstitutionsItemMax))
+  "email_verified_at": zod.iso.datetime({}).nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
+  "institutions": zod.array(zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}))
 }),
-  "current_institution": zod.union([zod.array(zod.string()).min(authSetAcademicYearResponseCurrentInstitutionOneMin).max(authSetAcademicYearResponseCurrentInstitutionOneMax),zod.null()]),
+  "current_institution": zod.union([zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+}),zod.null()]),
   "current_institution_id": zod.string(),
   "current_academic_year": zod.number().nullable(),
   "current_institution_role": zod.string()

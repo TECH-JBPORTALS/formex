@@ -366,12 +366,12 @@ export type internshipsShowResponse =
   | internshipsShowResponseSuccess
   | internshipsShowResponseError;
 
-export const getInternshipsShowUrl = (internship: number) => {
+export const getInternshipsShowUrl = (internship: string) => {
   return `/internships/${internship}`;
 };
 
 export const internshipsShow = async (
-  internship: number,
+  internship: string,
   options?: RequestInit,
 ): Promise<internshipsShowResponse> => {
   return $api<internshipsShowResponse>(getInternshipsShowUrl(internship), {
@@ -380,7 +380,7 @@ export const internshipsShow = async (
   });
 };
 
-export const getInternshipsShowQueryKey = (internship: number) => {
+export const getInternshipsShowQueryKey = (internship: string) => {
   return [`/internships/${internship}`] as const;
 };
 
@@ -388,7 +388,7 @@ export const getInternshipsShowQueryOptions = <
   TData = Awaited<ReturnType<typeof internshipsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  internship: number,
+  internship: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -432,7 +432,7 @@ export function useInternshipsShow<
   TData = Awaited<ReturnType<typeof internshipsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  internship: number,
+  internship: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -459,7 +459,7 @@ export function useInternshipsShow<
   TData = Awaited<ReturnType<typeof internshipsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  internship: number,
+  internship: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -486,7 +486,7 @@ export function useInternshipsShow<
   TData = Awaited<ReturnType<typeof internshipsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  internship: number,
+  internship: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -509,7 +509,7 @@ export function useInternshipsShow<
   TData = Awaited<ReturnType<typeof internshipsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  internship: number,
+  internship: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -538,7 +538,7 @@ export const getInternshipsShowSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof internshipsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  internship: number,
+  internship: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -577,7 +577,7 @@ export function useInternshipsShowSuspense<
   TData = Awaited<ReturnType<typeof internshipsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  internship: number,
+  internship: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -596,7 +596,7 @@ export function useInternshipsShowSuspense<
   TData = Awaited<ReturnType<typeof internshipsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  internship: number,
+  internship: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -615,7 +615,7 @@ export function useInternshipsShowSuspense<
   TData = Awaited<ReturnType<typeof internshipsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  internship: number,
+  internship: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -638,7 +638,7 @@ export function useInternshipsShowSuspense<
   TData = Awaited<ReturnType<typeof internshipsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  internship: number,
+  internship: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -706,12 +706,12 @@ export type internshipsUpdateResponse =
   | internshipsUpdateResponseSuccess
   | internshipsUpdateResponseError;
 
-export const getInternshipsUpdateUrl = (internship: number) => {
+export const getInternshipsUpdateUrl = (internship: string) => {
   return `/internships/${internship}`;
 };
 
 export const internshipsUpdate = async (
-  internship: number,
+  internship: string,
   internshipsUpdateBody: InternshipsUpdateBody,
   options?: RequestInit,
 ): Promise<internshipsUpdateResponse> => {
@@ -733,14 +733,14 @@ export const getInternshipsUpdateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof internshipsUpdate>>,
     TError,
-    { internship: number; data: InternshipsUpdateBody },
+    { internship: string; data: InternshipsUpdateBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof internshipsUpdate>>,
   TError,
-  { internship: number; data: InternshipsUpdateBody },
+  { internship: string; data: InternshipsUpdateBody },
   TContext
 > => {
   const mutationKey = ["internshipsUpdate"];
@@ -754,7 +754,7 @@ export const getInternshipsUpdateMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof internshipsUpdate>>,
-    { internship: number; data: InternshipsUpdateBody }
+    { internship: string; data: InternshipsUpdateBody }
   > = (props) => {
     const { internship, data } = props ?? {};
 
@@ -787,7 +787,7 @@ export const useInternshipsUpdate = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof internshipsUpdate>>,
       TError,
-      { internship: number; data: InternshipsUpdateBody },
+      { internship: string; data: InternshipsUpdateBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -796,7 +796,7 @@ export const useInternshipsUpdate = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof internshipsUpdate>>,
   TError,
-  { internship: number; data: InternshipsUpdateBody },
+  { internship: string; data: InternshipsUpdateBody },
   TContext
 > => {
   return useMutation(getInternshipsUpdateMutationOptions(options), queryClient);
@@ -834,12 +834,12 @@ export type internshipsDestroyResponse =
   | internshipsDestroyResponseSuccess
   | internshipsDestroyResponseError;
 
-export const getInternshipsDestroyUrl = (internship: number) => {
+export const getInternshipsDestroyUrl = (internship: string) => {
   return `/internships/${internship}`;
 };
 
 export const internshipsDestroy = async (
-  internship: number,
+  internship: string,
   options?: RequestInit,
 ): Promise<internshipsDestroyResponse> => {
   return $api<internshipsDestroyResponse>(
@@ -858,14 +858,14 @@ export const getInternshipsDestroyMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof internshipsDestroy>>,
     TError,
-    { internship: number },
+    { internship: string },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof internshipsDestroy>>,
   TError,
-  { internship: number },
+  { internship: string },
   TContext
 > => {
   const mutationKey = ["internshipsDestroy"];
@@ -879,7 +879,7 @@ export const getInternshipsDestroyMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof internshipsDestroy>>,
-    { internship: number }
+    { internship: string }
   > = (props) => {
     const { internship } = props ?? {};
 
@@ -908,7 +908,7 @@ export const useInternshipsDestroy = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof internshipsDestroy>>,
       TError,
-      { internship: number },
+      { internship: string },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -917,7 +917,7 @@ export const useInternshipsDestroy = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof internshipsDestroy>>,
   TError,
-  { internship: number },
+  { internship: string },
   TContext
 > => {
   return useMutation(
@@ -955,12 +955,12 @@ export type internshipListByProgramResponse =
   | internshipListByProgramResponseSuccess
   | internshipListByProgramResponseError;
 
-export const getInternshipListByProgramUrl = (program: number) => {
+export const getInternshipListByProgramUrl = (program: string) => {
   return `/programs/${program}/internships`;
 };
 
 export const internshipListByProgram = async (
-  program: number,
+  program: string,
   options?: RequestInit,
 ): Promise<internshipListByProgramResponse> => {
   return $api<internshipListByProgramResponse>(
@@ -972,7 +972,7 @@ export const internshipListByProgram = async (
   );
 };
 
-export const getInternshipListByProgramQueryKey = (program: number) => {
+export const getInternshipListByProgramQueryKey = (program: string) => {
   return [`/programs/${program}/internships`] as const;
 };
 
@@ -980,7 +980,7 @@ export const getInternshipListByProgramQueryOptions = <
   TData = Awaited<ReturnType<typeof internshipListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1025,7 +1025,7 @@ export function useInternshipListByProgram<
   TData = Awaited<ReturnType<typeof internshipListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1052,7 +1052,7 @@ export function useInternshipListByProgram<
   TData = Awaited<ReturnType<typeof internshipListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1079,7 +1079,7 @@ export function useInternshipListByProgram<
   TData = Awaited<ReturnType<typeof internshipListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1099,7 +1099,7 @@ export function useInternshipListByProgram<
   TData = Awaited<ReturnType<typeof internshipListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1128,7 +1128,7 @@ export const getInternshipListByProgramSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof internshipListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1168,7 +1168,7 @@ export function useInternshipListByProgramSuspense<
   TData = Awaited<ReturnType<typeof internshipListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -1187,7 +1187,7 @@ export function useInternshipListByProgramSuspense<
   TData = Awaited<ReturnType<typeof internshipListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1206,7 +1206,7 @@ export function useInternshipListByProgramSuspense<
   TData = Awaited<ReturnType<typeof internshipListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1226,7 +1226,7 @@ export function useInternshipListByProgramSuspense<
   TData = Awaited<ReturnType<typeof internshipListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1286,12 +1286,12 @@ export type internshipListByStudentResponse =
   | internshipListByStudentResponseSuccess
   | internshipListByStudentResponseError;
 
-export const getInternshipListByStudentUrl = (student: number) => {
+export const getInternshipListByStudentUrl = (student: string) => {
   return `/students/${student}/internships`;
 };
 
 export const internshipListByStudent = async (
-  student: number,
+  student: string,
   options?: RequestInit,
 ): Promise<internshipListByStudentResponse> => {
   return $api<internshipListByStudentResponse>(
@@ -1303,7 +1303,7 @@ export const internshipListByStudent = async (
   );
 };
 
-export const getInternshipListByStudentQueryKey = (student: number) => {
+export const getInternshipListByStudentQueryKey = (student: string) => {
   return [`/students/${student}/internships`] as const;
 };
 
@@ -1311,7 +1311,7 @@ export const getInternshipListByStudentQueryOptions = <
   TData = Awaited<ReturnType<typeof internshipListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1356,7 +1356,7 @@ export function useInternshipListByStudent<
   TData = Awaited<ReturnType<typeof internshipListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1383,7 +1383,7 @@ export function useInternshipListByStudent<
   TData = Awaited<ReturnType<typeof internshipListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1410,7 +1410,7 @@ export function useInternshipListByStudent<
   TData = Awaited<ReturnType<typeof internshipListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1430,7 +1430,7 @@ export function useInternshipListByStudent<
   TData = Awaited<ReturnType<typeof internshipListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1459,7 +1459,7 @@ export const getInternshipListByStudentSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof internshipListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1499,7 +1499,7 @@ export function useInternshipListByStudentSuspense<
   TData = Awaited<ReturnType<typeof internshipListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -1518,7 +1518,7 @@ export function useInternshipListByStudentSuspense<
   TData = Awaited<ReturnType<typeof internshipListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1537,7 +1537,7 @@ export function useInternshipListByStudentSuspense<
   TData = Awaited<ReturnType<typeof internshipListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1557,7 +1557,7 @@ export function useInternshipListByStudentSuspense<
   TData = Awaited<ReturnType<typeof internshipListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1625,12 +1625,12 @@ export type internshipStoreResponse =
   | internshipStoreResponseSuccess
   | internshipStoreResponseError;
 
-export const getInternshipStoreUrl = (student: number) => {
+export const getInternshipStoreUrl = (student: string) => {
   return `/students/${student}/internships`;
 };
 
 export const internshipStore = async (
-  student: number,
+  student: string,
   internshipStoreBody: InternshipStoreBody,
   options?: RequestInit,
 ): Promise<internshipStoreResponse> => {
@@ -1652,14 +1652,14 @@ export const getInternshipStoreMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof internshipStore>>,
     TError,
-    { student: number; data: InternshipStoreBody },
+    { student: string; data: InternshipStoreBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof internshipStore>>,
   TError,
-  { student: number; data: InternshipStoreBody },
+  { student: string; data: InternshipStoreBody },
   TContext
 > => {
   const mutationKey = ["internshipStore"];
@@ -1673,7 +1673,7 @@ export const getInternshipStoreMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof internshipStore>>,
-    { student: number; data: InternshipStoreBody }
+    { student: string; data: InternshipStoreBody }
   > = (props) => {
     const { student, data } = props ?? {};
 
@@ -1706,7 +1706,7 @@ export const useInternshipStore = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof internshipStore>>,
       TError,
-      { student: number; data: InternshipStoreBody },
+      { student: string; data: InternshipStoreBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -1715,7 +1715,7 @@ export const useInternshipStore = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof internshipStore>>,
   TError,
-  { student: number; data: InternshipStoreBody },
+  { student: string; data: InternshipStoreBody },
   TContext
 > => {
   return useMutation(getInternshipStoreMutationOptions(options), queryClient);

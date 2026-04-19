@@ -349,12 +349,12 @@ export type bridgesShowResponse =
   | bridgesShowResponseSuccess
   | bridgesShowResponseError;
 
-export const getBridgesShowUrl = (bridge: number) => {
+export const getBridgesShowUrl = (bridge: string) => {
   return `/bridges/${bridge}`;
 };
 
 export const bridgesShow = async (
-  bridge: number,
+  bridge: string,
   options?: RequestInit,
 ): Promise<bridgesShowResponse> => {
   return $api<bridgesShowResponse>(getBridgesShowUrl(bridge), {
@@ -363,7 +363,7 @@ export const bridgesShow = async (
   });
 };
 
-export const getBridgesShowQueryKey = (bridge: number) => {
+export const getBridgesShowQueryKey = (bridge: string) => {
   return [`/bridges/${bridge}`] as const;
 };
 
@@ -371,7 +371,7 @@ export const getBridgesShowQueryOptions = <
   TData = Awaited<ReturnType<typeof bridgesShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  bridge: number,
+  bridge: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof bridgesShow>>, TError, TData>
@@ -410,7 +410,7 @@ export function useBridgesShow<
   TData = Awaited<ReturnType<typeof bridgesShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  bridge: number,
+  bridge: string,
   options: {
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof bridgesShow>>, TError, TData>
@@ -433,7 +433,7 @@ export function useBridgesShow<
   TData = Awaited<ReturnType<typeof bridgesShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  bridge: number,
+  bridge: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof bridgesShow>>, TError, TData>
@@ -456,7 +456,7 @@ export function useBridgesShow<
   TData = Awaited<ReturnType<typeof bridgesShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  bridge: number,
+  bridge: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof bridgesShow>>, TError, TData>
@@ -475,7 +475,7 @@ export function useBridgesShow<
   TData = Awaited<ReturnType<typeof bridgesShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  bridge: number,
+  bridge: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof bridgesShow>>, TError, TData>
@@ -500,7 +500,7 @@ export const getBridgesShowSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof bridgesShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  bridge: number,
+  bridge: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -538,7 +538,7 @@ export function useBridgesShowSuspense<
   TData = Awaited<ReturnType<typeof bridgesShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  bridge: number,
+  bridge: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -557,7 +557,7 @@ export function useBridgesShowSuspense<
   TData = Awaited<ReturnType<typeof bridgesShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  bridge: number,
+  bridge: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -576,7 +576,7 @@ export function useBridgesShowSuspense<
   TData = Awaited<ReturnType<typeof bridgesShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  bridge: number,
+  bridge: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -599,7 +599,7 @@ export function useBridgesShowSuspense<
   TData = Awaited<ReturnType<typeof bridgesShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  bridge: number,
+  bridge: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -664,12 +664,12 @@ export type bridgesUpdateResponse =
   | bridgesUpdateResponseSuccess
   | bridgesUpdateResponseError;
 
-export const getBridgesUpdateUrl = (bridge: number) => {
+export const getBridgesUpdateUrl = (bridge: string) => {
   return `/bridges/${bridge}`;
 };
 
 export const bridgesUpdate = async (
-  bridge: number,
+  bridge: string,
   bridgesUpdateBody: BridgesUpdateBody,
   options?: RequestInit,
 ): Promise<bridgesUpdateResponse> => {
@@ -691,14 +691,14 @@ export const getBridgesUpdateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof bridgesUpdate>>,
     TError,
-    { bridge: number; data: BridgesUpdateBody },
+    { bridge: string; data: BridgesUpdateBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof bridgesUpdate>>,
   TError,
-  { bridge: number; data: BridgesUpdateBody },
+  { bridge: string; data: BridgesUpdateBody },
   TContext
 > => {
   const mutationKey = ["bridgesUpdate"];
@@ -712,7 +712,7 @@ export const getBridgesUpdateMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof bridgesUpdate>>,
-    { bridge: number; data: BridgesUpdateBody }
+    { bridge: string; data: BridgesUpdateBody }
   > = (props) => {
     const { bridge, data } = props ?? {};
 
@@ -745,7 +745,7 @@ export const useBridgesUpdate = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof bridgesUpdate>>,
       TError,
-      { bridge: number; data: BridgesUpdateBody },
+      { bridge: string; data: BridgesUpdateBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -754,7 +754,7 @@ export const useBridgesUpdate = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof bridgesUpdate>>,
   TError,
-  { bridge: number; data: BridgesUpdateBody },
+  { bridge: string; data: BridgesUpdateBody },
   TContext
 > => {
   return useMutation(getBridgesUpdateMutationOptions(options), queryClient);
@@ -791,12 +791,12 @@ export type bridgesDestroyResponse =
   | bridgesDestroyResponseSuccess
   | bridgesDestroyResponseError;
 
-export const getBridgesDestroyUrl = (bridge: number) => {
+export const getBridgesDestroyUrl = (bridge: string) => {
   return `/bridges/${bridge}`;
 };
 
 export const bridgesDestroy = async (
-  bridge: number,
+  bridge: string,
   options?: RequestInit,
 ): Promise<bridgesDestroyResponse> => {
   return $api<bridgesDestroyResponse>(getBridgesDestroyUrl(bridge), {
@@ -812,14 +812,14 @@ export const getBridgesDestroyMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof bridgesDestroy>>,
     TError,
-    { bridge: number },
+    { bridge: string },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof bridgesDestroy>>,
   TError,
-  { bridge: number },
+  { bridge: string },
   TContext
 > => {
   const mutationKey = ["bridgesDestroy"];
@@ -833,7 +833,7 @@ export const getBridgesDestroyMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof bridgesDestroy>>,
-    { bridge: number }
+    { bridge: string }
   > = (props) => {
     const { bridge } = props ?? {};
 
@@ -862,7 +862,7 @@ export const useBridgesDestroy = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof bridgesDestroy>>,
       TError,
-      { bridge: number },
+      { bridge: string },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -871,7 +871,7 @@ export const useBridgesDestroy = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof bridgesDestroy>>,
   TError,
-  { bridge: number },
+  { bridge: string },
   TContext
 > => {
   return useMutation(getBridgesDestroyMutationOptions(options), queryClient);
@@ -906,12 +906,12 @@ export type bridgreListByProgramResponse =
   | bridgreListByProgramResponseSuccess
   | bridgreListByProgramResponseError;
 
-export const getBridgreListByProgramUrl = (program: number) => {
+export const getBridgreListByProgramUrl = (program: string) => {
   return `/programs/${program}/bridges`;
 };
 
 export const bridgreListByProgram = async (
-  program: number,
+  program: string,
   options?: RequestInit,
 ): Promise<bridgreListByProgramResponse> => {
   return $api<bridgreListByProgramResponse>(
@@ -923,7 +923,7 @@ export const bridgreListByProgram = async (
   );
 };
 
-export const getBridgreListByProgramQueryKey = (program: number) => {
+export const getBridgreListByProgramQueryKey = (program: string) => {
   return [`/programs/${program}/bridges`] as const;
 };
 
@@ -931,7 +931,7 @@ export const getBridgreListByProgramQueryOptions = <
   TData = Awaited<ReturnType<typeof bridgreListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -976,7 +976,7 @@ export function useBridgreListByProgram<
   TData = Awaited<ReturnType<typeof bridgreListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1003,7 +1003,7 @@ export function useBridgreListByProgram<
   TData = Awaited<ReturnType<typeof bridgreListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1030,7 +1030,7 @@ export function useBridgreListByProgram<
   TData = Awaited<ReturnType<typeof bridgreListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1050,7 +1050,7 @@ export function useBridgreListByProgram<
   TData = Awaited<ReturnType<typeof bridgreListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1079,7 +1079,7 @@ export const getBridgreListByProgramSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof bridgreListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1119,7 +1119,7 @@ export function useBridgreListByProgramSuspense<
   TData = Awaited<ReturnType<typeof bridgreListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -1138,7 +1138,7 @@ export function useBridgreListByProgramSuspense<
   TData = Awaited<ReturnType<typeof bridgreListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1157,7 +1157,7 @@ export function useBridgreListByProgramSuspense<
   TData = Awaited<ReturnType<typeof bridgreListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1177,7 +1177,7 @@ export function useBridgreListByProgramSuspense<
   TData = Awaited<ReturnType<typeof bridgreListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1237,12 +1237,12 @@ export type bridgreListBySubjectResponse =
   | bridgreListBySubjectResponseSuccess
   | bridgreListBySubjectResponseError;
 
-export const getBridgreListBySubjectUrl = (subject: number) => {
+export const getBridgreListBySubjectUrl = (subject: string) => {
   return `/subjects/${subject}/bridges`;
 };
 
 export const bridgreListBySubject = async (
-  subject: number,
+  subject: string,
   options?: RequestInit,
 ): Promise<bridgreListBySubjectResponse> => {
   return $api<bridgreListBySubjectResponse>(
@@ -1254,7 +1254,7 @@ export const bridgreListBySubject = async (
   );
 };
 
-export const getBridgreListBySubjectQueryKey = (subject: number) => {
+export const getBridgreListBySubjectQueryKey = (subject: string) => {
   return [`/subjects/${subject}/bridges`] as const;
 };
 
@@ -1262,7 +1262,7 @@ export const getBridgreListBySubjectQueryOptions = <
   TData = Awaited<ReturnType<typeof bridgreListBySubject>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1307,7 +1307,7 @@ export function useBridgreListBySubject<
   TData = Awaited<ReturnType<typeof bridgreListBySubject>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1334,7 +1334,7 @@ export function useBridgreListBySubject<
   TData = Awaited<ReturnType<typeof bridgreListBySubject>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1361,7 +1361,7 @@ export function useBridgreListBySubject<
   TData = Awaited<ReturnType<typeof bridgreListBySubject>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1381,7 +1381,7 @@ export function useBridgreListBySubject<
   TData = Awaited<ReturnType<typeof bridgreListBySubject>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1410,7 +1410,7 @@ export const getBridgreListBySubjectSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof bridgreListBySubject>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1450,7 +1450,7 @@ export function useBridgreListBySubjectSuspense<
   TData = Awaited<ReturnType<typeof bridgreListBySubject>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -1469,7 +1469,7 @@ export function useBridgreListBySubjectSuspense<
   TData = Awaited<ReturnType<typeof bridgreListBySubject>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1488,7 +1488,7 @@ export function useBridgreListBySubjectSuspense<
   TData = Awaited<ReturnType<typeof bridgreListBySubject>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1508,7 +1508,7 @@ export function useBridgreListBySubjectSuspense<
   TData = Awaited<ReturnType<typeof bridgreListBySubject>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1576,12 +1576,12 @@ export type bridgreStoreResponse =
   | bridgreStoreResponseSuccess
   | bridgreStoreResponseError;
 
-export const getBridgreStoreUrl = (subject: number) => {
+export const getBridgreStoreUrl = (subject: string) => {
   return `/subjects/${subject}/bridges`;
 };
 
 export const bridgreStore = async (
-  subject: number,
+  subject: string,
   bridgreStoreBody: BridgreStoreBody,
   options?: RequestInit,
 ): Promise<bridgreStoreResponse> => {
@@ -1603,14 +1603,14 @@ export const getBridgreStoreMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof bridgreStore>>,
     TError,
-    { subject: number; data: BridgreStoreBody },
+    { subject: string; data: BridgreStoreBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof bridgreStore>>,
   TError,
-  { subject: number; data: BridgreStoreBody },
+  { subject: string; data: BridgreStoreBody },
   TContext
 > => {
   const mutationKey = ["bridgreStore"];
@@ -1624,7 +1624,7 @@ export const getBridgreStoreMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof bridgreStore>>,
-    { subject: number; data: BridgreStoreBody }
+    { subject: string; data: BridgreStoreBody }
   > = (props) => {
     const { subject, data } = props ?? {};
 
@@ -1657,7 +1657,7 @@ export const useBridgreStore = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof bridgreStore>>,
       TError,
-      { subject: number; data: BridgreStoreBody },
+      { subject: string; data: BridgreStoreBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -1666,7 +1666,7 @@ export const useBridgreStore = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof bridgreStore>>,
   TError,
-  { subject: number; data: BridgreStoreBody },
+  { subject: string; data: BridgreStoreBody },
   TContext
 > => {
   return useMutation(getBridgreStoreMutationOptions(options), queryClient);

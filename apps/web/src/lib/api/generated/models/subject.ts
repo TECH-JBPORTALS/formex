@@ -11,10 +11,12 @@ export interface Subject {
   name: string;
   short_name: string;
   type: string;
-  semester: string;
+  semester: number;
   scheme: string;
-  created_at: string;
-  updated_at: string;
+  /** @nullable */
+  created_at: string | null;
+  /** @nullable */
+  updated_at: string | null;
   program?: Program;
   assigned_staff: string;
 }

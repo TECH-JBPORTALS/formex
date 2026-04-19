@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-
 #[Fillable([
     'full_name',
     'date_of_birth',
@@ -27,8 +26,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 ])]
 class Student extends Model
 {
-
-    use HasUlids, HasFactory;
+    use HasFactory, HasUlids;
 
     protected function casts(): array
     {
@@ -44,10 +42,12 @@ class Student extends Model
     {
         return $this->belongsTo(Program::class);
     }
+
     public function internships(): HasMany
     {
         return $this->hasMany(Internship::class);
     }
+
     public function institution(): BelongsTo
     {
         return $this->belongsTo(Institution::class);
@@ -57,13 +57,19 @@ class Student extends Model
     {
         return $this->hasMany(Placement::class);
     }
+
     public function higher_educations(): HasMany
     {
         return $this->hasMany(HigherEducation::class);
     }
+
     public function skill_programs(): HasMany
     {
         return $this->hasMany(SkillProgram::class);
     }
 
+    public function feedback_entries(): HasMany
+    {
+        return $this->hasMany(StudentFeedback::class);
+    }
 }

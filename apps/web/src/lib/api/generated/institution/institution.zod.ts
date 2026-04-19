@@ -34,23 +34,26 @@ export const InstitutionsStoreBody = zod.object({
  * @summary Display the specified resource
  */
 export const InstitutionsShowParams = zod.object({
-  "institution": zod.number().describe('The institution ID')
+  "institution": zod.string().describe('The institution ID')
 })
 
-export const institutionsShowResponseDataMin = 0;
-export const institutionsShowResponseDataMax = 0;
-
-
-
 export const InstitutionsShowResponse = zod.object({
-  "data": zod.array(zod.string()).min(institutionsShowResponseDataMin).max(institutionsShowResponseDataMax)
+  "data": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+})
 })
 
 /**
  * @summary Update the specified resource in storage
  */
 export const InstitutionsUpdateParams = zod.object({
-  "institution": zod.number().describe('The institution ID')
+  "institution": zod.string().describe('The institution ID')
 })
 
 export const institutionsUpdateBodyNameMax = 255;
@@ -66,30 +69,36 @@ export const InstitutionsUpdateBody = zod.object({
   "type": zod.enum(['government', 'aided', 'private']).optional()
 })
 
-export const institutionsUpdateResponseDataMin = 0;
-export const institutionsUpdateResponseDataMax = 0;
-
-
-
 export const InstitutionsUpdateResponse = zod.object({
   "message": zod.literal("Institution updated successfully"),
-  "data": zod.array(zod.string()).min(institutionsUpdateResponseDataMin).max(institutionsUpdateResponseDataMax)
+  "data": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+})
 })
 
 /**
  * @summary Remove the specified resource from storage
  */
 export const InstitutionsDestroyParams = zod.object({
-  "institution": zod.number().describe('The institution ID')
+  "institution": zod.string().describe('The institution ID')
 })
-
-export const institutionsDestroyResponseDataMin = 0;
-export const institutionsDestroyResponseDataMax = 0;
-
-
 
 export const InstitutionsDestroyResponse = zod.object({
   "message": zod.literal("Institution deleted successfully"),
-  "data": zod.array(zod.string()).min(institutionsDestroyResponseDataMin).max(institutionsDestroyResponseDataMax)
+  "data": zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "address": zod.string(),
+  "type": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
+})
 })
 

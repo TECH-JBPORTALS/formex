@@ -20,12 +20,14 @@ export interface Bridge {
   resource_person_name: string;
   company_name: string;
   designation: string;
-  students_present: string;
+  students_present: number;
   relevance: string;
-  academic_year: string;
-  semester: string;
-  created_at: string;
-  updated_at: string;
+  academic_year: number;
+  semester: number;
+  /** @nullable */
+  created_at: string | null;
+  /** @nullable */
+  updated_at: string | null;
   program?: Program;
   subject?: Subject;
 }

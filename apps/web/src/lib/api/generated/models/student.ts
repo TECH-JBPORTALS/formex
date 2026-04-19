@@ -8,17 +8,26 @@
 export interface Student {
   id: string;
   full_name: string;
-  date_of_birth: string;
+  /** @nullable */
+  date_of_birth: string | null;
   institution_id: string;
   program_id: string;
-  semester: string;
-  academic_year: string;
-  register_no: string;
-  gender: string;
-  category: string;
-  email: string;
-  mobile: string;
-  appar_id: string;
-  created_at: string;
-  updated_at: string;
+  semester: number;
+  academic_year: number;
+  /** @nullable */
+  register_no: string | null;
+  /** @nullable */
+  gender: string | null;
+  /** @nullable */
+  category: string | null;
+  /** @nullable */
+  email: string | null;
+  /** @nullable */
+  mobile: string | null;
+  /** @nullable */
+  appar_id: string | null;
+  /** @nullable */
+  created_at: string | null;
+  /** @nullable */
+  updated_at: string | null;
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\RoomReportController;
 use App\Http\Controllers\SkillProgramController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentFeedbackController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TimetableController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,9 @@ Route::middleware('web')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:web');
     Route::post('/faculty-invitations/accept', [FacultyInvitationController::class, 'accept']);
     Route::get('/faculty-invitations/{token}', [FacultyInvitationController::class, 'show']);
+    Route::get('/student-feedback/links/{token}', [StudentFeedbackController::class, 'linkShow']);
+    Route::post('/student-feedback/links/{token}/start', [StudentFeedbackController::class, 'linkStart']);
+    Route::post('/student-feedback/links/{token}/submit', [StudentFeedbackController::class, 'linkSubmit']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -34,6 +38,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('institution.role:principal')->group(function () {
         Route::apiResource('/institutions/current/faculty', InstitutionFacultyController::class);
         Route::post('/institutions/current/faculty/invitations', [FacultyInvitationController::class, 'store']);
+    });
+
+    Route::middleware('institution.role:principal,program_coordinator,course_coordinator')->group(function () {
+        Route::get('/feedback/questions', [StudentFeedbackController::class, 'questionIndex']);
+        Route::post('/feedback/questions', [StudentFeedbackController::class, 'questionStore']);
+        Route::delete('/feedback/questions/{feedbackQuestion}', [StudentFeedbackController::class, 'questionDestroy']);
+        Route::get('/feedback/links', [StudentFeedbackController::class, 'linkIndex']);
+        Route::get('/feedback/submissions', [StudentFeedbackController::class, 'submissionsIndex']);
+        Route::post('/feedback/links', [StudentFeedbackController::class, 'linkStore']);
+        Route::delete('/feedback/links/{feedbackLink}', [StudentFeedbackController::class, 'linkDestroy']);
+        Route::get('/feedback/links/{feedbackLink}/responses', [StudentFeedbackController::class, 'facultyIndex']);
+        Route::delete('/feedback/links/{feedbackLink}/responses/{student}', [StudentFeedbackController::class, 'facultyDestroy']);
     });
 
     Route::apiResource('programs', ProgramController::class);

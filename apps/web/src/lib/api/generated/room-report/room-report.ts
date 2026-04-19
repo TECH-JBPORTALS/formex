@@ -365,12 +365,12 @@ export type roomReportsShowResponse =
   | roomReportsShowResponseSuccess
   | roomReportsShowResponseError;
 
-export const getRoomReportsShowUrl = (roomReport: number) => {
+export const getRoomReportsShowUrl = (roomReport: string) => {
   return `/room-reports/${roomReport}`;
 };
 
 export const roomReportsShow = async (
-  roomReport: number,
+  roomReport: string,
   options?: RequestInit,
 ): Promise<roomReportsShowResponse> => {
   return $api<roomReportsShowResponse>(getRoomReportsShowUrl(roomReport), {
@@ -379,7 +379,7 @@ export const roomReportsShow = async (
   });
 };
 
-export const getRoomReportsShowQueryKey = (roomReport: number) => {
+export const getRoomReportsShowQueryKey = (roomReport: string) => {
   return [`/room-reports/${roomReport}`] as const;
 };
 
@@ -387,7 +387,7 @@ export const getRoomReportsShowQueryOptions = <
   TData = Awaited<ReturnType<typeof roomReportsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  roomReport: number,
+  roomReport: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -431,7 +431,7 @@ export function useRoomReportsShow<
   TData = Awaited<ReturnType<typeof roomReportsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  roomReport: number,
+  roomReport: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -458,7 +458,7 @@ export function useRoomReportsShow<
   TData = Awaited<ReturnType<typeof roomReportsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  roomReport: number,
+  roomReport: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -485,7 +485,7 @@ export function useRoomReportsShow<
   TData = Awaited<ReturnType<typeof roomReportsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  roomReport: number,
+  roomReport: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -508,7 +508,7 @@ export function useRoomReportsShow<
   TData = Awaited<ReturnType<typeof roomReportsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  roomReport: number,
+  roomReport: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -537,7 +537,7 @@ export const getRoomReportsShowSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof roomReportsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  roomReport: number,
+  roomReport: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -576,7 +576,7 @@ export function useRoomReportsShowSuspense<
   TData = Awaited<ReturnType<typeof roomReportsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  roomReport: number,
+  roomReport: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -595,7 +595,7 @@ export function useRoomReportsShowSuspense<
   TData = Awaited<ReturnType<typeof roomReportsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  roomReport: number,
+  roomReport: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -614,7 +614,7 @@ export function useRoomReportsShowSuspense<
   TData = Awaited<ReturnType<typeof roomReportsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  roomReport: number,
+  roomReport: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -637,7 +637,7 @@ export function useRoomReportsShowSuspense<
   TData = Awaited<ReturnType<typeof roomReportsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  roomReport: number,
+  roomReport: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -705,12 +705,12 @@ export type roomReportsUpdateResponse =
   | roomReportsUpdateResponseSuccess
   | roomReportsUpdateResponseError;
 
-export const getRoomReportsUpdateUrl = (roomReport: number) => {
+export const getRoomReportsUpdateUrl = (roomReport: string) => {
   return `/room-reports/${roomReport}`;
 };
 
 export const roomReportsUpdate = async (
-  roomReport: number,
+  roomReport: string,
   roomReportsUpdateBody: RoomReportsUpdateBody,
   options?: RequestInit,
 ): Promise<roomReportsUpdateResponse> => {
@@ -732,14 +732,14 @@ export const getRoomReportsUpdateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof roomReportsUpdate>>,
     TError,
-    { roomReport: number; data: RoomReportsUpdateBody },
+    { roomReport: string; data: RoomReportsUpdateBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof roomReportsUpdate>>,
   TError,
-  { roomReport: number; data: RoomReportsUpdateBody },
+  { roomReport: string; data: RoomReportsUpdateBody },
   TContext
 > => {
   const mutationKey = ["roomReportsUpdate"];
@@ -753,7 +753,7 @@ export const getRoomReportsUpdateMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof roomReportsUpdate>>,
-    { roomReport: number; data: RoomReportsUpdateBody }
+    { roomReport: string; data: RoomReportsUpdateBody }
   > = (props) => {
     const { roomReport, data } = props ?? {};
 
@@ -786,7 +786,7 @@ export const useRoomReportsUpdate = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof roomReportsUpdate>>,
       TError,
-      { roomReport: number; data: RoomReportsUpdateBody },
+      { roomReport: string; data: RoomReportsUpdateBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -795,7 +795,7 @@ export const useRoomReportsUpdate = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof roomReportsUpdate>>,
   TError,
-  { roomReport: number; data: RoomReportsUpdateBody },
+  { roomReport: string; data: RoomReportsUpdateBody },
   TContext
 > => {
   return useMutation(getRoomReportsUpdateMutationOptions(options), queryClient);
@@ -833,12 +833,12 @@ export type roomReportsDestroyResponse =
   | roomReportsDestroyResponseSuccess
   | roomReportsDestroyResponseError;
 
-export const getRoomReportsDestroyUrl = (roomReport: number) => {
+export const getRoomReportsDestroyUrl = (roomReport: string) => {
   return `/room-reports/${roomReport}`;
 };
 
 export const roomReportsDestroy = async (
-  roomReport: number,
+  roomReport: string,
   options?: RequestInit,
 ): Promise<roomReportsDestroyResponse> => {
   return $api<roomReportsDestroyResponse>(
@@ -857,14 +857,14 @@ export const getRoomReportsDestroyMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof roomReportsDestroy>>,
     TError,
-    { roomReport: number },
+    { roomReport: string },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof roomReportsDestroy>>,
   TError,
-  { roomReport: number },
+  { roomReport: string },
   TContext
 > => {
   const mutationKey = ["roomReportsDestroy"];
@@ -878,7 +878,7 @@ export const getRoomReportsDestroyMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof roomReportsDestroy>>,
-    { roomReport: number }
+    { roomReport: string }
   > = (props) => {
     const { roomReport } = props ?? {};
 
@@ -907,7 +907,7 @@ export const useRoomReportsDestroy = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof roomReportsDestroy>>,
       TError,
-      { roomReport: number },
+      { roomReport: string },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -916,7 +916,7 @@ export const useRoomReportsDestroy = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof roomReportsDestroy>>,
   TError,
-  { roomReport: number },
+  { roomReport: string },
   TContext
 > => {
   return useMutation(
@@ -954,12 +954,12 @@ export type roomReportListByProgramResponse =
   | roomReportListByProgramResponseSuccess
   | roomReportListByProgramResponseError;
 
-export const getRoomReportListByProgramUrl = (program: number) => {
+export const getRoomReportListByProgramUrl = (program: string) => {
   return `/programs/${program}/room-reports`;
 };
 
 export const roomReportListByProgram = async (
-  program: number,
+  program: string,
   options?: RequestInit,
 ): Promise<roomReportListByProgramResponse> => {
   return $api<roomReportListByProgramResponse>(
@@ -971,7 +971,7 @@ export const roomReportListByProgram = async (
   );
 };
 
-export const getRoomReportListByProgramQueryKey = (program: number) => {
+export const getRoomReportListByProgramQueryKey = (program: string) => {
   return [`/programs/${program}/room-reports`] as const;
 };
 
@@ -979,7 +979,7 @@ export const getRoomReportListByProgramQueryOptions = <
   TData = Awaited<ReturnType<typeof roomReportListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1024,7 +1024,7 @@ export function useRoomReportListByProgram<
   TData = Awaited<ReturnType<typeof roomReportListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1051,7 +1051,7 @@ export function useRoomReportListByProgram<
   TData = Awaited<ReturnType<typeof roomReportListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1078,7 +1078,7 @@ export function useRoomReportListByProgram<
   TData = Awaited<ReturnType<typeof roomReportListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1098,7 +1098,7 @@ export function useRoomReportListByProgram<
   TData = Awaited<ReturnType<typeof roomReportListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1127,7 +1127,7 @@ export const getRoomReportListByProgramSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof roomReportListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1167,7 +1167,7 @@ export function useRoomReportListByProgramSuspense<
   TData = Awaited<ReturnType<typeof roomReportListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -1186,7 +1186,7 @@ export function useRoomReportListByProgramSuspense<
   TData = Awaited<ReturnType<typeof roomReportListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1205,7 +1205,7 @@ export function useRoomReportListByProgramSuspense<
   TData = Awaited<ReturnType<typeof roomReportListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1225,7 +1225,7 @@ export function useRoomReportListByProgramSuspense<
   TData = Awaited<ReturnType<typeof roomReportListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<

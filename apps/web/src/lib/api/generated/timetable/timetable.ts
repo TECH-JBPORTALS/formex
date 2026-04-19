@@ -73,7 +73,7 @@ export type timetableShowResponse =
   | timetableShowResponseError;
 
 export const getTimetableShowUrl = (
-  program: number,
+  program: string,
   params: TimetableShowParams,
 ) => {
   const normalizedParams = new URLSearchParams();
@@ -92,7 +92,7 @@ export const getTimetableShowUrl = (
 };
 
 export const timetableShow = async (
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options?: RequestInit,
 ): Promise<timetableShowResponse> => {
@@ -103,7 +103,7 @@ export const timetableShow = async (
 };
 
 export const getTimetableShowQueryKey = (
-  program: number,
+  program: string,
   params?: TimetableShowParams,
 ) => {
   return [
@@ -119,7 +119,7 @@ export const getTimetableShowQueryOptions = <
     | ModelNotFoundExceptionResponse
     | ValidationExceptionResponse,
 >(
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options?: {
     query?: Partial<
@@ -164,7 +164,7 @@ export function useTimetableShow<
     | ModelNotFoundExceptionResponse
     | ValidationExceptionResponse,
 >(
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options: {
     query: Partial<
@@ -191,7 +191,7 @@ export function useTimetableShow<
     | ModelNotFoundExceptionResponse
     | ValidationExceptionResponse,
 >(
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options?: {
     query?: Partial<
@@ -218,7 +218,7 @@ export function useTimetableShow<
     | ModelNotFoundExceptionResponse
     | ValidationExceptionResponse,
 >(
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options?: {
     query?: Partial<
@@ -238,7 +238,7 @@ export function useTimetableShow<
     | ModelNotFoundExceptionResponse
     | ValidationExceptionResponse,
 >(
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options?: {
     query?: Partial<
@@ -267,7 +267,7 @@ export const getTimetableShowSuspenseQueryOptions = <
     | ModelNotFoundExceptionResponse
     | ValidationExceptionResponse,
 >(
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options?: {
     query?: Partial<
@@ -311,7 +311,7 @@ export function useTimetableShowSuspense<
     | ModelNotFoundExceptionResponse
     | ValidationExceptionResponse,
 >(
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options: {
     query: Partial<
@@ -334,7 +334,7 @@ export function useTimetableShowSuspense<
     | ModelNotFoundExceptionResponse
     | ValidationExceptionResponse,
 >(
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options?: {
     query?: Partial<
@@ -357,7 +357,7 @@ export function useTimetableShowSuspense<
     | ModelNotFoundExceptionResponse
     | ValidationExceptionResponse,
 >(
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options?: {
     query?: Partial<
@@ -381,7 +381,7 @@ export function useTimetableShowSuspense<
     | ModelNotFoundExceptionResponse
     | ValidationExceptionResponse,
 >(
-  program: number,
+  program: string,
   params: TimetableShowParams,
   options?: {
     query?: Partial<
@@ -449,12 +449,12 @@ export type timetableUpsertSlotResponse =
   | timetableUpsertSlotResponseSuccess
   | timetableUpsertSlotResponseError;
 
-export const getTimetableUpsertSlotUrl = (program: number) => {
+export const getTimetableUpsertSlotUrl = (program: string) => {
   return `/programs/${program}/timetable`;
 };
 
 export const timetableUpsertSlot = async (
-  program: number,
+  program: string,
   timetableUpsertSlotBody: TimetableUpsertSlotBody,
   options?: RequestInit,
 ): Promise<timetableUpsertSlotResponse> => {
@@ -476,14 +476,14 @@ export const getTimetableUpsertSlotMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof timetableUpsertSlot>>,
     TError,
-    { program: number; data: TimetableUpsertSlotBody },
+    { program: string; data: TimetableUpsertSlotBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof timetableUpsertSlot>>,
   TError,
-  { program: number; data: TimetableUpsertSlotBody },
+  { program: string; data: TimetableUpsertSlotBody },
   TContext
 > => {
   const mutationKey = ["timetableUpsertSlot"];
@@ -497,7 +497,7 @@ export const getTimetableUpsertSlotMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof timetableUpsertSlot>>,
-    { program: number; data: TimetableUpsertSlotBody }
+    { program: string; data: TimetableUpsertSlotBody }
   > = (props) => {
     const { program, data } = props ?? {};
 
@@ -527,7 +527,7 @@ export const useTimetableUpsertSlot = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof timetableUpsertSlot>>,
       TError,
-      { program: number; data: TimetableUpsertSlotBody },
+      { program: string; data: TimetableUpsertSlotBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -536,7 +536,7 @@ export const useTimetableUpsertSlot = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof timetableUpsertSlot>>,
   TError,
-  { program: number; data: TimetableUpsertSlotBody },
+  { program: string; data: TimetableUpsertSlotBody },
   TContext
 > => {
   return useMutation(

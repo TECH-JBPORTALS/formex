@@ -33,7 +33,7 @@ export const FacultyIndexResponse = zod.object({
  * @summary Assign a coordinator role to a user in the current institution
  */
 export const FacultyStoreBody = zod.object({
-  "user_id": zod.number(),
+  "user_id": zod.string(),
   "role": zod.enum(['program_coordinator', 'course_coordinator']),
   "program_ids": zod.array(zod.string()).nullish(),
   "subject_ids": zod.array(zod.string()).nullish()
@@ -43,7 +43,7 @@ export const FacultyStoreBody = zod.object({
  * @summary Update an existing faculty assignment in the current institution
  */
 export const FacultyUpdateParams = zod.object({
-  "faculty": zod.number().describe('The faculty ID')
+  "faculty": zod.string().describe('The faculty ID')
 })
 
 export const FacultyUpdateBody = zod.object({
@@ -75,7 +75,7 @@ export const FacultyUpdateResponse = zod.object({
  * @summary Remove faculty membership from the current institution
  */
 export const FacultyDestroyParams = zod.object({
-  "faculty": zod.number().describe('The faculty ID')
+  "faculty": zod.string().describe('The faculty ID')
 })
 
 export const FacultyDestroyResponse = zod.object({

@@ -12,15 +12,17 @@ export interface SkillProgram {
   program_id: string;
   institution_id: string;
   student_id: string;
-  semester: string;
+  semester: number;
   details: string;
   resource_person_name: string;
   company_name: string;
   designation: string;
   conducted_date: string;
-  academic_year: string;
-  created_at: string;
-  updated_at: string;
+  academic_year: number;
+  /** @nullable */
+  created_at: string | null;
+  /** @nullable */
+  updated_at: string | null;
   program?: Program;
   student?: Student;
 }

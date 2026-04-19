@@ -487,12 +487,12 @@ export type institutionsShowResponse =
   | institutionsShowResponseSuccess
   | institutionsShowResponseError;
 
-export const getInstitutionsShowUrl = (institution: number) => {
+export const getInstitutionsShowUrl = (institution: string) => {
   return `/institutions/${institution}`;
 };
 
 export const institutionsShow = async (
-  institution: number,
+  institution: string,
   options?: RequestInit,
 ): Promise<institutionsShowResponse> => {
   return $api<institutionsShowResponse>(getInstitutionsShowUrl(institution), {
@@ -501,7 +501,7 @@ export const institutionsShow = async (
   });
 };
 
-export const getInstitutionsShowQueryKey = (institution: number) => {
+export const getInstitutionsShowQueryKey = (institution: string) => {
   return [`/institutions/${institution}`] as const;
 };
 
@@ -509,7 +509,7 @@ export const getInstitutionsShowQueryOptions = <
   TData = Awaited<ReturnType<typeof institutionsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: number,
+  institution: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -554,7 +554,7 @@ export function useInstitutionsShow<
   TData = Awaited<ReturnType<typeof institutionsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: number,
+  institution: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -581,7 +581,7 @@ export function useInstitutionsShow<
   TData = Awaited<ReturnType<typeof institutionsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: number,
+  institution: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -608,7 +608,7 @@ export function useInstitutionsShow<
   TData = Awaited<ReturnType<typeof institutionsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: number,
+  institution: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -631,7 +631,7 @@ export function useInstitutionsShow<
   TData = Awaited<ReturnType<typeof institutionsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: number,
+  institution: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -660,7 +660,7 @@ export const getInstitutionsShowSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof institutionsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: number,
+  institution: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -700,7 +700,7 @@ export function useInstitutionsShowSuspense<
   TData = Awaited<ReturnType<typeof institutionsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: number,
+  institution: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -719,7 +719,7 @@ export function useInstitutionsShowSuspense<
   TData = Awaited<ReturnType<typeof institutionsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: number,
+  institution: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -738,7 +738,7 @@ export function useInstitutionsShowSuspense<
   TData = Awaited<ReturnType<typeof institutionsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: number,
+  institution: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -761,7 +761,7 @@ export function useInstitutionsShowSuspense<
   TData = Awaited<ReturnType<typeof institutionsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  institution: number,
+  institution: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -830,12 +830,12 @@ export type institutionsUpdateResponse =
   | institutionsUpdateResponseSuccess
   | institutionsUpdateResponseError;
 
-export const getInstitutionsUpdateUrl = (institution: number) => {
+export const getInstitutionsUpdateUrl = (institution: string) => {
   return `/institutions/${institution}`;
 };
 
 export const institutionsUpdate = async (
-  institution: number,
+  institution: string,
   institutionsUpdateBody: InstitutionsUpdateBody,
   options?: RequestInit,
 ): Promise<institutionsUpdateResponse> => {
@@ -860,14 +860,14 @@ export const getInstitutionsUpdateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof institutionsUpdate>>,
     TError,
-    { institution: number; data: InstitutionsUpdateBody },
+    { institution: string; data: InstitutionsUpdateBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof institutionsUpdate>>,
   TError,
-  { institution: number; data: InstitutionsUpdateBody },
+  { institution: string; data: InstitutionsUpdateBody },
   TContext
 > => {
   const mutationKey = ["institutionsUpdate"];
@@ -881,7 +881,7 @@ export const getInstitutionsUpdateMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof institutionsUpdate>>,
-    { institution: number; data: InstitutionsUpdateBody }
+    { institution: string; data: InstitutionsUpdateBody }
   > = (props) => {
     const { institution, data } = props ?? {};
 
@@ -914,7 +914,7 @@ export const useInstitutionsUpdate = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof institutionsUpdate>>,
       TError,
-      { institution: number; data: InstitutionsUpdateBody },
+      { institution: string; data: InstitutionsUpdateBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -923,7 +923,7 @@ export const useInstitutionsUpdate = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof institutionsUpdate>>,
   TError,
-  { institution: number; data: InstitutionsUpdateBody },
+  { institution: string; data: InstitutionsUpdateBody },
   TContext
 > => {
   return useMutation(
@@ -964,12 +964,12 @@ export type institutionsDestroyResponse =
   | institutionsDestroyResponseSuccess
   | institutionsDestroyResponseError;
 
-export const getInstitutionsDestroyUrl = (institution: number) => {
+export const getInstitutionsDestroyUrl = (institution: string) => {
   return `/institutions/${institution}`;
 };
 
 export const institutionsDestroy = async (
-  institution: number,
+  institution: string,
   options?: RequestInit,
 ): Promise<institutionsDestroyResponse> => {
   return $api<institutionsDestroyResponse>(
@@ -988,14 +988,14 @@ export const getInstitutionsDestroyMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof institutionsDestroy>>,
     TError,
-    { institution: number },
+    { institution: string },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof institutionsDestroy>>,
   TError,
-  { institution: number },
+  { institution: string },
   TContext
 > => {
   const mutationKey = ["institutionsDestroy"];
@@ -1009,7 +1009,7 @@ export const getInstitutionsDestroyMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof institutionsDestroy>>,
-    { institution: number }
+    { institution: string }
   > = (props) => {
     const { institution } = props ?? {};
 
@@ -1038,7 +1038,7 @@ export const useInstitutionsDestroy = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof institutionsDestroy>>,
       TError,
-      { institution: number },
+      { institution: string },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -1047,7 +1047,7 @@ export const useInstitutionsDestroy = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof institutionsDestroy>>,
   TError,
-  { institution: number },
+  { institution: string },
   TContext
 > => {
   return useMutation(

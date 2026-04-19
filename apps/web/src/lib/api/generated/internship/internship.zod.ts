@@ -22,34 +22,34 @@ export const InternshipsIndexResponse = zod.object({
   "from_date": zod.iso.date(),
   "to_date": zod.iso.date(),
   "acad_year": zod.string(),
-  "semester": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "semester": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 }))
 })
@@ -58,7 +58,7 @@ export const InternshipsIndexResponse = zod.object({
  * @summary Display the specified resource
  */
 export const InternshipsShowParams = zod.object({
-  "internship": zod.number().describe('The internship ID')
+  "internship": zod.string().describe('The internship ID')
 })
 
 export const InternshipsShowResponse = zod.object({
@@ -73,34 +73,34 @@ export const InternshipsShowResponse = zod.object({
   "from_date": zod.iso.date(),
   "to_date": zod.iso.date(),
   "acad_year": zod.string(),
-  "semester": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "semester": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 })
 })
@@ -109,7 +109,7 @@ export const InternshipsShowResponse = zod.object({
  * @summary Update the specified resource in storage
  */
 export const InternshipsUpdateParams = zod.object({
-  "internship": zod.number().describe('The internship ID')
+  "internship": zod.string().describe('The internship ID')
 })
 
 export const internshipsUpdateBodyIndustryNameMax = 255;
@@ -141,34 +141,34 @@ export const InternshipsUpdateResponse = zod.object({
   "from_date": zod.iso.date(),
   "to_date": zod.iso.date(),
   "acad_year": zod.string(),
-  "semester": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "semester": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 })
 })
@@ -177,7 +177,7 @@ export const InternshipsUpdateResponse = zod.object({
  * @summary Remove the specified resource from storage
  */
 export const InternshipsDestroyParams = zod.object({
-  "internship": zod.number().describe('The internship ID')
+  "internship": zod.string().describe('The internship ID')
 })
 
 export const InternshipsDestroyResponse = zod.object({
@@ -193,40 +193,40 @@ export const InternshipsDestroyResponse = zod.object({
   "from_date": zod.iso.date(),
   "to_date": zod.iso.date(),
   "acad_year": zod.string(),
-  "semester": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "semester": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 })
 })
 
 export const InternshipListByProgramParams = zod.object({
-  "program": zod.number().describe('The program ID')
+  "program": zod.string().describe('The program ID')
 })
 
 export const InternshipListByProgramResponse = zod.object({
@@ -241,40 +241,40 @@ export const InternshipListByProgramResponse = zod.object({
   "from_date": zod.iso.date(),
   "to_date": zod.iso.date(),
   "acad_year": zod.string(),
-  "semester": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "semester": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 }))
 })
 
 export const InternshipListByStudentParams = zod.object({
-  "student": zod.number().describe('The student ID')
+  "student": zod.string().describe('The student ID')
 })
 
 export const InternshipListByStudentResponse = zod.object({
@@ -289,34 +289,34 @@ export const InternshipListByStudentResponse = zod.object({
   "from_date": zod.iso.date(),
   "to_date": zod.iso.date(),
   "acad_year": zod.string(),
-  "semester": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "semester": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 }))
 })
@@ -325,7 +325,7 @@ export const InternshipListByStudentResponse = zod.object({
  * @summary Store a newly created resource in storage
  */
 export const InternshipStoreParams = zod.object({
-  "student": zod.number().describe('The student ID')
+  "student": zod.string().describe('The student ID')
 })
 
 export const internshipStoreBodyIndustryNameMax = 255;
@@ -357,34 +357,34 @@ export const InternshipStoreResponse = zod.object({
   "from_date": zod.iso.date(),
   "to_date": zod.iso.date(),
   "acad_year": zod.string(),
-  "semester": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "semester": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 })
 })

@@ -12,10 +12,10 @@ export const ProgramsIndexResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }))
 })
 
@@ -41,10 +41,10 @@ export const ProgramsShowResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 })
 })
 
@@ -71,10 +71,10 @@ export const ProgramsUpdateResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 })
 })
 
@@ -88,10 +88,10 @@ export const ProgramsDestroyResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 })
 })
 

@@ -5,8 +5,14 @@
  * OpenAPI spec version: 0.0.1
  */
 
-/**
- * @minItems 0
- * @maxItems 0
- */
-export type Institution = string[];
+export interface Institution {
+  id: string;
+  name: string;
+  code: string;
+  address: string;
+  type: string;
+  /** @nullable */
+  created_at: string | null;
+  /** @nullable */
+  updated_at: string | null;
+}

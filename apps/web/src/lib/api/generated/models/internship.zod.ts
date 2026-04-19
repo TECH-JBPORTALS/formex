@@ -18,9 +18,11 @@ export interface Internship {
   from_date: string;
   to_date: string;
   acad_year: string;
-  semester: string;
-  created_at: string;
-  updated_at: string;
+  semester: number;
+  /** @nullable */
+  created_at: string | null;
+  /** @nullable */
+  updated_at: string | null;
   student?: Student;
   program?: Program;
 }

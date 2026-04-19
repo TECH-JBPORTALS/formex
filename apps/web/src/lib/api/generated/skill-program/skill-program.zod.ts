@@ -16,40 +16,40 @@ export const SkillProgramsIndexResponse = zod.object({
   "program_id": zod.string(),
   "institution_id": zod.string(),
   "student_id": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "details": zod.string(),
   "resource_person_name": zod.string(),
   "company_name": zod.string(),
   "designation": zod.string(),
   "conducted_date": zod.string(),
-  "academic_year": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "academic_year": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 }))
 })
@@ -58,7 +58,7 @@ export const SkillProgramsIndexResponse = zod.object({
  * @summary Display the specified resource
  */
 export const SkillProgramsShowParams = zod.object({
-  "skill_program": zod.number().describe('The skill program ID')
+  "skill_program": zod.string().describe('The skill program ID')
 })
 
 export const SkillProgramsShowResponse = zod.object({
@@ -67,40 +67,40 @@ export const SkillProgramsShowResponse = zod.object({
   "program_id": zod.string(),
   "institution_id": zod.string(),
   "student_id": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "details": zod.string(),
   "resource_person_name": zod.string(),
   "company_name": zod.string(),
   "designation": zod.string(),
   "conducted_date": zod.string(),
-  "academic_year": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "academic_year": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 })
 })
@@ -109,7 +109,7 @@ export const SkillProgramsShowResponse = zod.object({
  * @summary Update the specified resource in storage
  */
 export const SkillProgramsUpdateParams = zod.object({
-  "skill_program": zod.number().describe('The skill program ID')
+  "skill_program": zod.string().describe('The skill program ID')
 })
 
 export const skillProgramsUpdateBodyDetailsMax = 255;
@@ -136,40 +136,40 @@ export const SkillProgramsUpdateResponse = zod.object({
   "program_id": zod.string(),
   "institution_id": zod.string(),
   "student_id": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "details": zod.string(),
   "resource_person_name": zod.string(),
   "company_name": zod.string(),
   "designation": zod.string(),
   "conducted_date": zod.string(),
-  "academic_year": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "academic_year": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 })
 })
@@ -178,7 +178,7 @@ export const SkillProgramsUpdateResponse = zod.object({
  * @summary Remove the specified resource from storage
  */
 export const SkillProgramsDestroyParams = zod.object({
-  "skill_program": zod.number().describe('The skill program ID')
+  "skill_program": zod.string().describe('The skill program ID')
 })
 
 export const SkillProgramsDestroyResponse = zod.object({
@@ -187,46 +187,46 @@ export const SkillProgramsDestroyResponse = zod.object({
   "program_id": zod.string(),
   "institution_id": zod.string(),
   "student_id": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "details": zod.string(),
   "resource_person_name": zod.string(),
   "company_name": zod.string(),
   "designation": zod.string(),
   "conducted_date": zod.string(),
-  "academic_year": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "academic_year": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 })
 })
 
 export const SkillProgramListByProgramParams = zod.object({
-  "program": zod.number().describe('The program ID')
+  "program": zod.string().describe('The program ID')
 })
 
 export const SkillProgramListByProgramResponse = zod.object({
@@ -235,46 +235,46 @@ export const SkillProgramListByProgramResponse = zod.object({
   "program_id": zod.string(),
   "institution_id": zod.string(),
   "student_id": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "details": zod.string(),
   "resource_person_name": zod.string(),
   "company_name": zod.string(),
   "designation": zod.string(),
   "conducted_date": zod.string(),
-  "academic_year": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "academic_year": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 }))
 })
 
 export const SkillProgramListBySemesterParams = zod.object({
-  "program": zod.number().describe('The program ID'),
+  "program": zod.string().describe('The program ID'),
   "semester": zod.number()
 })
 
@@ -284,40 +284,40 @@ export const SkillProgramListBySemesterResponse = zod.object({
   "program_id": zod.string(),
   "institution_id": zod.string(),
   "student_id": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "details": zod.string(),
   "resource_person_name": zod.string(),
   "company_name": zod.string(),
   "designation": zod.string(),
   "conducted_date": zod.string(),
-  "academic_year": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "academic_year": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 }))
 })
@@ -326,7 +326,7 @@ export const SkillProgramListBySemesterResponse = zod.object({
  * @summary Store a newly created resource in storage
  */
 export const SkillProgramStoreParams = zod.object({
-  "student": zod.number().describe('The student ID')
+  "student": zod.string().describe('The student ID')
 })
 
 export const skillProgramStoreBodyDetailsMax = 255;
@@ -353,40 +353,40 @@ export const SkillProgramStoreResponse = zod.object({
   "program_id": zod.string(),
   "institution_id": zod.string(),
   "student_id": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "details": zod.string(),
   "resource_person_name": zod.string(),
   "company_name": zod.string(),
   "designation": zod.string(),
   "conducted_date": zod.string(),
-  "academic_year": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "academic_year": zod.number(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
 })
 })

@@ -303,7 +303,7 @@
                         "required": true,
                         "description": "The bridge ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -347,7 +347,7 @@
                         "required": true,
                         "description": "The bridge ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -390,7 +390,7 @@
                                         "type": "integer"
                                     },
                                     "course_coordinator_id": {
-                                        "type": "integer"
+                                        "type": "string"
                                     }
                                 },
                                 "required": [
@@ -453,7 +453,7 @@
                         "required": true,
                         "description": "The bridge ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -498,7 +498,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -546,7 +546,7 @@
                         "required": true,
                         "description": "The subject ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -593,7 +593,7 @@
                         "required": true,
                         "description": "The subject ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -633,7 +633,7 @@
                                         "type": "string"
                                     },
                                     "course_coordinator_id": {
-                                        "type": "integer"
+                                        "type": "string"
                                     }
                                 },
                                 "required": [
@@ -888,7 +888,7 @@
                         "required": true,
                         "description": "The higher education ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -932,7 +932,7 @@
                         "required": true,
                         "description": "The higher education ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1008,7 +1008,7 @@
                         "required": true,
                         "description": "The higher education ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1059,7 +1059,7 @@
                         "required": true,
                         "description": "The student ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1106,7 +1106,7 @@
                         "required": true,
                         "description": "The student ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1183,7 +1183,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1339,7 +1339,7 @@
                         "required": true,
                         "description": "The institution ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1383,7 +1383,7 @@
                         "required": true,
                         "description": "The institution ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1465,7 +1465,7 @@
                         "required": true,
                         "description": "The institution ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1550,7 +1550,7 @@
                                 "type": "object",
                                 "properties": {
                                     "user_id": {
-                                        "type": "integer"
+                                        "type": "string"
                                     },
                                     "role": {
                                         "type": "string",
@@ -1631,7 +1631,7 @@
                         "required": true,
                         "description": "The faculty ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1718,7 +1718,7 @@
                         "required": true,
                         "description": "The faculty ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1800,7 +1800,7 @@
                         "required": true,
                         "description": "The internship ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1844,7 +1844,7 @@
                         "required": true,
                         "description": "The internship ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1927,7 +1927,7 @@
                         "required": true,
                         "description": "The internship ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1977,7 +1977,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -2025,7 +2025,7 @@
                         "required": true,
                         "description": "The student ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -2072,7 +2072,7 @@
                         "required": true,
                         "description": "The student ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -2200,7 +2200,7 @@
                         "required": true,
                         "description": "The placement ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -2244,7 +2244,7 @@
                         "required": true,
                         "description": "The placement ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -2330,7 +2330,7 @@
                         "required": true,
                         "description": "The placement ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -2381,7 +2381,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -2429,7 +2429,7 @@
                         "required": true,
                         "description": "The student ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -2476,7 +2476,7 @@
                         "required": true,
                         "description": "The student ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -2854,7 +2854,7 @@
                         "required": true,
                         "description": "The room report ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -2898,7 +2898,7 @@
                         "required": true,
                         "description": "The room report ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3043,7 +3043,7 @@
                         "required": true,
                         "description": "The room report ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3093,7 +3093,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3339,7 +3339,7 @@
                         "required": true,
                         "description": "The skill program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3383,7 +3383,7 @@
                         "required": true,
                         "description": "The skill program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3461,7 +3461,7 @@
                         "required": true,
                         "description": "The skill program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3506,7 +3506,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3554,7 +3554,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     },
                     {
@@ -3611,7 +3611,7 @@
                         "required": true,
                         "description": "The student ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3698,7 +3698,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3744,7 +3744,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3872,7 +3872,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     },
                     {
@@ -3881,7 +3881,7 @@
                         "required": true,
                         "description": "The student ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3924,7 +3924,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     },
                     {
@@ -3933,7 +3933,7 @@
                         "required": true,
                         "description": "The student ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -4053,7 +4053,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     },
                     {
@@ -4062,7 +4062,7 @@
                         "required": true,
                         "description": "The student ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -4157,6 +4157,780 @@
                 }
             }
         },
+        "/student-feedback/links/{token}": {
+            "get": {
+                "operationId": "studentFeedback.linkShow",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "course_id": {
+                                                    "type": "string"
+                                                },
+                                                "semester": {
+                                                    "type": "integer"
+                                                },
+                                                "academic_year": {
+                                                    "type": "integer"
+                                                },
+                                                "feedback_type": {
+                                                    "type": "string"
+                                                },
+                                                "link_active": {
+                                                    "type": "boolean"
+                                                }
+                                            },
+                                            "required": [
+                                                "course_id",
+                                                "semester",
+                                                "academic_year",
+                                                "feedback_type",
+                                                "link_active"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/student-feedback/links/{token}/start": {
+            "post": {
+                "operationId": "studentFeedback.linkStart",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "register_no": {
+                                        "type": "string",
+                                        "maxLength": 100
+                                    },
+                                    "date_of_birth": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                },
+                                "required": [
+                                    "register_no",
+                                    "date_of_birth"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "already_submitted": {
+                                                    "type": "boolean"
+                                                },
+                                                "student": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string"
+                                                        },
+                                                        "full_name": {
+                                                            "type": "string"
+                                                        },
+                                                        "register_no": {
+                                                            "type": [
+                                                                "string",
+                                                                "null"
+                                                            ]
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "id",
+                                                        "full_name",
+                                                        "register_no"
+                                                    ]
+                                                },
+                                                "questions": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            },
+                                                            "minItems": 0,
+                                                            "maxItems": 0,
+                                                            "additionalItems": false
+                                                        },
+                                                        {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/FeedbackQuestion"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "already_submitted",
+                                                "student",
+                                                "questions"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/student-feedback/links/{token}/submit": {
+            "post": {
+                "operationId": "studentFeedback.linkSubmit",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "register_no": {
+                                        "type": "string",
+                                        "maxLength": 100
+                                    },
+                                    "date_of_birth": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "ratings": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "question_id": {
+                                                    "type": "string"
+                                                },
+                                                "rating": {
+                                                    "type": "integer",
+                                                    "minimum": 1,
+                                                    "maximum": 5
+                                                }
+                                            },
+                                            "required": [
+                                                "question_id",
+                                                "rating"
+                                            ]
+                                        },
+                                        "minItems": 1
+                                    }
+                                },
+                                "required": [
+                                    "register_no",
+                                    "date_of_birth",
+                                    "ratings"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Feedback submitted successfully."
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/feedback/questions": {
+            "get": {
+                "operationId": "studentFeedback.questionIndex",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/FeedbackQuestion"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "studentFeedback.questionStore",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "question": {
+                                        "type": "string",
+                                        "maxLength": 2000
+                                    },
+                                    "order_index": {
+                                        "type": [
+                                            "integer",
+                                            "null"
+                                        ],
+                                        "minimum": 1,
+                                        "maximum": 1000
+                                    }
+                                },
+                                "required": [
+                                    "question"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Feedback question created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/FeedbackQuestion"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/feedback/questions/{feedbackQuestion}": {
+            "delete": {
+                "operationId": "studentFeedback.questionDestroy",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "feedbackQuestion",
+                        "in": "path",
+                        "required": true,
+                        "description": "The feedback question ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Feedback question deleted successfully."
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/feedback/links": {
+            "get": {
+                "operationId": "studentFeedback.linkIndex",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "course_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "semester",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 12
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/FeedbackLinkSummary"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "studentFeedback.linkStore",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "course_id": {
+                                        "type": "string"
+                                    },
+                                    "semester": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 12
+                                    },
+                                    "feedback_type": {
+                                        "type": "string"
+                                    },
+                                    "expires_at": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "format": "date-time"
+                                    }
+                                },
+                                "required": [
+                                    "course_id",
+                                    "semester",
+                                    "feedback_type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Feedback link created successfully."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "course_id": {
+                                                    "type": "string"
+                                                },
+                                                "semester": {
+                                                    "type": "integer"
+                                                },
+                                                "academic_year": {
+                                                    "type": "integer"
+                                                },
+                                                "feedback_type": {
+                                                    "type": "string"
+                                                },
+                                                "link": {
+                                                    "type": "string"
+                                                },
+                                                "expires_at": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "id",
+                                                "course_id",
+                                                "semester",
+                                                "academic_year",
+                                                "feedback_type",
+                                                "link",
+                                                "expires_at"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/feedback/submissions": {
+            "get": {
+                "operationId": "studentFeedback.submissionsIndex",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "course_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "semester",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 12
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SubjectFeedbackScopeRow"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/feedback/links/{feedbackLink}": {
+            "delete": {
+                "operationId": "studentFeedback.linkDestroy",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "feedbackLink",
+                        "in": "path",
+                        "required": true,
+                        "description": "The feedback link ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Feedback link deleted successfully."
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/feedback/links/{feedbackLink}/responses": {
+            "get": {
+                "operationId": "studentFeedback.facultyIndex",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "feedbackLink",
+                        "in": "path",
+                        "required": true,
+                        "description": "The feedback link ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`StudentFeedbackFacultyIndex`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StudentFeedbackFacultyIndex"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/feedback/links/{feedbackLink}/responses/{student}": {
+            "delete": {
+                "operationId": "studentFeedback.facultyDestroy",
+                "tags": [
+                    "StudentFeedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "feedbackLink",
+                        "in": "path",
+                        "required": true,
+                        "description": "The feedback link ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "student",
+                        "in": "path",
+                        "required": true,
+                        "description": "The student ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Feedback response deleted successfully."
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
         "/subjects": {
             "get": {
                 "operationId": "subjects.index",
@@ -4206,7 +4980,7 @@
                         "required": true,
                         "description": "The subject ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -4250,7 +5024,7 @@
                         "required": true,
                         "description": "The subject ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -4333,7 +5107,7 @@
                         "required": true,
                         "description": "The subject ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -4378,7 +5152,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -4425,7 +5199,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -4517,7 +5291,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     },
                     {
@@ -4573,7 +5347,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     },
                     {
@@ -4629,7 +5403,7 @@
                         "required": true,
                         "description": "The program ID",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -4748,9 +5522,6 @@
                             }
                         }
                     },
-                    "401": {
-                        "$ref": "#/components/responses/AuthenticationException"
-                    },
                     "403": {
                         "description": "An error",
                         "content": {
@@ -4770,6 +5541,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
                     }
                 }
             }
@@ -4855,22 +5629,30 @@
                         "type": "string"
                     },
                     "students_present": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "relevance": {
                         "type": "string"
                     },
                     "academic_year": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "semester": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "created_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "program": {
                         "$ref": "#/components/schemas/Program"
@@ -4941,6 +5723,122 @@
                 ],
                 "title": "FacultySubject"
             },
+            "FeedbackLinkSummary": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "course_id": {
+                        "type": "string"
+                    },
+                    "semester": {
+                        "type": "integer"
+                    },
+                    "academic_year": {
+                        "type": "integer"
+                    },
+                    "feedback_type": {
+                        "type": "string"
+                    },
+                    "expires_at": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "string",
+                                "enum": [
+                                    ""
+                                ]
+                            }
+                        ]
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "inactive",
+                            "expired",
+                            "active"
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "share_url": {
+                        "anyOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "string",
+                                "enum": [
+                                    ""
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "course_id",
+                    "semester",
+                    "academic_year",
+                    "feedback_type",
+                    "expires_at",
+                    "is_active",
+                    "status",
+                    "created_at",
+                    "share_url"
+                ],
+                "title": "FeedbackLinkSummary"
+            },
+            "FeedbackQuestion": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "institution_id": {
+                        "type": "string"
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "order_index": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "institution_id",
+                    "question",
+                    "order_index",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "FeedbackQuestion"
+            },
             "HigherEducation": {
                 "type": "object",
                 "properties": {
@@ -4960,18 +5858,26 @@
                         "type": "string"
                     },
                     "rank": {
-                        "type": "string",
+                        "type": "integer",
                         "format": "integer"
                     },
                     "academic_year": {
-                        "type": "string",
+                        "type": "integer",
                         "format": "integer"
                     },
                     "created_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "student": {
                         "$ref": "#/components/schemas/Student"
@@ -4994,13 +5900,47 @@
                 "title": "HigherEducation"
             },
             "Institution": {
-                "type": "array",
-                "items": {
-                    "type": "string"
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
                 },
-                "minItems": 0,
-                "maxItems": 0,
-                "additionalItems": false,
+                "required": [
+                    "id",
+                    "name",
+                    "code",
+                    "address",
+                    "type",
+                    "created_at",
+                    "updated_at"
+                ],
                 "title": "Institution"
             },
             "InstitutionFaculty": {
@@ -5077,13 +6017,21 @@
                         "type": "string"
                     },
                     "semester": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "created_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "student": {
                         "$ref": "#/components/schemas/Student"
@@ -5128,10 +6076,18 @@
                         "type": "string"
                     },
                     "created_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "student": {
                         "$ref": "#/components/schemas/Student"
@@ -5164,16 +6120,24 @@
                         "type": "string"
                     },
                     "intake": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "institution_id": {
                         "type": "string"
                     },
                     "created_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     }
                 },
                 "required": [
@@ -5188,13 +6152,115 @@
                 "title": "Program"
             },
             "RoomReport": {
-                "type": "array",
-                "items": {
-                    "type": "string"
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "institution_id": {
+                        "type": "string"
+                    },
+                    "program_id": {
+                        "type": "string"
+                    },
+                    "subject_id": {
+                        "type": "string"
+                    },
+                    "users_id": {
+                        "type": "string"
+                    },
+                    "room_number": {
+                        "type": "string"
+                    },
+                    "academic_year": {
+                        "type": "integer"
+                    },
+                    "semester": {
+                        "type": "integer"
+                    },
+                    "strength": {
+                        "type": "integer"
+                    },
+                    "present": {
+                        "type": "integer"
+                    },
+                    "attendance_register": {
+                        "type": "string"
+                    },
+                    "student_attendance": {
+                        "type": "string"
+                    },
+                    "topic_planned": {
+                        "type": "string"
+                    },
+                    "topic_taught": {
+                        "type": "string"
+                    },
+                    "pedagogy_used": {
+                        "type": "string"
+                    },
+                    "aids_used": {
+                        "type": "string"
+                    },
+                    "teaching_skill": {
+                        "type": "string"
+                    },
+                    "interaction": {
+                        "type": "string"
+                    },
+                    "learning_outcome": {
+                        "type": "string"
+                    },
+                    "valuation": {
+                        "type": "string"
+                    },
+                    "principal_remarks": {
+                        "type": "string"
+                    },
+                    "report_date": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
                 },
-                "minItems": 0,
-                "maxItems": 0,
-                "additionalItems": false,
+                "required": [
+                    "id",
+                    "institution_id",
+                    "program_id",
+                    "subject_id",
+                    "users_id",
+                    "room_number",
+                    "academic_year",
+                    "semester",
+                    "strength",
+                    "present",
+                    "attendance_register",
+                    "student_attendance",
+                    "topic_planned",
+                    "topic_taught",
+                    "pedagogy_used",
+                    "aids_used",
+                    "teaching_skill",
+                    "interaction",
+                    "learning_outcome",
+                    "valuation",
+                    "principal_remarks",
+                    "report_date",
+                    "created_at",
+                    "updated_at"
+                ],
                 "title": "RoomReport"
             },
             "SkillProgram": {
@@ -5213,7 +6279,7 @@
                         "type": "string"
                     },
                     "semester": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "details": {
                         "type": "string"
@@ -5231,13 +6297,21 @@
                         "type": "string"
                     },
                     "academic_year": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "created_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "program": {
                         "$ref": "#/components/schemas/Program"
@@ -5273,7 +6347,11 @@
                         "type": "string"
                     },
                     "date_of_birth": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "institution_id": {
                         "type": "string"
@@ -5282,34 +6360,60 @@
                         "type": "string"
                     },
                     "semester": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "academic_year": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "register_no": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "gender": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "category": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "email": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "mobile": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "appar_id": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "created_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     }
                 },
                 "required": [
@@ -5331,6 +6435,96 @@
                 ],
                 "title": "Student"
             },
+            "StudentFeedbackFacultyIndex": {
+                "type": "object",
+                "properties": {
+                    "feedback_link_id": {
+                        "type": "string"
+                    },
+                    "course_id": {
+                        "type": "string"
+                    },
+                    "semester": {
+                        "type": "string"
+                    },
+                    "academic_year": {
+                        "type": "string"
+                    },
+                    "feedback_type": {
+                        "type": "string"
+                    },
+                    "responses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StudentFeedbackFacultyRow"
+                        }
+                    }
+                },
+                "required": [
+                    "feedback_link_id",
+                    "course_id",
+                    "semester",
+                    "academic_year",
+                    "feedback_type",
+                    "responses"
+                ],
+                "title": "StudentFeedbackFacultyIndex"
+            },
+            "StudentFeedbackFacultyRating": {
+                "type": "object",
+                "properties": {
+                    "question_id": {
+                        "type": "string"
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "order_index": {
+                        "type": "string"
+                    },
+                    "rating": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "question_id",
+                    "question",
+                    "order_index",
+                    "rating"
+                ],
+                "title": "StudentFeedbackFacultyRating"
+            },
+            "StudentFeedbackFacultyRow": {
+                "type": "object",
+                "properties": {
+                    "student_id": {
+                        "type": "string"
+                    },
+                    "full_name": {
+                        "type": "string"
+                    },
+                    "register_no": {
+                        "type": "string"
+                    },
+                    "average_rating": {
+                        "type": "string"
+                    },
+                    "ratings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StudentFeedbackFacultyRating"
+                        }
+                    }
+                },
+                "required": [
+                    "student_id",
+                    "full_name",
+                    "register_no",
+                    "average_rating",
+                    "ratings"
+                ],
+                "title": "StudentFeedbackFacultyRow"
+            },
             "Subject": {
                 "type": "object",
                 "properties": {
@@ -5347,16 +6541,24 @@
                         "type": "string"
                     },
                     "semester": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "scheme": {
                         "type": "string"
                     },
                     "created_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "program": {
                         "$ref": "#/components/schemas/Program"
@@ -5377,6 +6579,57 @@
                     "assigned_staff"
                 ],
                 "title": "Subject"
+            },
+            "SubjectFeedbackScopeRow": {
+                "type": "object",
+                "properties": {
+                    "feedback_link_id": {
+                        "type": "string"
+                    },
+                    "feedback_type": {
+                        "type": "string"
+                    },
+                    "link_status": {
+                        "type": "string"
+                    },
+                    "share_url": {
+                        "type": "string"
+                    },
+                    "feedback_link_exists": {
+                        "type": "string"
+                    },
+                    "student_id": {
+                        "type": "string"
+                    },
+                    "full_name": {
+                        "type": "string"
+                    },
+                    "register_no": {
+                        "type": "string"
+                    },
+                    "average_rating": {
+                        "type": "string"
+                    },
+                    "ratings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StudentFeedbackFacultyRating"
+                        }
+                    }
+                },
+                "required": [
+                    "feedback_link_id",
+                    "feedback_type",
+                    "link_status",
+                    "share_url",
+                    "feedback_link_exists",
+                    "student_id",
+                    "full_name",
+                    "register_no",
+                    "average_rating",
+                    "ratings"
+                ],
+                "title": "SubjectFeedbackScopeRow"
             },
             "TimetablePersonal": {
                 "type": "object",
@@ -5562,13 +6815,25 @@
                         "type": "string"
                     },
                     "email_verified_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "created_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "institutions": {
                         "type": "array",

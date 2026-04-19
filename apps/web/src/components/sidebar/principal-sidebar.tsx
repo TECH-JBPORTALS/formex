@@ -27,9 +27,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../ui/sidebar";
+import { AcademicYearSelect } from "./academic-year-select";
 import { AppSidebarFooter } from "./app-sidebar-footer";
 import { PrincipalProgramsSection } from "./principal-programs-section";
-import { AcademicYearSelect } from "./academic-year-select";
 
 const institutionFormats = getTemplatePagesByType("institution");
 

@@ -349,12 +349,12 @@ export type subjectsShowResponse =
   | subjectsShowResponseSuccess
   | subjectsShowResponseError;
 
-export const getSubjectsShowUrl = (subject: number) => {
+export const getSubjectsShowUrl = (subject: string) => {
   return `/subjects/${subject}`;
 };
 
 export const subjectsShow = async (
-  subject: number,
+  subject: string,
   options?: RequestInit,
 ): Promise<subjectsShowResponse> => {
   return $api<subjectsShowResponse>(getSubjectsShowUrl(subject), {
@@ -363,7 +363,7 @@ export const subjectsShow = async (
   });
 };
 
-export const getSubjectsShowQueryKey = (subject: number) => {
+export const getSubjectsShowQueryKey = (subject: string) => {
   return [`/subjects/${subject}`] as const;
 };
 
@@ -371,7 +371,7 @@ export const getSubjectsShowQueryOptions = <
   TData = Awaited<ReturnType<typeof subjectsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof subjectsShow>>, TError, TData>
@@ -410,7 +410,7 @@ export function useSubjectsShow<
   TData = Awaited<ReturnType<typeof subjectsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options: {
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof subjectsShow>>, TError, TData>
@@ -433,7 +433,7 @@ export function useSubjectsShow<
   TData = Awaited<ReturnType<typeof subjectsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof subjectsShow>>, TError, TData>
@@ -456,7 +456,7 @@ export function useSubjectsShow<
   TData = Awaited<ReturnType<typeof subjectsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof subjectsShow>>, TError, TData>
@@ -475,7 +475,7 @@ export function useSubjectsShow<
   TData = Awaited<ReturnType<typeof subjectsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof subjectsShow>>, TError, TData>
@@ -500,7 +500,7 @@ export const getSubjectsShowSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof subjectsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -538,7 +538,7 @@ export function useSubjectsShowSuspense<
   TData = Awaited<ReturnType<typeof subjectsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -557,7 +557,7 @@ export function useSubjectsShowSuspense<
   TData = Awaited<ReturnType<typeof subjectsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -576,7 +576,7 @@ export function useSubjectsShowSuspense<
   TData = Awaited<ReturnType<typeof subjectsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -599,7 +599,7 @@ export function useSubjectsShowSuspense<
   TData = Awaited<ReturnType<typeof subjectsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  subject: number,
+  subject: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -664,12 +664,12 @@ export type subjectsUpdateResponse =
   | subjectsUpdateResponseSuccess
   | subjectsUpdateResponseError;
 
-export const getSubjectsUpdateUrl = (subject: number) => {
+export const getSubjectsUpdateUrl = (subject: string) => {
   return `/subjects/${subject}`;
 };
 
 export const subjectsUpdate = async (
-  subject: number,
+  subject: string,
   subjectsUpdateBody: SubjectsUpdateBody,
   options?: RequestInit,
 ): Promise<subjectsUpdateResponse> => {
@@ -691,14 +691,14 @@ export const getSubjectsUpdateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof subjectsUpdate>>,
     TError,
-    { subject: number; data: SubjectsUpdateBody },
+    { subject: string; data: SubjectsUpdateBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof subjectsUpdate>>,
   TError,
-  { subject: number; data: SubjectsUpdateBody },
+  { subject: string; data: SubjectsUpdateBody },
   TContext
 > => {
   const mutationKey = ["subjectsUpdate"];
@@ -712,7 +712,7 @@ export const getSubjectsUpdateMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof subjectsUpdate>>,
-    { subject: number; data: SubjectsUpdateBody }
+    { subject: string; data: SubjectsUpdateBody }
   > = (props) => {
     const { subject, data } = props ?? {};
 
@@ -745,7 +745,7 @@ export const useSubjectsUpdate = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof subjectsUpdate>>,
       TError,
-      { subject: number; data: SubjectsUpdateBody },
+      { subject: string; data: SubjectsUpdateBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -754,7 +754,7 @@ export const useSubjectsUpdate = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof subjectsUpdate>>,
   TError,
-  { subject: number; data: SubjectsUpdateBody },
+  { subject: string; data: SubjectsUpdateBody },
   TContext
 > => {
   return useMutation(getSubjectsUpdateMutationOptions(options), queryClient);
@@ -791,12 +791,12 @@ export type subjectsDestroyResponse =
   | subjectsDestroyResponseSuccess
   | subjectsDestroyResponseError;
 
-export const getSubjectsDestroyUrl = (subject: number) => {
+export const getSubjectsDestroyUrl = (subject: string) => {
   return `/subjects/${subject}`;
 };
 
 export const subjectsDestroy = async (
-  subject: number,
+  subject: string,
   options?: RequestInit,
 ): Promise<subjectsDestroyResponse> => {
   return $api<subjectsDestroyResponse>(getSubjectsDestroyUrl(subject), {
@@ -812,14 +812,14 @@ export const getSubjectsDestroyMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof subjectsDestroy>>,
     TError,
-    { subject: number },
+    { subject: string },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof subjectsDestroy>>,
   TError,
-  { subject: number },
+  { subject: string },
   TContext
 > => {
   const mutationKey = ["subjectsDestroy"];
@@ -833,7 +833,7 @@ export const getSubjectsDestroyMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof subjectsDestroy>>,
-    { subject: number }
+    { subject: string }
   > = (props) => {
     const { subject } = props ?? {};
 
@@ -862,7 +862,7 @@ export const useSubjectsDestroy = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof subjectsDestroy>>,
       TError,
-      { subject: number },
+      { subject: string },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -871,7 +871,7 @@ export const useSubjectsDestroy = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof subjectsDestroy>>,
   TError,
-  { subject: number },
+  { subject: string },
   TContext
 > => {
   return useMutation(getSubjectsDestroyMutationOptions(options), queryClient);
@@ -906,12 +906,12 @@ export type subjectListByProgramResponse =
   | subjectListByProgramResponseSuccess
   | subjectListByProgramResponseError;
 
-export const getSubjectListByProgramUrl = (program: number) => {
+export const getSubjectListByProgramUrl = (program: string) => {
   return `/programs/${program}/subjects`;
 };
 
 export const subjectListByProgram = async (
-  program: number,
+  program: string,
   options?: RequestInit,
 ): Promise<subjectListByProgramResponse> => {
   return $api<subjectListByProgramResponse>(
@@ -923,7 +923,7 @@ export const subjectListByProgram = async (
   );
 };
 
-export const getSubjectListByProgramQueryKey = (program: number) => {
+export const getSubjectListByProgramQueryKey = (program: string) => {
   return [`/programs/${program}/subjects`] as const;
 };
 
@@ -931,7 +931,7 @@ export const getSubjectListByProgramQueryOptions = <
   TData = Awaited<ReturnType<typeof subjectListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -976,7 +976,7 @@ export function useSubjectListByProgram<
   TData = Awaited<ReturnType<typeof subjectListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1003,7 +1003,7 @@ export function useSubjectListByProgram<
   TData = Awaited<ReturnType<typeof subjectListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1030,7 +1030,7 @@ export function useSubjectListByProgram<
   TData = Awaited<ReturnType<typeof subjectListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1050,7 +1050,7 @@ export function useSubjectListByProgram<
   TData = Awaited<ReturnType<typeof subjectListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1079,7 +1079,7 @@ export const getSubjectListByProgramSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof subjectListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1119,7 +1119,7 @@ export function useSubjectListByProgramSuspense<
   TData = Awaited<ReturnType<typeof subjectListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -1138,7 +1138,7 @@ export function useSubjectListByProgramSuspense<
   TData = Awaited<ReturnType<typeof subjectListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1157,7 +1157,7 @@ export function useSubjectListByProgramSuspense<
   TData = Awaited<ReturnType<typeof subjectListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1177,7 +1177,7 @@ export function useSubjectListByProgramSuspense<
   TData = Awaited<ReturnType<typeof subjectListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1245,12 +1245,12 @@ export type subjectStoreResponse =
   | subjectStoreResponseSuccess
   | subjectStoreResponseError;
 
-export const getSubjectStoreUrl = (program: number) => {
+export const getSubjectStoreUrl = (program: string) => {
   return `/programs/${program}/subjects`;
 };
 
 export const subjectStore = async (
-  program: number,
+  program: string,
   subjectStoreBody: SubjectStoreBody,
   options?: RequestInit,
 ): Promise<subjectStoreResponse> => {
@@ -1272,14 +1272,14 @@ export const getSubjectStoreMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof subjectStore>>,
     TError,
-    { program: number; data: SubjectStoreBody },
+    { program: string; data: SubjectStoreBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof subjectStore>>,
   TError,
-  { program: number; data: SubjectStoreBody },
+  { program: string; data: SubjectStoreBody },
   TContext
 > => {
   const mutationKey = ["subjectStore"];
@@ -1293,7 +1293,7 @@ export const getSubjectStoreMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof subjectStore>>,
-    { program: number; data: SubjectStoreBody }
+    { program: string; data: SubjectStoreBody }
   > = (props) => {
     const { program, data } = props ?? {};
 
@@ -1326,7 +1326,7 @@ export const useSubjectStore = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof subjectStore>>,
       TError,
-      { program: number; data: SubjectStoreBody },
+      { program: string; data: SubjectStoreBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -1335,7 +1335,7 @@ export const useSubjectStore = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof subjectStore>>,
   TError,
-  { program: number; data: SubjectStoreBody },
+  { program: string; data: SubjectStoreBody },
   TContext
 > => {
   return useMutation(getSubjectStoreMutationOptions(options), queryClient);
@@ -1371,14 +1371,14 @@ export type subjectListbysemesterResponse =
   | subjectListbysemesterResponseError;
 
 export const getSubjectListbysemesterUrl = (
-  program: number,
+  program: string,
   semester: number,
 ) => {
   return `/programs/${program}/subjects/${semester}`;
 };
 
 export const subjectListbysemester = async (
-  program: number,
+  program: string,
   semester: number,
   options?: RequestInit,
 ): Promise<subjectListbysemesterResponse> => {
@@ -1392,7 +1392,7 @@ export const subjectListbysemester = async (
 };
 
 export const getSubjectListbysemesterQueryKey = (
-  program: number,
+  program: string,
   semester: number,
 ) => {
   return [`/programs/${program}/subjects/${semester}`] as const;
@@ -1402,7 +1402,7 @@ export const getSubjectListbysemesterQueryOptions = <
   TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1449,7 +1449,7 @@ export function useSubjectListbysemester<
   TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options: {
     query: Partial<
@@ -1477,7 +1477,7 @@ export function useSubjectListbysemester<
   TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1505,7 +1505,7 @@ export function useSubjectListbysemester<
   TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1526,7 +1526,7 @@ export function useSubjectListbysemester<
   TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1560,7 +1560,7 @@ export const getSubjectListbysemesterSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1602,7 +1602,7 @@ export function useSubjectListbysemesterSuspense<
   TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options: {
     query: Partial<
@@ -1622,7 +1622,7 @@ export function useSubjectListbysemesterSuspense<
   TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1642,7 +1642,7 @@ export function useSubjectListbysemesterSuspense<
   TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1663,7 +1663,7 @@ export function useSubjectListbysemesterSuspense<
   TData = Awaited<ReturnType<typeof subjectListbysemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<

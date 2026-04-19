@@ -16,18 +16,18 @@ export const SubjectsIndexResponse = zod.object({
   "name": zod.string(),
   "short_name": zod.string(),
   "type": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "scheme": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "assigned_staff": zod.string()
 }))
@@ -37,7 +37,7 @@ export const SubjectsIndexResponse = zod.object({
  * @summary Display the specified resource
  */
 export const SubjectsShowParams = zod.object({
-  "subject": zod.number().describe('The subject ID')
+  "subject": zod.string().describe('The subject ID')
 })
 
 export const SubjectsShowResponse = zod.object({
@@ -46,18 +46,18 @@ export const SubjectsShowResponse = zod.object({
   "name": zod.string(),
   "short_name": zod.string(),
   "type": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "scheme": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "assigned_staff": zod.string()
 })
@@ -67,7 +67,7 @@ export const SubjectsShowResponse = zod.object({
  * @summary Update the specified resource in storage
  */
 export const SubjectsUpdateParams = zod.object({
-  "subject": zod.number().describe('The subject ID')
+  "subject": zod.string().describe('The subject ID')
 })
 
 export const subjectsUpdateBodyNameMax = 255;
@@ -91,18 +91,18 @@ export const SubjectsUpdateResponse = zod.object({
   "name": zod.string(),
   "short_name": zod.string(),
   "type": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "scheme": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "assigned_staff": zod.string()
 })
@@ -112,7 +112,7 @@ export const SubjectsUpdateResponse = zod.object({
  * @summary Remove the specified resource from storage
  */
 export const SubjectsDestroyParams = zod.object({
-  "subject": zod.number().describe('The subject ID')
+  "subject": zod.string().describe('The subject ID')
 })
 
 export const SubjectsDestroyResponse = zod.object({
@@ -121,25 +121,25 @@ export const SubjectsDestroyResponse = zod.object({
   "name": zod.string(),
   "short_name": zod.string(),
   "type": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "scheme": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "assigned_staff": zod.string()
 })
 })
 
 export const SubjectListByProgramParams = zod.object({
-  "program": zod.number().describe('The program ID')
+  "program": zod.string().describe('The program ID')
 })
 
 export const SubjectListByProgramResponse = zod.object({
@@ -148,18 +148,18 @@ export const SubjectListByProgramResponse = zod.object({
   "name": zod.string(),
   "short_name": zod.string(),
   "type": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "scheme": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "assigned_staff": zod.string()
 }))
@@ -169,7 +169,7 @@ export const SubjectListByProgramResponse = zod.object({
  * @summary Store a newly created resource in storage
  */
 export const SubjectStoreParams = zod.object({
-  "program": zod.number().describe('The program ID')
+  "program": zod.string().describe('The program ID')
 })
 
 export const subjectStoreBodyNameMax = 255;
@@ -193,25 +193,25 @@ export const SubjectStoreResponse = zod.object({
   "name": zod.string(),
   "short_name": zod.string(),
   "type": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "scheme": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "assigned_staff": zod.string()
 })
 })
 
 export const SubjectListbysemesterParams = zod.object({
-  "program": zod.number().describe('The program ID'),
+  "program": zod.string().describe('The program ID'),
   "semester": zod.number()
 })
 
@@ -221,18 +221,18 @@ export const SubjectListbysemesterResponse = zod.object({
   "name": zod.string(),
   "short_name": zod.string(),
   "type": zod.string(),
-  "semester": zod.string(),
+  "semester": zod.number(),
   "scheme": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable(),
   "program": zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
-  "intake": zod.string(),
+  "intake": zod.number(),
   "institution_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }).optional(),
   "assigned_staff": zod.string()
 }))

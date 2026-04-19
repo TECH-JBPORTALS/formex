@@ -365,12 +365,12 @@ export type placementsShowResponse =
   | placementsShowResponseSuccess
   | placementsShowResponseError;
 
-export const getPlacementsShowUrl = (placement: number) => {
+export const getPlacementsShowUrl = (placement: string) => {
   return `/placements/${placement}`;
 };
 
 export const placementsShow = async (
-  placement: number,
+  placement: string,
   options?: RequestInit,
 ): Promise<placementsShowResponse> => {
   return $api<placementsShowResponse>(getPlacementsShowUrl(placement), {
@@ -379,7 +379,7 @@ export const placementsShow = async (
   });
 };
 
-export const getPlacementsShowQueryKey = (placement: number) => {
+export const getPlacementsShowQueryKey = (placement: string) => {
   return [`/placements/${placement}`] as const;
 };
 
@@ -387,7 +387,7 @@ export const getPlacementsShowQueryOptions = <
   TData = Awaited<ReturnType<typeof placementsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  placement: number,
+  placement: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof placementsShow>>, TError, TData>
@@ -427,7 +427,7 @@ export function usePlacementsShow<
   TData = Awaited<ReturnType<typeof placementsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  placement: number,
+  placement: string,
   options: {
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof placementsShow>>, TError, TData>
@@ -450,7 +450,7 @@ export function usePlacementsShow<
   TData = Awaited<ReturnType<typeof placementsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  placement: number,
+  placement: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof placementsShow>>, TError, TData>
@@ -473,7 +473,7 @@ export function usePlacementsShow<
   TData = Awaited<ReturnType<typeof placementsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  placement: number,
+  placement: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof placementsShow>>, TError, TData>
@@ -492,7 +492,7 @@ export function usePlacementsShow<
   TData = Awaited<ReturnType<typeof placementsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  placement: number,
+  placement: string,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof placementsShow>>, TError, TData>
@@ -517,7 +517,7 @@ export const getPlacementsShowSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof placementsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  placement: number,
+  placement: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -556,7 +556,7 @@ export function usePlacementsShowSuspense<
   TData = Awaited<ReturnType<typeof placementsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  placement: number,
+  placement: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -575,7 +575,7 @@ export function usePlacementsShowSuspense<
   TData = Awaited<ReturnType<typeof placementsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  placement: number,
+  placement: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -594,7 +594,7 @@ export function usePlacementsShowSuspense<
   TData = Awaited<ReturnType<typeof placementsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  placement: number,
+  placement: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -617,7 +617,7 @@ export function usePlacementsShowSuspense<
   TData = Awaited<ReturnType<typeof placementsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  placement: number,
+  placement: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -685,12 +685,12 @@ export type placementsUpdateResponse =
   | placementsUpdateResponseSuccess
   | placementsUpdateResponseError;
 
-export const getPlacementsUpdateUrl = (placement: number) => {
+export const getPlacementsUpdateUrl = (placement: string) => {
   return `/placements/${placement}`;
 };
 
 export const placementsUpdate = async (
-  placement: number,
+  placement: string,
   placementsUpdateBody: PlacementsUpdateBody,
   options?: RequestInit,
 ): Promise<placementsUpdateResponse> => {
@@ -712,14 +712,14 @@ export const getPlacementsUpdateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof placementsUpdate>>,
     TError,
-    { placement: number; data: PlacementsUpdateBody },
+    { placement: string; data: PlacementsUpdateBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof placementsUpdate>>,
   TError,
-  { placement: number; data: PlacementsUpdateBody },
+  { placement: string; data: PlacementsUpdateBody },
   TContext
 > => {
   const mutationKey = ["placementsUpdate"];
@@ -733,7 +733,7 @@ export const getPlacementsUpdateMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof placementsUpdate>>,
-    { placement: number; data: PlacementsUpdateBody }
+    { placement: string; data: PlacementsUpdateBody }
   > = (props) => {
     const { placement, data } = props ?? {};
 
@@ -766,7 +766,7 @@ export const usePlacementsUpdate = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof placementsUpdate>>,
       TError,
-      { placement: number; data: PlacementsUpdateBody },
+      { placement: string; data: PlacementsUpdateBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -775,7 +775,7 @@ export const usePlacementsUpdate = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof placementsUpdate>>,
   TError,
-  { placement: number; data: PlacementsUpdateBody },
+  { placement: string; data: PlacementsUpdateBody },
   TContext
 > => {
   return useMutation(getPlacementsUpdateMutationOptions(options), queryClient);
@@ -812,12 +812,12 @@ export type placementsDestroyResponse =
   | placementsDestroyResponseSuccess
   | placementsDestroyResponseError;
 
-export const getPlacementsDestroyUrl = (placement: number) => {
+export const getPlacementsDestroyUrl = (placement: string) => {
   return `/placements/${placement}`;
 };
 
 export const placementsDestroy = async (
-  placement: number,
+  placement: string,
   options?: RequestInit,
 ): Promise<placementsDestroyResponse> => {
   return $api<placementsDestroyResponse>(getPlacementsDestroyUrl(placement), {
@@ -833,14 +833,14 @@ export const getPlacementsDestroyMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof placementsDestroy>>,
     TError,
-    { placement: number },
+    { placement: string },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof placementsDestroy>>,
   TError,
-  { placement: number },
+  { placement: string },
   TContext
 > => {
   const mutationKey = ["placementsDestroy"];
@@ -854,7 +854,7 @@ export const getPlacementsDestroyMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof placementsDestroy>>,
-    { placement: number }
+    { placement: string }
   > = (props) => {
     const { placement } = props ?? {};
 
@@ -883,7 +883,7 @@ export const usePlacementsDestroy = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof placementsDestroy>>,
       TError,
-      { placement: number },
+      { placement: string },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -892,7 +892,7 @@ export const usePlacementsDestroy = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof placementsDestroy>>,
   TError,
-  { placement: number },
+  { placement: string },
   TContext
 > => {
   return useMutation(getPlacementsDestroyMutationOptions(options), queryClient);
@@ -930,12 +930,12 @@ export type placementListByProgramResponse =
   | placementListByProgramResponseSuccess
   | placementListByProgramResponseError;
 
-export const getPlacementListByProgramUrl = (program: number) => {
+export const getPlacementListByProgramUrl = (program: string) => {
   return `/programs/${program}/placements`;
 };
 
 export const placementListByProgram = async (
-  program: number,
+  program: string,
   options?: RequestInit,
 ): Promise<placementListByProgramResponse> => {
   return $api<placementListByProgramResponse>(
@@ -947,7 +947,7 @@ export const placementListByProgram = async (
   );
 };
 
-export const getPlacementListByProgramQueryKey = (program: number) => {
+export const getPlacementListByProgramQueryKey = (program: string) => {
   return [`/programs/${program}/placements`] as const;
 };
 
@@ -955,7 +955,7 @@ export const getPlacementListByProgramQueryOptions = <
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1000,7 +1000,7 @@ export function usePlacementListByProgram<
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1027,7 +1027,7 @@ export function usePlacementListByProgram<
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1054,7 +1054,7 @@ export function usePlacementListByProgram<
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1077,7 +1077,7 @@ export function usePlacementListByProgram<
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1106,7 +1106,7 @@ export const getPlacementListByProgramSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1146,7 +1146,7 @@ export function usePlacementListByProgramSuspense<
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -1165,7 +1165,7 @@ export function usePlacementListByProgramSuspense<
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1184,7 +1184,7 @@ export function usePlacementListByProgramSuspense<
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1207,7 +1207,7 @@ export function usePlacementListByProgramSuspense<
   TData = Awaited<ReturnType<typeof placementListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1267,12 +1267,12 @@ export type placementListByStudentResponse =
   | placementListByStudentResponseSuccess
   | placementListByStudentResponseError;
 
-export const getPlacementListByStudentUrl = (student: number) => {
+export const getPlacementListByStudentUrl = (student: string) => {
   return `/students/${student}/placements`;
 };
 
 export const placementListByStudent = async (
-  student: number,
+  student: string,
   options?: RequestInit,
 ): Promise<placementListByStudentResponse> => {
   return $api<placementListByStudentResponse>(
@@ -1284,7 +1284,7 @@ export const placementListByStudent = async (
   );
 };
 
-export const getPlacementListByStudentQueryKey = (student: number) => {
+export const getPlacementListByStudentQueryKey = (student: string) => {
   return [`/students/${student}/placements`] as const;
 };
 
@@ -1292,7 +1292,7 @@ export const getPlacementListByStudentQueryOptions = <
   TData = Awaited<ReturnType<typeof placementListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1337,7 +1337,7 @@ export function usePlacementListByStudent<
   TData = Awaited<ReturnType<typeof placementListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1364,7 +1364,7 @@ export function usePlacementListByStudent<
   TData = Awaited<ReturnType<typeof placementListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1391,7 +1391,7 @@ export function usePlacementListByStudent<
   TData = Awaited<ReturnType<typeof placementListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1411,7 +1411,7 @@ export function usePlacementListByStudent<
   TData = Awaited<ReturnType<typeof placementListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1440,7 +1440,7 @@ export const getPlacementListByStudentSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof placementListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1480,7 +1480,7 @@ export function usePlacementListByStudentSuspense<
   TData = Awaited<ReturnType<typeof placementListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -1499,7 +1499,7 @@ export function usePlacementListByStudentSuspense<
   TData = Awaited<ReturnType<typeof placementListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1518,7 +1518,7 @@ export function usePlacementListByStudentSuspense<
   TData = Awaited<ReturnType<typeof placementListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1538,7 +1538,7 @@ export function usePlacementListByStudentSuspense<
   TData = Awaited<ReturnType<typeof placementListByStudent>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  student: number,
+  student: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1606,12 +1606,12 @@ export type placementStoreResponse =
   | placementStoreResponseSuccess
   | placementStoreResponseError;
 
-export const getPlacementStoreUrl = (student: number) => {
+export const getPlacementStoreUrl = (student: string) => {
   return `/students/${student}/placements`;
 };
 
 export const placementStore = async (
-  student: number,
+  student: string,
   placementStoreBody: PlacementStoreBody,
   options?: RequestInit,
 ): Promise<placementStoreResponse> => {
@@ -1633,14 +1633,14 @@ export const getPlacementStoreMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof placementStore>>,
     TError,
-    { student: number; data: PlacementStoreBody },
+    { student: string; data: PlacementStoreBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof placementStore>>,
   TError,
-  { student: number; data: PlacementStoreBody },
+  { student: string; data: PlacementStoreBody },
   TContext
 > => {
   const mutationKey = ["placementStore"];
@@ -1654,7 +1654,7 @@ export const getPlacementStoreMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof placementStore>>,
-    { student: number; data: PlacementStoreBody }
+    { student: string; data: PlacementStoreBody }
   > = (props) => {
     const { student, data } = props ?? {};
 
@@ -1687,7 +1687,7 @@ export const usePlacementStore = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof placementStore>>,
       TError,
-      { student: number; data: PlacementStoreBody },
+      { student: string; data: PlacementStoreBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -1696,7 +1696,7 @@ export const usePlacementStore = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof placementStore>>,
   TError,
-  { student: number; data: PlacementStoreBody },
+  { student: string; data: PlacementStoreBody },
   TContext
 > => {
   return useMutation(getPlacementStoreMutationOptions(options), queryClient);

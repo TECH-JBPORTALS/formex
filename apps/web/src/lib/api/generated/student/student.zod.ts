@@ -8,31 +8,31 @@ import * as zod from 'zod';
 
 
 export const ProgramsStudentsIndexParams = zod.object({
-  "program": zod.number().describe('The program ID')
+  "program": zod.string().describe('The program ID')
 })
 
 export const ProgramsStudentsIndexResponse = zod.object({
   "data": zod.array(zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }))
 })
 
 export const ProgramsStudentsStoreParams = zod.object({
-  "program": zod.number().describe('The program ID')
+  "program": zod.string().describe('The program ID')
 })
 
 export const programsStudentsStoreBodyFullNameMax = 255;
@@ -59,33 +59,33 @@ export const ProgramsStudentsStoreBody = zod.object({
 })
 
 export const ProgramsStudentsShowParams = zod.object({
-  "program": zod.number().describe('The program ID'),
-  "student": zod.number().describe('The student ID')
+  "program": zod.string().describe('The program ID'),
+  "student": zod.string().describe('The student ID')
 })
 
 export const ProgramsStudentsShowResponse = zod.object({
   "data": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 })
 })
 
 export const ProgramsStudentsUpdateParams = zod.object({
-  "program": zod.number().describe('The program ID'),
-  "student": zod.number().describe('The student ID')
+  "program": zod.string().describe('The program ID'),
+  "student": zod.string().describe('The student ID')
 })
 
 export const programsStudentsUpdateBodyFullNameMax = 255;
@@ -117,25 +117,25 @@ export const ProgramsStudentsUpdateResponse = zod.object({
   "data": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 })
 })
 
 export const ProgramsStudentsDestroyParams = zod.object({
-  "program": zod.number().describe('The program ID'),
-  "student": zod.number().describe('The student ID')
+  "program": zod.string().describe('The program ID'),
+  "student": zod.string().describe('The student ID')
 })
 
 export const ProgramsStudentsDestroyResponse = zod.object({
@@ -150,19 +150,19 @@ export const StudentSearchResponse = zod.object({
   "data": zod.array(zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
-  "date_of_birth": zod.string(),
+  "date_of_birth": zod.iso.datetime({}).nullable(),
   "institution_id": zod.string(),
   "program_id": zod.string(),
-  "semester": zod.string(),
-  "academic_year": zod.string(),
-  "register_no": zod.string(),
-  "gender": zod.string(),
-  "category": zod.string(),
-  "email": zod.string(),
-  "mobile": zod.string(),
-  "appar_id": zod.string(),
-  "created_at": zod.string(),
-  "updated_at": zod.string()
+  "semester": zod.number(),
+  "academic_year": zod.number(),
+  "register_no": zod.string().nullable(),
+  "gender": zod.string().nullable(),
+  "category": zod.string().nullable(),
+  "email": zod.string().nullable(),
+  "mobile": zod.string().nullable(),
+  "appar_id": zod.string().nullable(),
+  "created_at": zod.iso.datetime({}).nullable(),
+  "updated_at": zod.iso.datetime({}).nullable()
 }))
 })
 

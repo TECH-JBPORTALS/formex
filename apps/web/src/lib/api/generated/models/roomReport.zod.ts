@@ -5,8 +5,31 @@
  * OpenAPI spec version: 0.0.1
  */
 
-/**
- * @minItems 0
- * @maxItems 0
- */
-export type RoomReport = string[];
+export interface RoomReport {
+  id: string;
+  institution_id: string;
+  program_id: string;
+  subject_id: string;
+  users_id: string;
+  room_number: string;
+  academic_year: number;
+  semester: number;
+  strength: number;
+  present: number;
+  attendance_register: string;
+  student_attendance: string;
+  topic_planned: string;
+  topic_taught: string;
+  pedagogy_used: string;
+  aids_used: string;
+  teaching_skill: string;
+  interaction: string;
+  learning_outcome: string;
+  valuation: string;
+  principal_remarks: string;
+  report_date: string;
+  /** @nullable */
+  created_at: string | null;
+  /** @nullable */
+  updated_at: string | null;
+}

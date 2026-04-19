@@ -8,7 +8,7 @@ import * as zod from 'zod';
 
 
 export const TimetableShowParams = zod.object({
-  "program": zod.number().describe('The program ID')
+  "program": zod.string().describe('The program ID')
 })
 
 export const timetableShowQuerySemesterMax = 12;
@@ -43,7 +43,7 @@ export const TimetableShowResponse = zod.object({
 })
 
 export const TimetableUpsertSlotParams = zod.object({
-  "program": zod.number().describe('The program ID')
+  "program": zod.string().describe('The program ID')
 })
 
 export const timetableUpsertSlotBodySemesterMax = 12;

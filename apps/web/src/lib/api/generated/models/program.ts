@@ -9,8 +9,10 @@ export interface Program {
   id: string;
   name: string;
   short_name: string;
-  intake: string;
+  intake: number;
   institution_id: string;
-  created_at: string;
-  updated_at: string;
+  /** @nullable */
+  created_at: string | null;
+  /** @nullable */
+  updated_at: string | null;
 }

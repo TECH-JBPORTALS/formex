@@ -371,12 +371,12 @@ export type skillProgramsShowResponse =
   | skillProgramsShowResponseSuccess
   | skillProgramsShowResponseError;
 
-export const getSkillProgramsShowUrl = (skillProgram: number) => {
+export const getSkillProgramsShowUrl = (skillProgram: string) => {
   return `/skill-programs/${skillProgram}`;
 };
 
 export const skillProgramsShow = async (
-  skillProgram: number,
+  skillProgram: string,
   options?: RequestInit,
 ): Promise<skillProgramsShowResponse> => {
   return $api<skillProgramsShowResponse>(
@@ -388,7 +388,7 @@ export const skillProgramsShow = async (
   );
 };
 
-export const getSkillProgramsShowQueryKey = (skillProgram: number) => {
+export const getSkillProgramsShowQueryKey = (skillProgram: string) => {
   return [`/skill-programs/${skillProgram}`] as const;
 };
 
@@ -396,7 +396,7 @@ export const getSkillProgramsShowQueryOptions = <
   TData = Awaited<ReturnType<typeof skillProgramsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  skillProgram: number,
+  skillProgram: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -441,7 +441,7 @@ export function useSkillProgramsShow<
   TData = Awaited<ReturnType<typeof skillProgramsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  skillProgram: number,
+  skillProgram: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -468,7 +468,7 @@ export function useSkillProgramsShow<
   TData = Awaited<ReturnType<typeof skillProgramsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  skillProgram: number,
+  skillProgram: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -495,7 +495,7 @@ export function useSkillProgramsShow<
   TData = Awaited<ReturnType<typeof skillProgramsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  skillProgram: number,
+  skillProgram: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -518,7 +518,7 @@ export function useSkillProgramsShow<
   TData = Awaited<ReturnType<typeof skillProgramsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  skillProgram: number,
+  skillProgram: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -547,7 +547,7 @@ export const getSkillProgramsShowSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof skillProgramsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  skillProgram: number,
+  skillProgram: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -587,7 +587,7 @@ export function useSkillProgramsShowSuspense<
   TData = Awaited<ReturnType<typeof skillProgramsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  skillProgram: number,
+  skillProgram: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -606,7 +606,7 @@ export function useSkillProgramsShowSuspense<
   TData = Awaited<ReturnType<typeof skillProgramsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  skillProgram: number,
+  skillProgram: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -625,7 +625,7 @@ export function useSkillProgramsShowSuspense<
   TData = Awaited<ReturnType<typeof skillProgramsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  skillProgram: number,
+  skillProgram: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -648,7 +648,7 @@ export function useSkillProgramsShowSuspense<
   TData = Awaited<ReturnType<typeof skillProgramsShow>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  skillProgram: number,
+  skillProgram: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -717,12 +717,12 @@ export type skillProgramsUpdateResponse =
   | skillProgramsUpdateResponseSuccess
   | skillProgramsUpdateResponseError;
 
-export const getSkillProgramsUpdateUrl = (skillProgram: number) => {
+export const getSkillProgramsUpdateUrl = (skillProgram: string) => {
   return `/skill-programs/${skillProgram}`;
 };
 
 export const skillProgramsUpdate = async (
-  skillProgram: number,
+  skillProgram: string,
   skillProgramsUpdateBody: SkillProgramsUpdateBody,
   options?: RequestInit,
 ): Promise<skillProgramsUpdateResponse> => {
@@ -747,14 +747,14 @@ export const getSkillProgramsUpdateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof skillProgramsUpdate>>,
     TError,
-    { skillProgram: number; data: SkillProgramsUpdateBody },
+    { skillProgram: string; data: SkillProgramsUpdateBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof skillProgramsUpdate>>,
   TError,
-  { skillProgram: number; data: SkillProgramsUpdateBody },
+  { skillProgram: string; data: SkillProgramsUpdateBody },
   TContext
 > => {
   const mutationKey = ["skillProgramsUpdate"];
@@ -768,7 +768,7 @@ export const getSkillProgramsUpdateMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof skillProgramsUpdate>>,
-    { skillProgram: number; data: SkillProgramsUpdateBody }
+    { skillProgram: string; data: SkillProgramsUpdateBody }
   > = (props) => {
     const { skillProgram, data } = props ?? {};
 
@@ -801,7 +801,7 @@ export const useSkillProgramsUpdate = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof skillProgramsUpdate>>,
       TError,
-      { skillProgram: number; data: SkillProgramsUpdateBody },
+      { skillProgram: string; data: SkillProgramsUpdateBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -810,7 +810,7 @@ export const useSkillProgramsUpdate = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof skillProgramsUpdate>>,
   TError,
-  { skillProgram: number; data: SkillProgramsUpdateBody },
+  { skillProgram: string; data: SkillProgramsUpdateBody },
   TContext
 > => {
   return useMutation(
@@ -851,12 +851,12 @@ export type skillProgramsDestroyResponse =
   | skillProgramsDestroyResponseSuccess
   | skillProgramsDestroyResponseError;
 
-export const getSkillProgramsDestroyUrl = (skillProgram: number) => {
+export const getSkillProgramsDestroyUrl = (skillProgram: string) => {
   return `/skill-programs/${skillProgram}`;
 };
 
 export const skillProgramsDestroy = async (
-  skillProgram: number,
+  skillProgram: string,
   options?: RequestInit,
 ): Promise<skillProgramsDestroyResponse> => {
   return $api<skillProgramsDestroyResponse>(
@@ -875,14 +875,14 @@ export const getSkillProgramsDestroyMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof skillProgramsDestroy>>,
     TError,
-    { skillProgram: number },
+    { skillProgram: string },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof skillProgramsDestroy>>,
   TError,
-  { skillProgram: number },
+  { skillProgram: string },
   TContext
 > => {
   const mutationKey = ["skillProgramsDestroy"];
@@ -896,7 +896,7 @@ export const getSkillProgramsDestroyMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof skillProgramsDestroy>>,
-    { skillProgram: number }
+    { skillProgram: string }
   > = (props) => {
     const { skillProgram } = props ?? {};
 
@@ -925,7 +925,7 @@ export const useSkillProgramsDestroy = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof skillProgramsDestroy>>,
       TError,
-      { skillProgram: number },
+      { skillProgram: string },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -934,7 +934,7 @@ export const useSkillProgramsDestroy = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof skillProgramsDestroy>>,
   TError,
-  { skillProgram: number },
+  { skillProgram: string },
   TContext
 > => {
   return useMutation(
@@ -972,12 +972,12 @@ export type skillProgramListByProgramResponse =
   | skillProgramListByProgramResponseSuccess
   | skillProgramListByProgramResponseError;
 
-export const getSkillProgramListByProgramUrl = (program: number) => {
+export const getSkillProgramListByProgramUrl = (program: string) => {
   return `/programs/${program}/skill-programs`;
 };
 
 export const skillProgramListByProgram = async (
-  program: number,
+  program: string,
   options?: RequestInit,
 ): Promise<skillProgramListByProgramResponse> => {
   return $api<skillProgramListByProgramResponse>(
@@ -989,7 +989,7 @@ export const skillProgramListByProgram = async (
   );
 };
 
-export const getSkillProgramListByProgramQueryKey = (program: number) => {
+export const getSkillProgramListByProgramQueryKey = (program: string) => {
   return [`/programs/${program}/skill-programs`] as const;
 };
 
@@ -997,7 +997,7 @@ export const getSkillProgramListByProgramQueryOptions = <
   TData = Awaited<ReturnType<typeof skillProgramListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1042,7 +1042,7 @@ export function useSkillProgramListByProgram<
   TData = Awaited<ReturnType<typeof skillProgramListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1069,7 +1069,7 @@ export function useSkillProgramListByProgram<
   TData = Awaited<ReturnType<typeof skillProgramListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1096,7 +1096,7 @@ export function useSkillProgramListByProgram<
   TData = Awaited<ReturnType<typeof skillProgramListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1116,7 +1116,7 @@ export function useSkillProgramListByProgram<
   TData = Awaited<ReturnType<typeof skillProgramListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1148,7 +1148,7 @@ export const getSkillProgramListByProgramSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof skillProgramListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1188,7 +1188,7 @@ export function useSkillProgramListByProgramSuspense<
   TData = Awaited<ReturnType<typeof skillProgramListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -1207,7 +1207,7 @@ export function useSkillProgramListByProgramSuspense<
   TData = Awaited<ReturnType<typeof skillProgramListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1226,7 +1226,7 @@ export function useSkillProgramListByProgramSuspense<
   TData = Awaited<ReturnType<typeof skillProgramListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1246,7 +1246,7 @@ export function useSkillProgramListByProgramSuspense<
   TData = Awaited<ReturnType<typeof skillProgramListByProgram>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -1307,14 +1307,14 @@ export type skillProgramListBySemesterResponse =
   | skillProgramListBySemesterResponseError;
 
 export const getSkillProgramListBySemesterUrl = (
-  program: number,
+  program: string,
   semester: number,
 ) => {
   return `/programs/${program}/skill-programs/${semester}`;
 };
 
 export const skillProgramListBySemester = async (
-  program: number,
+  program: string,
   semester: number,
   options?: RequestInit,
 ): Promise<skillProgramListBySemesterResponse> => {
@@ -1328,7 +1328,7 @@ export const skillProgramListBySemester = async (
 };
 
 export const getSkillProgramListBySemesterQueryKey = (
-  program: number,
+  program: string,
   semester: number,
 ) => {
   return [`/programs/${program}/skill-programs/${semester}`] as const;
@@ -1338,7 +1338,7 @@ export const getSkillProgramListBySemesterQueryOptions = <
   TData = Awaited<ReturnType<typeof skillProgramListBySemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1388,7 +1388,7 @@ export function useSkillProgramListBySemester<
   TData = Awaited<ReturnType<typeof skillProgramListBySemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options: {
     query: Partial<
@@ -1416,7 +1416,7 @@ export function useSkillProgramListBySemester<
   TData = Awaited<ReturnType<typeof skillProgramListBySemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1444,7 +1444,7 @@ export function useSkillProgramListBySemester<
   TData = Awaited<ReturnType<typeof skillProgramListBySemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1465,7 +1465,7 @@ export function useSkillProgramListBySemester<
   TData = Awaited<ReturnType<typeof skillProgramListBySemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1499,7 +1499,7 @@ export const getSkillProgramListBySemesterSuspenseQueryOptions = <
   TData = Awaited<ReturnType<typeof skillProgramListBySemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1544,7 +1544,7 @@ export function useSkillProgramListBySemesterSuspense<
   TData = Awaited<ReturnType<typeof skillProgramListBySemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options: {
     query: Partial<
@@ -1564,7 +1564,7 @@ export function useSkillProgramListBySemesterSuspense<
   TData = Awaited<ReturnType<typeof skillProgramListBySemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1584,7 +1584,7 @@ export function useSkillProgramListBySemesterSuspense<
   TData = Awaited<ReturnType<typeof skillProgramListBySemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1605,7 +1605,7 @@ export function useSkillProgramListBySemesterSuspense<
   TData = Awaited<ReturnType<typeof skillProgramListBySemester>>,
   TError = AuthenticationExceptionResponse | ModelNotFoundExceptionResponse,
 >(
-  program: number,
+  program: string,
   semester: number,
   options?: {
     query?: Partial<
@@ -1675,12 +1675,12 @@ export type skillProgramStoreResponse =
   | skillProgramStoreResponseSuccess
   | skillProgramStoreResponseError;
 
-export const getSkillProgramStoreUrl = (student: number) => {
+export const getSkillProgramStoreUrl = (student: string) => {
   return `/students/${student}/skill-programs`;
 };
 
 export const skillProgramStore = async (
-  student: number,
+  student: string,
   skillProgramStoreBody: SkillProgramStoreBody,
   options?: RequestInit,
 ): Promise<skillProgramStoreResponse> => {
@@ -1702,14 +1702,14 @@ export const getSkillProgramStoreMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof skillProgramStore>>,
     TError,
-    { student: number; data: SkillProgramStoreBody },
+    { student: string; data: SkillProgramStoreBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof skillProgramStore>>,
   TError,
-  { student: number; data: SkillProgramStoreBody },
+  { student: string; data: SkillProgramStoreBody },
   TContext
 > => {
   const mutationKey = ["skillProgramStore"];
@@ -1723,7 +1723,7 @@ export const getSkillProgramStoreMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof skillProgramStore>>,
-    { student: number; data: SkillProgramStoreBody }
+    { student: string; data: SkillProgramStoreBody }
   > = (props) => {
     const { student, data } = props ?? {};
 
@@ -1756,7 +1756,7 @@ export const useSkillProgramStore = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof skillProgramStore>>,
       TError,
-      { student: number; data: SkillProgramStoreBody },
+      { student: string; data: SkillProgramStoreBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -1765,7 +1765,7 @@ export const useSkillProgramStore = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof skillProgramStore>>,
   TError,
-  { student: number; data: SkillProgramStoreBody },
+  { student: string; data: SkillProgramStoreBody },
   TContext
 > => {
   return useMutation(getSkillProgramStoreMutationOptions(options), queryClient);

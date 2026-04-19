@@ -484,12 +484,12 @@ export type facultyUpdateResponse =
   | facultyUpdateResponseSuccess
   | facultyUpdateResponseError;
 
-export const getFacultyUpdateUrl = (faculty: number) => {
+export const getFacultyUpdateUrl = (faculty: string) => {
   return `/institutions/current/faculty/${faculty}`;
 };
 
 export const facultyUpdate = async (
-  faculty: number,
+  faculty: string,
   facultyUpdateBody: FacultyUpdateBody,
   options?: RequestInit,
 ): Promise<facultyUpdateResponse> => {
@@ -511,14 +511,14 @@ export const getFacultyUpdateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof facultyUpdate>>,
     TError,
-    { faculty: number; data: FacultyUpdateBody },
+    { faculty: string; data: FacultyUpdateBody },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof facultyUpdate>>,
   TError,
-  { faculty: number; data: FacultyUpdateBody },
+  { faculty: string; data: FacultyUpdateBody },
   TContext
 > => {
   const mutationKey = ["facultyUpdate"];
@@ -532,7 +532,7 @@ export const getFacultyUpdateMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof facultyUpdate>>,
-    { faculty: number; data: FacultyUpdateBody }
+    { faculty: string; data: FacultyUpdateBody }
   > = (props) => {
     const { faculty, data } = props ?? {};
 
@@ -565,7 +565,7 @@ export const useFacultyUpdate = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof facultyUpdate>>,
       TError,
-      { faculty: number; data: FacultyUpdateBody },
+      { faculty: string; data: FacultyUpdateBody },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -574,7 +574,7 @@ export const useFacultyUpdate = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof facultyUpdate>>,
   TError,
-  { faculty: number; data: FacultyUpdateBody },
+  { faculty: string; data: FacultyUpdateBody },
   TContext
 > => {
   return useMutation(getFacultyUpdateMutationOptions(options), queryClient);
@@ -611,12 +611,12 @@ export type facultyDestroyResponse =
   | facultyDestroyResponseSuccess
   | facultyDestroyResponseError;
 
-export const getFacultyDestroyUrl = (faculty: number) => {
+export const getFacultyDestroyUrl = (faculty: string) => {
   return `/institutions/current/faculty/${faculty}`;
 };
 
 export const facultyDestroy = async (
-  faculty: number,
+  faculty: string,
   options?: RequestInit,
 ): Promise<facultyDestroyResponse> => {
   return $api<facultyDestroyResponse>(getFacultyDestroyUrl(faculty), {
@@ -632,14 +632,14 @@ export const getFacultyDestroyMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof facultyDestroy>>,
     TError,
-    { faculty: number },
+    { faculty: string },
     TContext
   >;
   request?: SecondParameter<typeof $api>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof facultyDestroy>>,
   TError,
-  { faculty: number },
+  { faculty: string },
   TContext
 > => {
   const mutationKey = ["facultyDestroy"];
@@ -653,7 +653,7 @@ export const getFacultyDestroyMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof facultyDestroy>>,
-    { faculty: number }
+    { faculty: string }
   > = (props) => {
     const { faculty } = props ?? {};
 
@@ -682,7 +682,7 @@ export const useFacultyDestroy = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof facultyDestroy>>,
       TError,
-      { faculty: number },
+      { faculty: string },
       TContext
     >;
     request?: SecondParameter<typeof $api>;
@@ -691,7 +691,7 @@ export const useFacultyDestroy = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof facultyDestroy>>,
   TError,
-  { faculty: number },
+  { faculty: string },
   TContext
 > => {
   return useMutation(getFacultyDestroyMutationOptions(options), queryClient);
