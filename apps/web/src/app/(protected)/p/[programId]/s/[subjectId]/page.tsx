@@ -1,4 +1,4 @@
-import { SubjectFeedbackLinkReviewPage } from "@/components/subjects/subject-feedback-link-review.page";
+import { SubjectWorkspacePage } from "@/components/subjects/subject-workspace.page";
 
 export default async function Page({
   params,
@@ -8,9 +8,6 @@ export default async function Page({
   const { programId, subjectId } = await params;
 
   return (
-    <SubjectFeedbackLinkReviewPage
-      programId={programId}
-      subjectId={subjectId}
-    />
+    <SubjectWorkspacePage programId={programId} subjectId={subjectId} />
   );
 }

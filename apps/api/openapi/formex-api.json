@@ -683,6 +683,330 @@
                 }
             }
         },
+        "/course-outcomes": {
+            "get": {
+                "operationId": "course-outcomes.index",
+                "tags": [
+                    "CourseOutcome"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of `CourseOutcome`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CourseOutcome"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/course-outcomes/{courseOutcome}": {
+            "get": {
+                "operationId": "course-outcomes.show",
+                "tags": [
+                    "CourseOutcome"
+                ],
+                "parameters": [
+                    {
+                        "name": "courseOutcome",
+                        "in": "path",
+                        "required": true,
+                        "description": "The course outcome ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`CourseOutcome`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CourseOutcome"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "course-outcomes.update",
+                "tags": [
+                    "CourseOutcome"
+                ],
+                "parameters": [
+                    {
+                        "name": "courseOutcome",
+                        "in": "path",
+                        "required": true,
+                        "description": "The course outcome ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "description": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "syllabus_scheme": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`CourseOutcome`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CourseOutcome"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "course-outcomes.destroy",
+                "tags": [
+                    "CourseOutcome"
+                ],
+                "parameters": [
+                    {
+                        "name": "courseOutcome",
+                        "in": "path",
+                        "required": true,
+                        "description": "The course outcome ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`CourseOutcome`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CourseOutcome"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/subjects/{subject}/course-outcomes": {
+            "get": {
+                "operationId": "courseOutcome.listByCourse",
+                "tags": [
+                    "CourseOutcome"
+                ],
+                "parameters": [
+                    {
+                        "name": "subject",
+                        "in": "path",
+                        "required": true,
+                        "description": "The subject ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of `CourseOutcome`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CourseOutcome"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "courseOutcome.store",
+                "tags": [
+                    "CourseOutcome"
+                ],
+                "parameters": [
+                    {
+                        "name": "subject",
+                        "in": "path",
+                        "required": true,
+                        "description": "The subject ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "description": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "syllabus_scheme": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`CourseOutcome`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CourseOutcome"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
         "/course-plans": {
             "get": {
                 "operationId": "course-plans.index",
@@ -6566,6 +6890,78 @@
                     "updated_at"
                 ],
                 "title": "Bridge"
+            },
+            "CourseOutcome": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "institution_id": {
+                        "type": "string"
+                    },
+                    "program_id": {
+                        "type": "string"
+                    },
+                    "course_id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "syllabus_scheme": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "academic_year": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "program": {
+                        "$ref": "#/components/schemas/Program"
+                    },
+                    "course": {
+                        "$ref": "#/components/schemas/Subject"
+                    }
+                },
+                "required": [
+                    "id",
+                    "institution_id",
+                    "program_id",
+                    "course_id",
+                    "type",
+                    "name",
+                    "description",
+                    "syllabus_scheme",
+                    "academic_year",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "CourseOutcome"
             },
             "CoursePlan": {
                 "type": "object",

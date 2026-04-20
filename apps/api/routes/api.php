@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BridgreController;
+use App\Http\Controllers\CourseOutcomeController;
 use App\Http\Controllers\CoursePlanController;
 use App\Http\Controllers\FacultyInvitationController;
 use App\Http\Controllers\HigherEducationController;
@@ -104,6 +105,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('course-plans', CoursePlanController::class)->except(['store']);
     Route::get('/subjects/{subject}/course-plans', [CoursePlanController::class, 'listByCourse']);
     Route::post('/subjects/{subject}/course-plans', [CoursePlanController::class, 'store']);
+    Route::apiResource('course-outcomes', CourseOutcomeController::class)->except(['store']);
+    Route::get('/subjects/{subject}/course-outcomes', [CourseOutcomeController::class, 'listByCourse']);
+    Route::post('/subjects/{subject}/course-outcomes', [CourseOutcomeController::class, 'store']);
 
     // Bridges Paths
     Route::apiResource('bridges', BridgreController::class)->except(['store']);

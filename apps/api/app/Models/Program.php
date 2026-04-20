@@ -74,6 +74,11 @@ class Program extends Model
         return $this->hasMany(CoursePlan::class);
     }
 
+    public function course_outcomes(): HasMany
+    {
+        return $this->hasMany(CourseOutcome::class);
+    }
+
     public function feedback_links(): HasMany
     {
         return $this->hasMany(FeedbackLink::class, 'course_id');

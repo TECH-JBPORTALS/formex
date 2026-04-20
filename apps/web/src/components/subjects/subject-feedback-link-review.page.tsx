@@ -85,6 +85,7 @@ import { useProgramsShow } from "@/lib/api/hooks/useProgramsShow";
 type Props = {
   programId: string;
   subjectId: string;
+  hidePageShell?: boolean;
 };
 
 type FeedbackLinkSummaryRow = {
@@ -241,7 +242,11 @@ function statusBadgeVariant(
   return "destructive";
 }
 
-export function SubjectFeedbackLinkReviewPage({ programId, subjectId }: Props) {
+export function SubjectFeedbackLinkReviewPage({
+  programId,
+  subjectId,
+  hidePageShell = false,
+}: Props) {
   const queryClient = useQueryClient();
   const [tab, setTab] = useState<"submissions" | "links">("submissions");
   const [createOpen, setCreateOpen] = useState(false);
@@ -462,43 +467,253 @@ export function SubjectFeedbackLinkReviewPage({ programId, subjectId }: Props) {
 
   return (
     <>
-      <Header>
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href="/">Home</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={`/p/${programId}`}>
-                  {program?.name ?? "Program"}
-                </Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={`/p/${programId}/subjects`}>Subjects</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>
-                {subject?.name ?? "Subject Feedback"}
-              </BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </Header>
+      {!hidePageShell ? (
+        <Header>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/">Home</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href={`/p/${programId}`}>
+                    {program?.name ?? "Program"}
+                  </Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href={`/p/${programId}/subjects`}>Subjects</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>
+                  {subject?.name ?? "Subject Feedback"}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </Header>
+      ) : null}
 
-      <Container>
-        {subjectQuery.isLoading ? (
+      {hidePageShell ? (
+        subjectQuery.isLoading ? (
           <SpinnerPage />
         ) : (
-          <div className="space-y-6 max-w-5xl mx-auto">
+          <div className="space-y-6">
+            <Card>
+              <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <CardTitle>{subject?.name} Feedback</CardTitle>
+                  <CardDescription>
+                    Uses global feedback questions from the Principal dashboard.
+                    Create links for this subject and review submissions.
+                  </CardDescription>
+                </div>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    resetCreateDialog();
+                    setCreateOpen(true);
+                  }}
+                  disabled={noGlobalQuestions || isQuestionsLoading}
+                >
+                  Create feedback link
+                </Button>
+              </CardHeader>
+            </Card>
+
+            {noGlobalQuestions ? (
+              <p className="text-sm text-muted-foreground rounded-lg border border-border bg-muted/20 px-3 py-2">
+                Add feedback questions on the home dashboard before creating links.
+              </p>
+            ) : null}
+
+            <Tabs value={tab} onValueChange={(v) => setTab(v as typeof tab)}>
+              <TabsList variant="line" className="w-full sm:w-auto">
+                <TabsTrigger value="submissions">Submissions</TabsTrigger>
+                <TabsTrigger value="links">Feedback links</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="submissions" className="mt-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Submitted feedback</CardTitle>
+                    <CardDescription>
+                      Click a row to see how this student rated each question.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {submissionsQuery.isLoading ? (
+                      <SpinnerPage />
+                    ) : submissionRows.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">
+                        No submissions yet.
+                      </p>
+                    ) : (
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Student</TableHead>
+                            <TableHead>Register no.</TableHead>
+                            <TableHead>Average</TableHead>
+                            <TableHead>Feedback type</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {submissionRows.map((row) => (
+                            <TableRow
+                              key={`${row.feedback_link_id}-${row.student_id ?? row.register_no ?? "x"}`}
+                              className="cursor-pointer hover:bg-muted/50"
+                              tabIndex={0}
+                              onClick={() => setAnswersRow(row)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.preventDefault();
+                                  setAnswersRow(row);
+                                }
+                              }}
+                            >
+                              <TableCell className="font-medium">
+                                {row.full_name ?? "—"}
+                              </TableCell>
+                              <TableCell className="font-mono text-xs">
+                                {row.register_no ?? "—"}
+                              </TableCell>
+                              <TableCell>
+                                {Number.isFinite(row.average_rating)
+                                  ? row.average_rating
+                                  : "—"}
+                              </TableCell>
+                              <TableCell className="text-muted-foreground">
+                                {feedbackTypeLabel(row.feedback_type)}
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (row.student_id) {
+                                      void removeResponse(
+                                        row.feedback_link_id,
+                                        row.student_id,
+                                      );
+                                    }
+                                  }}
+                                  disabled={
+                                    facultyDestroy.isPending || !row.student_id
+                                  }
+                                >
+                                  Delete
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="links" className="mt-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Feedback links</CardTitle>
+                    <CardDescription>
+                      Every link created for this subject and semester. Status
+                      reflects expiry and whether the link is still active.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {linksQuery.isLoading ? (
+                      <SpinnerPage />
+                    ) : linkRows.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">
+                        No links yet. Use Create feedback link to add one.
+                      </p>
+                    ) : (
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Type</TableHead>
+                            <TableHead>Academic year</TableHead>
+                            <TableHead>Created</TableHead>
+                            <TableHead>Expires</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {linkRows.map((row) => (
+                            <TableRow key={row.id}>
+                              <TableCell className="capitalize">
+                                {row.feedback_type}
+                              </TableCell>
+                              <TableCell>{row.academic_year}</TableCell>
+                              <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
+                                {row.created_at
+                                  ? new Date(row.created_at).toLocaleString()
+                                  : "—"}
+                              </TableCell>
+                              <TableCell className="text-xs whitespace-nowrap">
+                                {row.expires_at
+                                  ? new Date(row.expires_at).toLocaleString()
+                                  : "No expiry"}
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant={statusBadgeVariant(row.status)}>
+                                  {row.status}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <div className="flex justify-end gap-2">
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    disabled={!row.share_url}
+                                    onClick={() =>
+                                      void copyShareLink(row.share_url)
+                                    }
+                                  >
+                                    Copy
+                                  </Button>
+                                  <Button
+                                    type="button"
+                                    variant="destructive"
+                                    size="sm"
+                                    onClick={() => setLinkDeleteId(row.id)}
+                                    disabled={linkDestroy.isPending}
+                                  >
+                                    Delete
+                                  </Button>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
+        )
+      ) : (
+        <Container>
+          {subjectQuery.isLoading ? (
+            <SpinnerPage />
+          ) : (
+            <div className="space-y-6 max-w-5xl mx-auto">
             <Card>
               <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
@@ -700,9 +915,10 @@ export function SubjectFeedbackLinkReviewPage({ programId, subjectId }: Props) {
                 </Card>
               </TabsContent>
             </Tabs>
-          </div>
-        )}
-      </Container>
+            </div>
+          )}
+        </Container>
+      )}
 
       <Dialog open={createOpen} onOpenChange={onCreateOpenChange}>
         <DialogContent className="sm:max-w-md" showCloseButton>
