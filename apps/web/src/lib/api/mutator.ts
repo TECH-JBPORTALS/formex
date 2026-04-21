@@ -71,6 +71,60 @@ function cacheAndNextForMethod(
 
 let warnedOffOriginApi = false;
 
+function firstHeaderValue(value: string | null): string | null {
+  if (!value) return null;
+  return value.split(",")[0]?.trim() || null;
+}
+
+function getHeaderValue(
+  headersInit: HeadersInit | undefined,
+  name: string,
+): string | null {
+  if (!headersInit) return null;
+  if (headersInit instanceof Headers) {
+    return headersInit.get(name);
+  }
+  if (Array.isArray(headersInit)) {
+    const row = headersInit.find(
+      ([k]) => k.toLowerCase() === name.toLowerCase(),
+    );
+    return row?.[1] ?? null;
+  }
+  const v = headersInit[name as keyof typeof headersInit];
+  return typeof v === "string" ? v : null;
+}
+
+function absoluteServerUrlIfNeeded(
+  resolved: string,
+  headersInit?: HeadersInit,
+): string {
+  if (!resolved.startsWith("/") || typeof window !== "undefined") {
+    return resolved;
+  }
+
+  const host = firstHeaderValue(
+    getHeaderValue(headersInit, "x-forwarded-host") ??
+      getHeaderValue(headersInit, "host"),
+  );
+  const proto =
+    firstHeaderValue(getHeaderValue(headersInit, "x-forwarded-proto")) ??
+    (process.env.VERCEL ? "https" : "http");
+
+  if (host) {
+    return `${proto}://${host}${resolved}`;
+  }
+
+  const fallbackOrigin = (
+    process.env.NEXT_PUBLIC_APP_URL ??
+    process.env.APP_URL ??
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000")
+  ).replace(/\/$/, "");
+
+  return `${fallbackOrigin}${resolved}`;
+}
+
 function warnIfBrowserApiOffOrigin(resolved: string): void {
   if (typeof window === "undefined" || warnedOffOriginApi) {
     return;
@@ -115,11 +169,12 @@ function xsrfHeaderForRequest(method: string): Record<string, string> {
 
 export async function $api<T>(url: string, init?: RequestInit): Promise<T> {
   const resolved = resolveApiUrl(url);
-  warnIfBrowserApiOffOrigin(resolved);
+  const requestUrl = absoluteServerUrlIfNeeded(resolved, init?.headers);
+  warnIfBrowserApiOffOrigin(requestUrl);
   const method = (init?.method ?? "GET").toUpperCase();
   const cacheAndNext = cacheAndNextForMethod(method, init);
 
-  const res = await fetch(resolved, {
+  const res = await fetch(requestUrl, {
     ...init,
     ...cacheAndNext,
     credentials: "include",
