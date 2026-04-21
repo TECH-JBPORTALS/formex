@@ -12,7 +12,7 @@ async function laravelUserIdFromRequestCookies(
     return null;
   }
   const backend = (
-    process.env.LARAVEL_BACKEND_URL ?? "http://127.0.0.1:8000"
+    process.env.NEXT_PUBLIC_LARAVEL_BACKEND_URL ?? "http://127.0.0.1:8000"
   ).replace(/\/$/, "");
   const res = await fetch(`${backend}/api/user`, {
     headers: getStatefulHeadersForLaravel(cookieHeader, {
