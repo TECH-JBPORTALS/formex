@@ -13,7 +13,8 @@ uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
     $this->withoutMiddleware(ValidateCsrfToken::class);
-    Storage::fake('local');
+    config()->set('filesystems.calendar_uploads_disk', 's3');
+    Storage::fake('s3');
 });
 
 function calendarSpaHeaders(): array

@@ -13,6 +13,11 @@ class InstitutionCalendarUploadController
     /** @var array<int, string> */
     private const array KINDS = ['dcet_events', 'academic_calendar'];
 
+    private function uploadDisk(): string
+    {
+        return (string) config('filesystems.calendar_uploads_disk', 's3');
+    }
+
     public function index(Request $request)
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
@@ -50,7 +55,7 @@ class InstitutionCalendarUploadController
         $file = $validated['file'];
         $kind = $validated['kind'];
 
-        $disk = 'local';
+        $disk = $this->uploadDisk();
         $directory = 'calendar-uploads/'.$institution->id;
         $path = $file->store($directory, $disk);
 
@@ -60,7 +65,7 @@ class InstitutionCalendarUploadController
             ->first();
 
         if ($previous !== null) {
-            Storage::disk($disk)->delete($previous->storage_path);
+            Storage::disk($previous->disk)->delete($previous->storage_path);
             $previous->delete();
         }
 

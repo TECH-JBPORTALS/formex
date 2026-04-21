@@ -15,6 +15,9 @@ return [
 
     'default' => env('FILESYSTEM_DISK', 'local'),
 
+    // Dedicated disk for institution calendar uploads (S3 in production).
+    'calendar_uploads_disk' => env('CALENDAR_UPLOADS_DISK', 's3'),
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
