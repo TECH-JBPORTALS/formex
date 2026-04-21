@@ -3,7 +3,8 @@
 import {
   BookOpen01Icon,
   Calendar03Icon,
-  GridIcon,
+  CubeIcon,
+  GraduationCap,
   Home01Icon,
   UserSquareIcon,
 } from "@hugeicons/core-free-icons";
@@ -89,7 +90,7 @@ const navItems = (programId: string, canViewMasterTimetable: boolean) => {
   items.push({
     id: "skill-programs",
     label: "Skill Programs",
-    icon: GridIcon,
+    icon: CubeIcon,
     href: `/p/${programId}/skill-programs`,
     match: (pathname: string) =>
       pathname.startsWith(`/p/${programId}/skill-programs`),
@@ -98,7 +99,7 @@ const navItems = (programId: string, canViewMasterTimetable: boolean) => {
   items.push({
     id: "program-outcome",
     label: "Program Outcome",
-    icon: GridIcon,
+    icon: GraduationCap,
     href: `/p/${programId}/program-outcome`,
     match: (pathname: string) =>
       pathname.startsWith(`/p/${programId}/program-outcome`),

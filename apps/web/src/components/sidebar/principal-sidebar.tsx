@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  BookOpen01Icon,
   GraduationCap,
   Home01Icon,
   LaborIcon,
@@ -34,7 +35,7 @@ const items = [
   { id: 2, label: "Faculty", icon: UserSquareIcon, href: "/faculty" },
   { id: 3, label: "Internships", icon: LaborIcon, href: "/internships" },
   { id: 4, label: "Placements", icon: PermanentJobIcon, href: "/placements" },
-  { id: 6, label: "Course Plans", icon: GridIcon, href: "/course-plans" },
+  { id: 6, label: "Course Plans", icon: BookOpen01Icon, href: "/course-plans" },
   {
     id: 5,
     label: "Higher Education",
