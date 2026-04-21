@@ -22,14 +22,9 @@ export function resolveApiUrl(pathOrUrl: string): string {
   const envBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "/backend/api";
   const base = envBase.replace(/\/$/, "");
   if (base.startsWith("/")) {
-    const origin =
-      typeof window !== "undefined"
-        ? window.location.origin
-        : (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(
-            /\/$/,
-            "",
-          );
-    return `${origin}${base}${path}`;
+    // Same-origin relative URL: no NEXT_PUBLIC_APP_URL — browser and Next server `fetch`
+    // resolve against the current request / page origin.
+    return `${base}${path}`;
   }
   return `${base}${path}`;
 }
