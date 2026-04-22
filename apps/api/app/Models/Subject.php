@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable([
     'name',
     'short_name',
+    'code',
     'type',
     'semester',
     'scheme',
@@ -76,5 +77,10 @@ class Subject extends Model
     public function course_monthly_attendances(): HasMany
     {
         return $this->hasMany(CourseMonthlyAttendance::class, 'course_id');
+    }
+
+    public function result_analyses(): HasMany
+    {
+        return $this->hasMany(ResultAnalysis::class, 'course_id');
     }
 }

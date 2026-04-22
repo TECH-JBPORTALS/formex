@@ -1,12 +1,14 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusSignIcon, Search01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
+import type React from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { z } from "zod";
 import Container from "@/components/container";
@@ -33,12 +35,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -46,13 +48,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useProgramsShow } from "@/lib/api/hooks/useProgramsShow";
-import { SubjectStoreBody } from "@/lib/api/generated/subject/subject.zod";
 import {
   getSubjectListbysemesterQueryKey,
   useSubjectListbysemester,
   useSubjectStore,
 } from "@/lib/api/generated/subject/subject";
+import { SubjectStoreBody } from "@/lib/api/generated/subject/subject.zod";
+import { useProgramsShow } from "@/lib/api/hooks/useProgramsShow";
+import { SpinnerPage } from "../spinner-page";
 import {
   Dialog,
   DialogClose,
@@ -62,8 +65,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import React, { useMemo, useState } from "react";
-import { SpinnerPage } from "../spinner-page";
 
 function clampSemester(value: string | null): number {
   const n = Number(value);
@@ -161,6 +162,7 @@ const CreateSubjectSchema = SubjectStoreBody.omit({ semester: true });
 type CreateSubjectFormValues = z.infer<typeof CreateSubjectSchema>;
 
 const createSubjectDefaults: CreateSubjectFormValues = {
+  code: "",
   name: "",
   scheme: "C25",
   short_name: "",
@@ -258,6 +260,23 @@ export function CreateSubjectDialog({
                   <FormLabel>Short name</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g. CS101" maxLength={10} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Code</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="e.g. CS-101"
+                      maxLength={50}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

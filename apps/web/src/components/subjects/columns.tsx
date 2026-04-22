@@ -14,8 +14,8 @@ import { useState } from "react";
 import { DeleteSubjectDialog } from "@/components/subjects/delete-subject-dialog";
 import { EditSubjectDialog } from "@/components/subjects/edit-subject-dialog";
 import {
-  SubjectAssignmentCell,
   type AssignedStaff,
+  SubjectAssignmentCell,
 } from "@/components/subjects/subject-assignment-cell";
 import type { Subject } from "@/lib/api/generated/models";
 import { Badge } from "../ui/badge";
@@ -129,6 +129,10 @@ export function getSubjectColumns(
     {
       accessorKey: "short_name",
       header: "Short Name",
+    },
+    {
+      accessorKey: "code",
+      header: "Code",
     },
     {
       id: "assigned_people",

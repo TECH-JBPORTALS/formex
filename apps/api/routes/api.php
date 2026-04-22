@@ -14,6 +14,7 @@ use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\PlacementController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ProgramOutcomeController;
+use App\Http\Controllers\ResultAnalysisController;
 use App\Http\Controllers\RoomReportController;
 use App\Http\Controllers\SkillProgramController;
 use App\Http\Controllers\StudentController;
@@ -112,6 +113,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/subjects/{subject}/course-monthly-attendances', [CourseMonthlyAttendanceController::class, 'listByCourse']);
     Route::post('/subjects/{subject}/course-monthly-attendances', [CourseMonthlyAttendanceController::class, 'store']);
     Route::apiResource('course-monthly-attendances', CourseMonthlyAttendanceController::class)->only(['show', 'update', 'destroy']);
+    Route::get('/subjects/{subject}/result-analyses', [ResultAnalysisController::class, 'listByCourse']);
+    Route::post('/subjects/{subject}/result-analyses', [ResultAnalysisController::class, 'store']);
+    Route::apiResource('result-analyses', ResultAnalysisController::class)->only(['show', 'update', 'destroy']);
 
     // Bridges Paths
     Route::apiResource('bridges', BridgreController::class)->except(['store']);

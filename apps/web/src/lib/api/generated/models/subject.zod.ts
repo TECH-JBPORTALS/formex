@@ -10,6 +10,7 @@ export interface Subject {
   id: string;
   name: string;
   short_name: string;
+  code: string;
   type: string;
   semester: number;
   scheme: string;

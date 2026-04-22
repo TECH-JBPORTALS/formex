@@ -4275,6 +4275,260 @@
                 }
             }
         },
+        "/subjects/{subject}/result-analyses": {
+            "get": {
+                "operationId": "resultAnalysis.listByCourse",
+                "tags": [
+                    "ResultAnalysis"
+                ],
+                "parameters": [
+                    {
+                        "name": "subject",
+                        "in": "path",
+                        "required": true,
+                        "description": "The subject ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of `ResultAnalysis`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ResultAnalysis"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "resultAnalysis.store",
+                "tags": [
+                    "ResultAnalysis"
+                ],
+                "parameters": [
+                    {
+                        "name": "subject",
+                        "in": "path",
+                        "required": true,
+                        "description": "The subject ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "`ResultAnalysis`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ResultAnalysis"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/result-analyses/{resultAnalysis}": {
+            "get": {
+                "operationId": "result-analyses.show",
+                "tags": [
+                    "ResultAnalysis"
+                ],
+                "parameters": [
+                    {
+                        "name": "resultAnalysis",
+                        "in": "path",
+                        "required": true,
+                        "description": "The result analysis ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`ResultAnalysis`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ResultAnalysis"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "result-analyses.update",
+                "tags": [
+                    "ResultAnalysis"
+                ],
+                "parameters": [
+                    {
+                        "name": "resultAnalysis",
+                        "in": "path",
+                        "required": true,
+                        "description": "The result analysis ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "scored_grade": {
+                                        "type": "string",
+                                        "enum": [
+                                            "A+",
+                                            "A",
+                                            "B+",
+                                            "B",
+                                            "C+",
+                                            "C",
+                                            "D",
+                                            "E",
+                                            "AB"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "scored_grade"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`ResultAnalysis`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ResultAnalysis"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "result-analyses.destroy",
+                "tags": [
+                    "ResultAnalysis"
+                ],
+                "parameters": [
+                    {
+                        "name": "resultAnalysis",
+                        "in": "path",
+                        "required": true,
+                        "description": "The result analysis ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`ResultAnalysis`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ResultAnalysis"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
         "/room-reports": {
             "get": {
                 "operationId": "room-reports.index",
@@ -6512,6 +6766,10 @@
                                         "type": "string",
                                         "maxLength": 10
                                     },
+                                    "code": {
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
                                     "type": {
                                         "type": "string",
                                         "enum": [
@@ -6688,6 +6946,10 @@
                                         "type": "string",
                                         "maxLength": 10
                                     },
+                                    "code": {
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
                                     "type": {
                                         "type": "string",
                                         "enum": [
@@ -6709,6 +6971,7 @@
                                 "required": [
                                     "name",
                                     "short_name",
+                                    "code",
                                     "type",
                                     "semester",
                                     "scheme"
@@ -7987,6 +8250,44 @@
                 ],
                 "title": "ProgramOutcome"
             },
+            "ResultAnalysis": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "course_id": {
+                        "type": "string"
+                    },
+                    "student_id": {
+                        "type": "string"
+                    },
+                    "scored_grade": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    },
+                    "course": {
+                        "$ref": "#/components/schemas/Subject"
+                    },
+                    "student": {
+                        "$ref": "#/components/schemas/Student"
+                    }
+                },
+                "required": [
+                    "id",
+                    "course_id",
+                    "student_id",
+                    "scored_grade",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "ResultAnalysis"
+            },
             "RoomReport": {
                 "type": "object",
                 "properties": {
@@ -8373,6 +8674,9 @@
                     "short_name": {
                         "type": "string"
                     },
+                    "code": {
+                        "type": "string"
+                    },
                     "type": {
                         "type": "string"
                     },
@@ -8407,6 +8711,7 @@
                     "id",
                     "name",
                     "short_name",
+                    "code",
                     "type",
                     "semester",
                     "scheme",

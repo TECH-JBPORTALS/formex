@@ -77,4 +77,9 @@ class Student extends Model
     {
         return $this->hasMany(CourseMonthlyAttendanceStudent::class, 'student_id');
     }
+
+    public function result_analyses(): HasMany
+    {
+        return $this->hasMany(ResultAnalysis::class, 'student_id');
+    }
 }

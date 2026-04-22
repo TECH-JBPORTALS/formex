@@ -32,11 +32,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Subject } from "@/lib/api/generated/models";
-import { SubjectStoreBody } from "@/lib/api/generated/subject/subject.zod";
 import {
   getSubjectListbysemesterQueryKey,
   useSubjectsUpdate,
 } from "@/lib/api/generated/subject/subject";
+import { SubjectStoreBody } from "@/lib/api/generated/subject/subject.zod";
 
 const EditSubjectFormSchema = SubjectStoreBody.omit({ semester: true });
 type EditSubjectFormValues = z.infer<typeof EditSubjectFormSchema>;
@@ -49,6 +49,7 @@ function subjectToFormValues(subject: Subject): EditSubjectFormValues {
   return {
     name: subject.name,
     short_name: subject.short_name,
+    code: subject.code ?? subject.short_name,
     type,
     scheme: "C25",
   };
@@ -154,6 +155,23 @@ export function EditSubjectDialog({
                   <FormLabel>Short name</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g. CS101" maxLength={10} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Code</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="e.g. CS-101"
+                      maxLength={50}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

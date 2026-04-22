@@ -12,6 +12,8 @@ export type SubjectStoreBody = {
   name: string;
   /** @maxLength 10 */
   short_name: string;
+  /** @maxLength 50 */
+  code: string;
   type: SubjectStoreBodyType;
   /** @minimum 1 */
   semester: number;

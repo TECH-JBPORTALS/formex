@@ -15,6 +15,7 @@ export const SubjectsIndexResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
+  "code": zod.string(),
   "type": zod.string(),
   "semester": zod.number(),
   "scheme": zod.string(),
@@ -45,6 +46,7 @@ export const SubjectsShowResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
+  "code": zod.string(),
   "type": zod.string(),
   "semester": zod.number(),
   "scheme": zod.string(),
@@ -74,12 +76,15 @@ export const subjectsUpdateBodyNameMax = 255;
 
 export const subjectsUpdateBodyShortNameMax = 10;
 
+export const subjectsUpdateBodyCodeMax = 50;
+
 
 
 
 export const SubjectsUpdateBody = zod.object({
   "name": zod.string().max(subjectsUpdateBodyNameMax).optional(),
   "short_name": zod.string().max(subjectsUpdateBodyShortNameMax).optional(),
+  "code": zod.string().max(subjectsUpdateBodyCodeMax).optional(),
   "type": zod.enum(['theory', 'practical']).optional(),
   "semester": zod.number().min(1).optional(),
   "scheme": zod.enum(['C25']).optional()
@@ -90,6 +95,7 @@ export const SubjectsUpdateResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
+  "code": zod.string(),
   "type": zod.string(),
   "semester": zod.number(),
   "scheme": zod.string(),
@@ -120,6 +126,7 @@ export const SubjectsDestroyResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
+  "code": zod.string(),
   "type": zod.string(),
   "semester": zod.number(),
   "scheme": zod.string(),
@@ -147,6 +154,7 @@ export const SubjectListByProgramResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
+  "code": zod.string(),
   "type": zod.string(),
   "semester": zod.number(),
   "scheme": zod.string(),
@@ -176,12 +184,15 @@ export const subjectStoreBodyNameMax = 255;
 
 export const subjectStoreBodyShortNameMax = 10;
 
+export const subjectStoreBodyCodeMax = 50;
+
 
 
 
 export const SubjectStoreBody = zod.object({
   "name": zod.string().max(subjectStoreBodyNameMax),
   "short_name": zod.string().max(subjectStoreBodyShortNameMax),
+  "code": zod.string().max(subjectStoreBodyCodeMax),
   "type": zod.enum(['theory', 'practical']),
   "semester": zod.number().min(1),
   "scheme": zod.enum(['C25'])
@@ -192,6 +203,7 @@ export const SubjectStoreResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
+  "code": zod.string(),
   "type": zod.string(),
   "semester": zod.number(),
   "scheme": zod.string(),
@@ -220,6 +232,7 @@ export const SubjectListbysemesterResponse = zod.object({
   "id": zod.string(),
   "name": zod.string(),
   "short_name": zod.string(),
+  "code": zod.string(),
   "type": zod.string(),
   "semester": zod.number(),
   "scheme": zod.string(),

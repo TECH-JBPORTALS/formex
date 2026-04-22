@@ -89,6 +89,7 @@ class SubjectController
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'short_name' => 'required|string|max:10',
+            'code' => 'required|string|max:50',
             'type' => 'required|in:theory,practical',
             'semester' => 'required|integer|min:1',
             'scheme' => 'required|in:C25',
@@ -117,6 +118,7 @@ class SubjectController
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'short_name' => 'sometimes|required|string|max:10',
+            'code' => 'sometimes|required|string|max:50',
             'type' => 'sometimes|required|in:theory,practical',
             'semester' => 'sometimes|required|integer|min:1',
             'scheme' => 'sometimes|required|in:C25',

@@ -7,31 +7,18 @@
 import * as zod from 'zod';
 
 
-export const CourseMonthlyAttendanceListByCourseParams = zod.object({
+export const ResultAnalysisListByCourseParams = zod.object({
   "subject": zod.string().describe('The subject ID')
 })
 
-export const CourseMonthlyAttendanceListByCourseResponse = zod.object({
+export const ResultAnalysisListByCourseResponse = zod.object({
   "data": zod.array(zod.object({
   "id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
   "course_id": zod.string(),
-  "month": zod.number(),
-  "academic_year": zod.number(),
-  "total_classes_held": zod.number(),
-  "minimum_attendance_percent": zod.number(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable(),
-  "program": zod.object({
-  "id": zod.string(),
-  "name": zod.string(),
-  "short_name": zod.string(),
-  "intake": zod.number(),
-  "institution_id": zod.string(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable()
-}).optional(),
+  "student_id": zod.string(),
+  "scored_grade": zod.string(),
+  "created_at": zod.string(),
+  "updated_at": zod.string(),
   "course": zod.object({
   "id": zod.string(),
   "name": zod.string(),
@@ -53,16 +40,6 @@ export const CourseMonthlyAttendanceListByCourseResponse = zod.object({
 }).optional(),
   "assigned_staff": zod.string()
 }).optional(),
-  "attendance_students": zod.array(zod.object({
-  "id": zod.string(),
-  "course_monthly_attendance_id": zod.string(),
-  "student_id": zod.string(),
-  "total_classes_attended": zod.number(),
-  "remarks": zod.string().nullable(),
-  "attendance_percent": zod.number(),
-  "meets_minimum": zod.boolean(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
@@ -80,39 +57,25 @@ export const CourseMonthlyAttendanceListByCourseResponse = zod.object({
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
-})).optional()
 }))
 })
 
-export const CourseMonthlyAttendanceStoreParams = zod.object({
+export const ResultAnalysisStoreParams = zod.object({
   "subject": zod.string().describe('The subject ID')
 })
 
-export const CourseMonthlyAttendancesShowParams = zod.object({
-  "courseMonthlyAttendance": zod.string().describe('The course monthly attendance ID')
+export const ResultAnalysesShowParams = zod.object({
+  "resultAnalysis": zod.string().describe('The result analysis ID')
 })
 
-export const CourseMonthlyAttendancesShowResponse = zod.object({
+export const ResultAnalysesShowResponse = zod.object({
   "data": zod.object({
   "id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
   "course_id": zod.string(),
-  "month": zod.number(),
-  "academic_year": zod.number(),
-  "total_classes_held": zod.number(),
-  "minimum_attendance_percent": zod.number(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable(),
-  "program": zod.object({
-  "id": zod.string(),
-  "name": zod.string(),
-  "short_name": zod.string(),
-  "intake": zod.number(),
-  "institution_id": zod.string(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable()
-}).optional(),
+  "student_id": zod.string(),
+  "scored_grade": zod.string(),
+  "created_at": zod.string(),
+  "updated_at": zod.string(),
   "course": zod.object({
   "id": zod.string(),
   "name": zod.string(),
@@ -134,16 +97,6 @@ export const CourseMonthlyAttendancesShowResponse = zod.object({
 }).optional(),
   "assigned_staff": zod.string()
 }).optional(),
-  "attendance_students": zod.array(zod.object({
-  "id": zod.string(),
-  "course_monthly_attendance_id": zod.string(),
-  "student_id": zod.string(),
-  "total_classes_attended": zod.number(),
-  "remarks": zod.string().nullable(),
-  "attendance_percent": zod.number(),
-  "meets_minimum": zod.boolean(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
@@ -161,35 +114,25 @@ export const CourseMonthlyAttendancesShowResponse = zod.object({
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
-})).optional()
 })
 })
 
-export const CourseMonthlyAttendancesUpdateParams = zod.object({
-  "courseMonthlyAttendance": zod.string().describe('The course monthly attendance ID')
+export const ResultAnalysesUpdateParams = zod.object({
+  "resultAnalysis": zod.string().describe('The result analysis ID')
 })
 
-export const CourseMonthlyAttendancesUpdateResponse = zod.object({
+export const ResultAnalysesUpdateBody = zod.object({
+  "scored_grade": zod.enum(['A+', 'A', 'B+', 'B', 'C+', 'C', 'D', 'E', 'AB'])
+})
+
+export const ResultAnalysesUpdateResponse = zod.object({
   "data": zod.object({
   "id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
   "course_id": zod.string(),
-  "month": zod.number(),
-  "academic_year": zod.number(),
-  "total_classes_held": zod.number(),
-  "minimum_attendance_percent": zod.number(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable(),
-  "program": zod.object({
-  "id": zod.string(),
-  "name": zod.string(),
-  "short_name": zod.string(),
-  "intake": zod.number(),
-  "institution_id": zod.string(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable()
-}).optional(),
+  "student_id": zod.string(),
+  "scored_grade": zod.string(),
+  "created_at": zod.string(),
+  "updated_at": zod.string(),
   "course": zod.object({
   "id": zod.string(),
   "name": zod.string(),
@@ -211,16 +154,6 @@ export const CourseMonthlyAttendancesUpdateResponse = zod.object({
 }).optional(),
   "assigned_staff": zod.string()
 }).optional(),
-  "attendance_students": zod.array(zod.object({
-  "id": zod.string(),
-  "course_monthly_attendance_id": zod.string(),
-  "student_id": zod.string(),
-  "total_classes_attended": zod.number(),
-  "remarks": zod.string().nullable(),
-  "attendance_percent": zod.number(),
-  "meets_minimum": zod.boolean(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
@@ -238,35 +171,21 @@ export const CourseMonthlyAttendancesUpdateResponse = zod.object({
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
-})).optional()
 })
 })
 
-export const CourseMonthlyAttendancesDestroyParams = zod.object({
-  "courseMonthlyAttendance": zod.string().describe('The course monthly attendance ID')
+export const ResultAnalysesDestroyParams = zod.object({
+  "resultAnalysis": zod.string().describe('The result analysis ID')
 })
 
-export const CourseMonthlyAttendancesDestroyResponse = zod.object({
+export const ResultAnalysesDestroyResponse = zod.object({
   "data": zod.object({
   "id": zod.string(),
-  "institution_id": zod.string(),
-  "program_id": zod.string(),
   "course_id": zod.string(),
-  "month": zod.number(),
-  "academic_year": zod.number(),
-  "total_classes_held": zod.number(),
-  "minimum_attendance_percent": zod.number(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable(),
-  "program": zod.object({
-  "id": zod.string(),
-  "name": zod.string(),
-  "short_name": zod.string(),
-  "intake": zod.number(),
-  "institution_id": zod.string(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable()
-}).optional(),
+  "student_id": zod.string(),
+  "scored_grade": zod.string(),
+  "created_at": zod.string(),
+  "updated_at": zod.string(),
   "course": zod.object({
   "id": zod.string(),
   "name": zod.string(),
@@ -288,16 +207,6 @@ export const CourseMonthlyAttendancesDestroyResponse = zod.object({
 }).optional(),
   "assigned_staff": zod.string()
 }).optional(),
-  "attendance_students": zod.array(zod.object({
-  "id": zod.string(),
-  "course_monthly_attendance_id": zod.string(),
-  "student_id": zod.string(),
-  "total_classes_attended": zod.number(),
-  "remarks": zod.string().nullable(),
-  "attendance_percent": zod.number(),
-  "meets_minimum": zod.boolean(),
-  "created_at": zod.iso.datetime({}).nullable(),
-  "updated_at": zod.iso.datetime({}).nullable(),
   "student": zod.object({
   "id": zod.string(),
   "full_name": zod.string(),
@@ -315,7 +224,6 @@ export const CourseMonthlyAttendancesDestroyResponse = zod.object({
   "created_at": zod.iso.datetime({}).nullable(),
   "updated_at": zod.iso.datetime({}).nullable()
 }).optional()
-})).optional()
 })
 })
 

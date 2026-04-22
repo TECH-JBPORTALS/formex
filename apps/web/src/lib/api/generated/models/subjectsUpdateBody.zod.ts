@@ -12,6 +12,8 @@ export type SubjectsUpdateBody = {
   name?: string;
   /** @maxLength 10 */
   short_name?: string;
+  /** @maxLength 50 */
+  code?: string;
   type?: SubjectsUpdateBodyType;
   /** @minimum 1 */
   semester?: number;
