@@ -59,6 +59,14 @@ const navItems = (programId: string, canViewMasterTimetable: boolean) => {
         pathname.startsWith(`/p/${programId}/s/`),
     },
     {
+      id: "success-index-data",
+      label: "Success Index Data",
+      icon: GraduationCap,
+      href: `/p/${programId}/success-index-data`,
+      match: (pathname: string) =>
+        pathname.startsWith(`/p/${programId}/success-index-data`),
+    },
+    {
       id: "students",
       label: "Students",
       icon: UserSquareIcon,

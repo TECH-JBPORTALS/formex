@@ -14,6 +14,7 @@ use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\PlacementController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ProgramOutcomeController;
+use App\Http\Controllers\ProgramSuccessIndexController;
 use App\Http\Controllers\ResultAnalysisController;
 use App\Http\Controllers\RoomReportController;
 use App\Http\Controllers\SkillProgramController;
@@ -64,6 +65,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('programs', ProgramController::class);
+    Route::get('/programs/{program}/success-index-rows', [ProgramSuccessIndexController::class, 'rows']);
+    Route::get('/programs/{program}/success-index', [ProgramSuccessIndexController::class, 'show']);
+    Route::put('/programs/{program}/success-index', [ProgramSuccessIndexController::class, 'upsert']);
     Route::apiResource('program-outcomes', ProgramOutcomeController::class)->except(['store']);
     Route::get('/programs/{program}/program-outcomes', [ProgramOutcomeController::class, 'listByProgram']);
     Route::post('/programs/{program}/program-outcomes', [ProgramOutcomeController::class, 'store']);
