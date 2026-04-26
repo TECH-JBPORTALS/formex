@@ -123,6 +123,14 @@ const navItems = (programId: string, canViewMasterTimetable: boolean) => {
       pathname.startsWith(`/p/${programId}/placement-index`),
   });
 
+  items.push({
+    id: "tests",
+    label: "Tests",
+    icon: BookOpen01Icon,
+    href: `/p/${programId}/tests`,
+    match: (pathname: string) => pathname.startsWith(`/p/${programId}/tests`),
+  });
+
   return items;
 };
 

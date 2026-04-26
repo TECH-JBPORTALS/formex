@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Database\Factories\CourseOutcomeFactory;
+use Database\Factories\TestFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,21 +13,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable([
     'institution_id',
     'program_id',
-    'course_id',
-    'type',
+    'semester',
     'name',
-    'description',
-    'syllabus_scheme',
+    'cie_number',
+    'maximum_marks',
+    'minimum_passing_marks',
     'academic_year',
 ])]
-class CourseOutcome extends Model
+class Test extends Model
 {
-    /** @use HasFactory<CourseOutcomeFactory> */
+    /** @use HasFactory<TestFactory> */
     use HasFactory, HasUlids;
 
     protected function casts(): array
     {
         return [
+            'semester' => 'integer',
+            'cie_number' => 'integer',
+            'maximum_marks' => 'integer',
+            'minimum_passing_marks' => 'integer',
             'academic_year' => 'integer',
         ];
     }
@@ -42,12 +46,7 @@ class CourseOutcome extends Model
         return $this->belongsTo(Program::class);
     }
 
-    public function course(): BelongsTo
-    {
-        return $this->belongsTo(Subject::class, 'course_id');
-    }
-
-    public function testCourseOutcomes(): HasMany
+    public function courseOutcomeMarks(): HasMany
     {
         return $this->hasMany(TestCourseOutcome::class);
     }

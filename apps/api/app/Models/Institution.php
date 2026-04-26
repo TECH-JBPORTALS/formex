@@ -88,4 +88,9 @@ class Institution extends Model
     {
         return $this->hasMany(FeedbackLink::class);
     }
+
+    public function tests(): HasMany
+    {
+        return $this->hasMany(Test::class);
+    }
 }

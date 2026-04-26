@@ -23,6 +23,7 @@ use App\Http\Controllers\SkillProgramController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentFeedbackController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\TimetableController;
 use Illuminate\Support\Facades\Route;
 
@@ -127,6 +128,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/subjects/{subject}/result-analyses', [ResultAnalysisController::class, 'listByCourse']);
     Route::post('/subjects/{subject}/result-analyses', [ResultAnalysisController::class, 'store']);
     Route::apiResource('result-analyses', ResultAnalysisController::class)->only(['show', 'update', 'destroy']);
+    Route::apiResource('tests', TestController::class)->except(['store']);
+    Route::get('/programs/{program}/tests', [TestController::class, 'listByProgram']);
+    Route::post('/programs/{program}/tests', [TestController::class, 'store']);
+    Route::get('/programs/{program}/tests/course-outcomes', [TestController::class, 'listCourseOutcomesByProgramAndSemester']);
 
     // Bridges Paths
     Route::apiResource('bridges', BridgreController::class)->except(['store']);

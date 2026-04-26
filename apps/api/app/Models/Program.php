@@ -88,4 +88,9 @@ class Program extends Model
     {
         return $this->hasMany(StudentFeedback::class, 'course_id');
     }
+
+    public function tests(): HasMany
+    {
+        return $this->hasMany(Test::class);
+    }
 }
