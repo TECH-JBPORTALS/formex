@@ -106,6 +106,15 @@ const navItems = (programId: string, canViewMasterTimetable: boolean) => {
   });
 
   items.push({
+    id: "room-reports",
+    label: "Room Reports",
+    icon: Calendar03Icon,
+    href: `/p/${programId}/room-reports`,
+    match: (pathname: string) =>
+      pathname.startsWith(`/p/${programId}/room-reports`),
+  });
+
+  items.push({
     id: "program-outcome",
     label: "Program Outcome",
     icon: GraduationCap,

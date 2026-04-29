@@ -7,6 +7,7 @@ export const CourseOutcomeFormSchema = z.object({
   name: z.string().max(255),
   description: z.string().nullable().optional(),
   syllabus_scheme: z.string().nullable().optional(),
+  target_percentage: z.number().int().min(1).max(100),
 });
 
 export type CourseOutcomeFormValues = z.infer<typeof CourseOutcomeFormSchema>;
@@ -16,6 +17,7 @@ export function courseOutcomeCreateDefaults(): CourseOutcomeFormValues {
     name: "",
     description: "",
     syllabus_scheme: "",
+    target_percentage: 60,
   };
 }
 
@@ -26,6 +28,7 @@ export function courseOutcomeToFormValues(
     name: outcome.name,
     description: outcome.description ?? "",
     syllabus_scheme: outcome.syllabus_scheme ?? "",
+    target_percentage: (outcome as CourseOutcome & { target_percentage?: number }).target_percentage ?? 60,
   };
 }
 

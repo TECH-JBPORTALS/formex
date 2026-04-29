@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'name',
     'description',
     'syllabus_scheme',
+    'target_percentage',
     'academic_year',
 ])]
 class CourseOutcome extends Model
@@ -29,6 +30,7 @@ class CourseOutcome extends Model
     {
         return [
             'academic_year' => 'integer',
+            'target_percentage' => 'integer',
         ];
     }
 

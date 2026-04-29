@@ -59,10 +59,12 @@ test('course outcomes CRUD under /api/course-outcomes and /api/subjects/{subject
         'name' => 'Apply software engineering principles',
         'description' => 'Students apply engineering design in software lifecycle.',
         'syllabus_scheme' => 'C25',
+        'target_percentage' => 65,
     ], courseOutcomeSpaHeaders())
         ->assertCreated()
         ->assertJsonPath('data.program_id', $program->id)
-        ->assertJsonPath('data.course_id', $subject->id);
+        ->assertJsonPath('data.course_id', $subject->id)
+        ->assertJsonPath('data.target_percentage', 65);
 
     $created = CourseOutcome::query()
         ->where('course_id', $subject->id)
@@ -81,9 +83,11 @@ test('course outcomes CRUD under /api/course-outcomes and /api/subjects/{subject
         'name' => 'Design and evaluate robust software systems',
         'description' => 'Students design, test and evaluate maintainable systems.',
         'syllabus_scheme' => 'R22',
+        'target_percentage' => 70,
     ], courseOutcomeSpaHeaders())
         ->assertOk()
-        ->assertJsonPath('data.name', 'Design and evaluate robust software systems');
+        ->assertJsonPath('data.name', 'Design and evaluate robust software systems')
+        ->assertJsonPath('data.target_percentage', 70);
 
     $this->deleteJson("/api/course-outcomes/{$created->id}", [], courseOutcomeSpaHeaders())
         ->assertOk()

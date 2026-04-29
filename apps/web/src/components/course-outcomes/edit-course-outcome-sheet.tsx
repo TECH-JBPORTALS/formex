@@ -132,6 +132,28 @@ export function EditCourseOutcomeSheet({
             />
             <FormField
               control={form.control}
+              name="target_percentage"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Target Percentage</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={1}
+                      max={100}
+                      value={field.value}
+                      onChange={(event) => {
+                        const next = Number(event.target.value);
+                        field.onChange(Number.isNaN(next) ? 0 : next);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>

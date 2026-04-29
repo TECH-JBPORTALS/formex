@@ -69,6 +69,17 @@ export function getCourseOutcomeColumns(): ColumnDef<CourseOutcome>[] {
       cell: ({ row }) => row.original.syllabus_scheme || "—",
     },
     {
+      id: "target_percentage",
+      header: "Target %",
+      cell: ({ row }) => {
+        const targetPercentage = (
+          row.original as CourseOutcome & { target_percentage?: number }
+        ).target_percentage;
+
+        return targetPercentage ? `${targetPercentage}%` : "—";
+      },
+    },
+    {
       id: "actions",
       cell: ({ row }) => <CourseOutcomeRowActions courseOutcome={row.original} />,
     },

@@ -20,6 +20,7 @@ class CourseOutcomeResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'syllabus_scheme' => $this->syllabus_scheme,
+            'target_percentage' => $this->target_percentage,
             'academic_year' => $this->academic_year,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

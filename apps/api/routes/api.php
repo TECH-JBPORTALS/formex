@@ -107,10 +107,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/programs/{program}/higher-educations', [HigherEducationController::class, 'listByProgram']);
     Route::post('/students/{student}/higher-educations', [HigherEducationController::class, 'store']);
 
-    Route::apiResource('room-reports', RoomReportController::class)->except(['store']);
+    Route::apiResource('room-reports', RoomReportController::class);
     Route::get('/programs/{program}/room-reports', [RoomReportController::class, 'listByProgram']);
     Route::get('/subjects/{subject}/room-reports', [RoomReportController::class, 'listBySubject']);
-    Route::post('/students/{student}/room-reports', [RoomReportController::class, 'store']);
 
     Route::apiResource('skill-programs', SkillProgramController::class)->except(['store']);
     Route::get('/programs/{program}/skill-programs', [SkillProgramController::class, 'listByProgram']);

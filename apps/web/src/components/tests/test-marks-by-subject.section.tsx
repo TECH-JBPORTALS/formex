@@ -39,7 +39,9 @@ type OutcomeBlock = {
     description?: string | null;
   };
   total_allotted: number;
-  total_scored_by_student?: Record<string, number>;
+  target_percentage?: number;
+  target_marks?: number;
+  total_obtained_by_student?: Record<string, number>;
   target_achieved_by_student?: Record<string, "Yes" | "N">;
   cie_columns: CieCol[];
 };
@@ -103,9 +105,7 @@ function validateAndBuildRowsForStudentCo(
   studentId: string,
   studentName: string,
   block: OutcomeBlock,
-):
-  | { ok: true; rows: MarkRow[] }
-  | { ok: false; message: string } {
+): { ok: true; rows: MarkRow[] } | { ok: false; message: string } {
   for (const c of block.cie_columns) {
     if (!c?.test || c.max_marks <= 0) {
       continue;
@@ -200,126 +200,167 @@ function StudentCoMarkBlocks({
   return (
     <div className="space-y-4 text-sm">
       {data.outcome_blocks.map((block) => {
-        const coScored = block.total_scored_by_student?.[studentId] ?? 0;
+        const coObtained = block.total_obtained_by_student?.[studentId] ?? 0;
         const coAllotted = block.total_allotted;
+        const targetPercentage = block.target_percentage ?? 60;
+        const targetMarks =
+          block.target_marks ?? (coAllotted * targetPercentage) / 100;
         const targetAchieved =
           block.target_achieved_by_student?.[studentId] ?? "N";
 
         return (
-        <div
-          key={block.course_outcome.id}
-          className="bg-background overflow-hidden rounded-lg border"
-        >
-          <div className="bg-muted/40 flex flex-col gap-2 border-b px-3 py-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h3 className="text-xs font-heading font-semibold text-foreground">
-                {block.course_outcome.name}
-              </h3>
-              <p className="text-muted-foreground text-[11px]">
-                {block.course_outcome.description?.trim() ||
-                  "Course outcome description not available."}
-              </p>
+          <div
+            key={block.course_outcome.id}
+            className="bg-background overflow-hidden rounded-lg border"
+          >
+            <div className="bg-muted/40 flex flex-col gap-2 border-b px-3 py-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3 className="text-xs font-heading font-semibold text-foreground">
+                  {block.course_outcome.name}
+                </h3>
+                <p className="text-muted-foreground text-[11px]">
+                  {block.course_outcome.description?.trim() ||
+                    "Course outcome description not available."}
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-muted-foreground text-xs">
+                  Total Marks allotted {block.course_outcome.name}:{" "}
+                  <span className="text-foreground font-mono tabular-nums">
+                    {coAllotted}
+                  </span>
+                </span>
+                <span className="text-muted-foreground text-xs">
+                  Total marks obtained by the student:{" "}
+                  <span className="text-foreground font-mono tabular-nums">
+                    {coObtained}
+                  </span>
+                </span>
+                <span className="text-muted-foreground text-xs">
+                  Target ({targetPercentage}%):{" "}
+                  <span className="text-foreground font-mono tabular-nums">
+                    {targetMarks}
+                  </span>
+                </span>
+                <span className="text-muted-foreground text-xs">
+                  Target achieved:{" "}
+                  <span className="text-foreground font-mono tabular-nums">
+                    {targetAchieved}
+                  </span>
+                </span>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  className="shrink-0"
+                  disabled={disabled || isSaving}
+                  onClick={() => onSaveCo(block.course_outcome.id)}
+                >
+                  <HugeiconsIcon className="size-3.5" icon={Tick02Icon} />
+                  {isSaving &&
+                  saveIndicator?.studentId === studentId &&
+                  saveIndicator.courseOutcomeId === block.course_outcome.id
+                    ? "Saving…"
+                    : "Save CO marks"}
+                </Button>
+              </div>
             </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="text-muted-foreground text-xs">
-                Total Marks allotted for CO {block.course_outcome.name} from All
-                Assessment Tools:{" "}
-                <span className="text-foreground font-mono tabular-nums">
-                  {coAllotted}
-                </span>
-              </span>
-              <span className="text-muted-foreground text-xs">
-                Total marks scored by the student:{" "}
-                <span className="text-foreground font-mono tabular-nums">
-                  {coScored}
-                </span>
-              </span>
-              <span className="text-muted-foreground text-xs">
-                Target marks Achieved:{" "}
-                <span className="text-foreground font-mono tabular-nums">
-                  {targetAchieved}
-                </span>
-              </span>
-              <Button
-                type="button"
-                size="sm"
-                variant="secondary"
-                className="shrink-0"
-                disabled={disabled || isSaving}
-                onClick={() => onSaveCo(block.course_outcome.id)}
-              >
-                <HugeiconsIcon className="size-3.5" icon={Tick02Icon} />
-                {isSaving &&
-                saveIndicator?.studentId === studentId &&
-                saveIndicator.courseOutcomeId === block.course_outcome.id
-                  ? "Saving…"
-                  : "Save CO marks"}
-              </Button>
-            </div>
+            <Table className="text-xs [&_td]:px-2.5 [&_td]:py-1.5 [&_th]:h-9 [&_th]:px-2.5">
+              <TableHeader>
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="w-16">CIE</TableHead>
+                  <TableHead className="w-28">Test</TableHead>
+                  <TableHead className="w-11 text-right">Max</TableHead>
+                  <TableHead className="w-14 text-right">Target</TableHead>
+                  <TableHead className="w-24 text-right">Obtained</TableHead>
+                  <TableHead className="w-20 text-right">Achieved</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {block.cie_columns.map((c) => {
+                  const canEdit = Boolean(c.test && c.max_marks > 0);
+                  const k = c.test
+                    ? cellKey(studentId, c.test.id, block.course_outcome.id)
+                    : "";
+                  const v = canEdit ? (draft[k] ?? "") : "";
+                  const tsum = c.test
+                    ? (testTotals[`${studentId}:${c.test.id}`] ?? 0)
+                    : 0;
+                  const over =
+                    c.test && tsum > c.test.maximum_marks ? tsum : null;
+                  const targetForCie = canEdit
+                    ? Math.ceil((c.max_marks * targetPercentage) / 100)
+                    : 0;
+                  const obtainedForCie = Number(v);
+                  const isTargetAchievedForCie =
+                    canEdit &&
+                    Number.isFinite(obtainedForCie) &&
+                    obtainedForCie >= targetForCie;
+                  return (
+                    <TableRow
+                      key={`${block.course_outcome.id}-cie${c.cie_number}`}
+                      className={!canEdit ? "bg-muted/15" : undefined}
+                    >
+                      <TableCell className="text-muted-foreground font-mono">
+                        CIE {c.cie_number}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {c.test?.name ?? "—"}
+                      </TableCell>
+                      <TableCell className="text-right font-mono tabular-nums text-muted-foreground">
+                        {c.max_marks}
+                      </TableCell>
+                      <TableCell className="text-right font-mono tabular-nums text-muted-foreground">
+                        {canEdit ? targetForCie : "—"}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {canEdit && c.test ? (
+                          <div className="flex flex-col items-end gap-0.5">
+                            <Input
+                              className="h-8 w-18 text-right [appearance:textfield] tabular-nums [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                              type="number"
+                              min={0}
+                              max={c.max_marks}
+                              value={v}
+                              disabled={disabled}
+                              onChange={(e) => onChangeCell(k, e.target.value)}
+                              placeholder="—"
+                              aria-label={`Mark for ${block.course_outcome.name}, ${c.test.name}`}
+                            />
+                            {over !== null && over > 0 ? (
+                              <span className="text-destructive text-[9px] leading-tight">
+                                Σ {over}/{c.test.maximum_marks} test
+                              </span>
+                            ) : null}
+                          </div>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {canEdit ? (
+                          <span
+                            className={cn(
+                              "font-mono tabular-nums",
+                              isTargetAchievedForCie
+                                ? "text-emerald-600"
+                                : "text-muted-foreground",
+                            )}
+                          >
+                            {isTargetAchievedForCie ? "Yes" : "N"}
+                          </span>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
           </div>
-          <Table className="text-xs [&_td]:px-2.5 [&_td]:py-1.5 [&_th]:h-9 [&_th]:px-2.5">
-            <TableHeader>
-              <TableRow className="hover:bg-transparent">
-                <TableHead className="w-16">CIE</TableHead>
-                <TableHead className="w-28">Test</TableHead>
-                <TableHead className="w-11 text-right">Max</TableHead>
-                <TableHead className="w-24 text-right">Attained</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {block.cie_columns.map((c) => {
-                const canEdit = Boolean(c.test && c.max_marks > 0);
-                const k = c.test
-                  ? cellKey(studentId, c.test.id, block.course_outcome.id)
-                  : "";
-                const v = canEdit ? (draft[k] ?? "") : "";
-                const tsum = c.test
-                  ? (testTotals[`${studentId}:${c.test.id}`] ?? 0)
-                  : 0;
-                const over =
-                  c.test && tsum > c.test.maximum_marks ? tsum : null;
-                return (
-                  <TableRow key={`${block.course_outcome.id}-cie${c.cie_number}`} className={!canEdit ? "bg-muted/15" : undefined}>
-                    <TableCell className="text-muted-foreground font-mono">
-                      CIE {c.cie_number}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {c.test?.name ?? "—"}
-                    </TableCell>
-                    <TableCell className="text-right font-mono tabular-nums text-muted-foreground">
-                      {c.max_marks}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {canEdit && c.test ? (
-                        <div className="flex flex-col items-end gap-0.5">
-                          <Input
-                            className="h-8 w-18 text-right [appearance:textfield] tabular-nums [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                            type="number"
-                            min={0}
-                            max={c.max_marks}
-                            value={v}
-                            disabled={disabled}
-                            onChange={(e) => onChangeCell(k, e.target.value)}
-                            placeholder="—"
-                            aria-label={`Mark for ${block.course_outcome.name}, ${c.test.name}`}
-                          />
-                          {over !== null && over > 0 ? (
-                            <span className="text-destructive text-[9px] leading-tight">
-                              Σ {over}/{c.test.maximum_marks} test
-                            </span>
-                          ) : null}
-                        </div>
-                      ) : (
-                        <span className="text-muted-foreground">—</span>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
-      )})}
+        );
+      })}
     </div>
   );
 }
@@ -441,7 +482,10 @@ export function TestMarksBySubjectSection({
     if (!data) {
       return;
     }
-    setSavingTarget({ studentId: s.id, courseOutcomeId: block.course_outcome.id });
+    setSavingTarget({
+      studentId: s.id,
+      courseOutcomeId: block.course_outcome.id,
+    });
     try {
       const result = validateAndBuildRowsForStudentCo(
         draft,
@@ -516,8 +560,9 @@ export function TestMarksBySubjectSection({
           {semester}
         </p>
         <p className="text-muted-foreground text-xs mt-1 max-w-2xl">
-          Expand a student to enter marks <strong>with CIE rows under each CO</strong>.
-          CO totals are shown before the save button in each CO block.
+          Expand a student to enter marks{" "}
+          <strong>with CIE rows under each CO</strong>. CO totals are shown
+          before the save button in each CO block.
         </p>
       </div>
 
@@ -547,7 +592,9 @@ export function TestMarksBySubjectSection({
                   <tr
                     className={cn(
                       "border-b transition-colors",
-                      open ? "bg-muted text-muted-foreground" : "odd:bg-background even:bg-muted/10",
+                      open
+                        ? "bg-muted text-muted-foreground"
+                        : "odd:bg-background even:bg-muted/10",
                     )}
                   >
                     <td
@@ -592,9 +639,7 @@ export function TestMarksBySubjectSection({
                         onClick={() => toggleRow(s.id)}
                         aria-expanded={open}
                         aria-label={
-                          open
-                            ? "Collapse marks by CIE"
-                            : "Expand marks by CIE"
+                          open ? "Collapse marks by CIE" : "Expand marks by CIE"
                         }
                       >
                         <HugeiconsIcon

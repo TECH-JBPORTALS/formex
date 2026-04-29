@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
     'program_id',
     'semester',
     'subject_id',
-    'user_id',
+    'users_id',
     'room_number',
     'academic_year',
     'report_date',
@@ -48,6 +48,6 @@ class RoomReport extends Model
     }
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'users_id');
     }
 }

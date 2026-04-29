@@ -44,6 +44,7 @@ class CourseOutcomeController
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'syllabus_scheme' => ['nullable', 'string'],
+            'target_percentage' => ['sometimes', 'integer', 'min:1', 'max:100'],
         ]);
 
         $outcome = $subject->course_outcomes()->create([
@@ -74,6 +75,7 @@ class CourseOutcomeController
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'syllabus_scheme' => ['nullable', 'string'],
+            'target_percentage' => ['sometimes', 'integer', 'min:1', 'max:100'],
         ]);
 
         $courseOutcome->update([

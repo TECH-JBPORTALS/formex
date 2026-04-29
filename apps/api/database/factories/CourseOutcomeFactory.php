@@ -46,6 +46,7 @@ class CourseOutcomeFactory extends Factory
             'name' => fake()->sentence(4),
             'description' => fake()->optional()->paragraph(),
             'syllabus_scheme' => fake()->optional()->randomElement(['C20', 'C25', 'R22']),
+            'target_percentage' => fake()->numberBetween(1, 100),
             'academic_year' => fake()->numberBetween(2024, 2035),
         ];
     }

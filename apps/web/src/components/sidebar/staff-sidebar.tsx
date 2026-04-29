@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  Calendar03Icon,
-  Home01Icon,
-} from "@hugeicons/core-free-icons";
+import { Calendar03Icon, Home01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

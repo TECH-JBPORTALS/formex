@@ -58,6 +58,7 @@ test('test marks matrix and upsert respect caps', function () {
         'name' => 'CO1',
         'description' => null,
         'syllabus_scheme' => 'C25',
+        'target_percentage' => 70,
         'academic_year' => $academicYear,
     ]);
     $student = Student::query()->create([
@@ -115,7 +116,9 @@ test('test marks matrix and upsert respect caps', function () {
         ->assertJsonPath('data.outcome_blocks.0.cie_columns.0.max_marks', 20)
         ->assertJsonPath('data.outcome_blocks.0.cie_columns.1.test.name', 'Test 2')
         ->assertJsonPath('data.outcome_blocks.0.cie_columns.1.max_marks', 0)
-        ->assertJsonPath('data.outcome_blocks.0.total_scored_by_student.'.$student->id, 0)
+        ->assertJsonPath('data.outcome_blocks.0.target_percentage', 70)
+        ->assertJsonPath('data.outcome_blocks.0.target_marks', 14)
+        ->assertJsonPath('data.outcome_blocks.0.total_obtained_by_student.'.$student->id, 0)
         ->assertJsonPath('data.outcome_blocks.0.target_achieved_by_student.'.$student->id, 'N')
         ->assertJsonPath('data.outcome_blocks.0.cie_columns.0.marks_by_student.'.$student->id, null);
 
@@ -132,7 +135,7 @@ test('test marks matrix and upsert respect caps', function () {
         ],
     ], testStudentMarkSpaHeaders())
         ->assertSuccessful()
-        ->assertJsonPath('data.outcome_blocks.0.total_scored_by_student.'.$student->id, 15)
+        ->assertJsonPath('data.outcome_blocks.0.total_obtained_by_student.'.$student->id, 15)
         ->assertJsonPath('data.outcome_blocks.0.target_achieved_by_student.'.$student->id, 'Yes')
         ->assertJsonPath('data.outcome_blocks.0.cie_columns.0.marks_by_student.'.$student->id, 15);
 });
@@ -167,6 +170,7 @@ test('test marks matrix lists all current-year program students even if student 
         'name' => 'CO1',
         'description' => null,
         'syllabus_scheme' => 'C25',
+        'target_percentage' => 60,
         'academic_year' => $academicYear,
     ]);
     $sameSem = Student::query()->create([

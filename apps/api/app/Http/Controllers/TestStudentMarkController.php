@@ -106,10 +106,12 @@ class TestStudentMarkController
                 ];
             }
 
-            $scoredByStudent = [];
+            $obtainedByStudent = [];
             $targetAchievedByStudent = [];
+            $targetPercentage = (int) ($co->target_percentage ?? 60);
+            $targetMarks = round(($totalAllotted * $targetPercentage) / 100, 2);
             foreach ($students as $student) {
-                $scored = 0;
+                $obtained = 0;
                 foreach ($cieColumns as $col) {
                     if (! isset($col['test']) || ! is_array($col['test']) || (int) $col['max_marks'] <= 0) {
                         continue;
@@ -120,12 +122,12 @@ class TestStudentMarkController
                     }
                     $n = (int) $v;
                     if ($n >= 0) {
-                        $scored += $n;
+                        $obtained += $n;
                     }
                 }
-                $scoredByStudent[$student->id] = $scored;
+                $obtainedByStudent[$student->id] = $obtained;
                 $targetAchievedByStudent[$student->id] = $totalAllotted > 0
-                    && (($scored * 100) / $totalAllotted) > 60
+                    && $obtained >= $targetMarks
                     ? 'Yes'
                     : 'N';
             }
@@ -137,7 +139,9 @@ class TestStudentMarkController
                     'description' => $co->description,
                 ],
                 'total_allotted' => round($totalAllotted, 2),
-                'total_scored_by_student' => $scoredByStudent,
+                'target_percentage' => $targetPercentage,
+                'target_marks' => $targetMarks,
+                'total_obtained_by_student' => $obtainedByStudent,
                 'target_achieved_by_student' => $targetAchievedByStudent,
                 'cie_columns' => $cieColumns,
             ];
