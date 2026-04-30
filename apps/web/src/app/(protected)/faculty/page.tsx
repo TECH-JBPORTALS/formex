@@ -54,8 +54,9 @@ import { facultyInvitationStore } from "@/lib/api/generated/faculty-invitation/f
 import { FacultyInvitationStoreBody } from "@/lib/api/generated/faculty-invitation/faculty-invitation.zod";
 import {
   facultyDestroy,
-  facultyIndex,
   facultyStore,
+  getFacultyIndexQueryKey,
+  useFacultyIndex,
   facultyUpdate,
 } from "@/lib/api/generated/institution-faculty/institution-faculty";
 import {
@@ -108,16 +109,15 @@ export default function Page() {
     },
   });
 
-  const facultyQuery = useQuery({
-    queryKey: ["faculty-index"],
-    enabled: canManage,
-    queryFn: async (): Promise<InstitutionFaculty[]> => {
-      const response = await facultyIndex();
-      if (response.status !== 200) {
-        throw new Error("Unable to load faculty.");
-      }
-
-      return FacultyIndexResponse.parse(response.data).data;
+  const facultyQuery = useFacultyIndex({
+    query: {
+      enabled: canManage,
+      select: (response): InstitutionFaculty[] => {
+        if (response.status !== 200) {
+          throw new Error("Unable to load faculty.");
+        }
+        return FacultyIndexResponse.parse(response.data).data;
+      },
     },
   });
 
@@ -136,7 +136,7 @@ export default function Page() {
       toast.success("Invitation sent successfully.");
       setInviteOpen(false);
       inviteForm.reset();
-      queryClient.invalidateQueries({ queryKey: ["faculty-index"] });
+      queryClient.invalidateQueries({ queryKey: getFacultyIndexQueryKey() });
     },
     onError: (error) => {
       const message =
@@ -176,7 +176,7 @@ export default function Page() {
       toast.success("Faculty updated successfully.");
       setEditOpen(false);
       setSelectedFaculty(null);
-      queryClient.invalidateQueries({ queryKey: ["faculty-index"] });
+      queryClient.invalidateQueries({ queryKey: getFacultyIndexQueryKey() });
     },
     onError: (error) => {
       const message =
@@ -202,7 +202,7 @@ export default function Page() {
       toast.success("Faculty moved to inactive.");
       setDeleteOpen(false);
       setSelectedFaculty(null);
-      queryClient.invalidateQueries({ queryKey: ["faculty-index"] });
+      queryClient.invalidateQueries({ queryKey: getFacultyIndexQueryKey() });
     },
     onError: (error) => {
       const message =
@@ -229,7 +229,7 @@ export default function Page() {
     },
     onSuccess: () => {
       toast.success("Faculty reactivated successfully.");
-      queryClient.invalidateQueries({ queryKey: ["faculty-index"] });
+      queryClient.invalidateQueries({ queryKey: getFacultyIndexQueryKey() });
     },
     onError: (error) => {
       const message =
