@@ -35,6 +35,13 @@ import {
 } from "@/lib/api/generated/room-report/room-report";
 import { useSubjectListByProgram } from "@/lib/api/generated/subject/subject";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import {
   roomReportDefaults,
   type RoomReportFormValues,
   toRoomReportPayload,
@@ -220,6 +227,26 @@ export function CreateRoomReportSheet({
                     onChange={(event) => updateValue("present", event.target.value)}
                   />
                 </div>
+              </div>
+              <div className="space-y-1">
+                <Label>Attendance register</Label>
+                <Select
+                  value={values.attendance_register}
+                  onValueChange={(next) =>
+                    updateValue(
+                      "attendance_register",
+                      next as RoomReportFormValues["attendance_register"],
+                    )
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select attendance register" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="maintained">Maintained</SelectItem>
+                    <SelectItem value="not_maintained">Not maintained</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-1">
                 <Label>Topic Planned</Label>

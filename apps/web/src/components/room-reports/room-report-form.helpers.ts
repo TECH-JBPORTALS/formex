@@ -10,7 +10,6 @@ export type RoomReportFormValues = {
   strength: string;
   present: string;
   attendance_register: "maintained" | "not_maintained";
-  student_attendance: "present" | "absent";
   topic_planned: string;
   topic_taught: string;
   pedagogy_used: string;
@@ -32,7 +31,6 @@ export function roomReportDefaults(): RoomReportFormValues {
     strength: "1",
     present: "1",
     attendance_register: "maintained",
-    student_attendance: "present",
     topic_planned: "",
     topic_taught: "",
     pedagogy_used: "",
@@ -58,8 +56,6 @@ export function roomReportToFormValues(row: RoomReport): RoomReportFormValues {
       row.attendance_register === "not_maintained"
         ? "not_maintained"
         : "maintained",
-    student_attendance:
-      row.student_attendance === "absent" ? "absent" : "present",
     topic_planned: row.topic_planned ?? "",
     topic_taught: row.topic_taught ?? "",
     pedagogy_used: row.pedagogy_used ?? "",
@@ -83,7 +79,6 @@ export function toRoomReportPayload(values: RoomReportFormValues) {
     strength: Number(values.strength),
     present: Number(values.present),
     attendance_register: values.attendance_register,
-    student_attendance: values.student_attendance,
     topic_planned: values.topic_planned.trim(),
     topic_taught: values.topic_taught.trim(),
     pedagogy_used: values.pedagogy_used.trim(),

@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Support\CurrentInstitutionSession;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProgramController
 {
@@ -65,7 +67,11 @@ class ProgramController
         $institution = CurrentInstitutionSession::requireInstitution($request);
         $model = $institution->programs()->whereKey($program)->firstOrFail();
 
-        $model->delete();
+        DB::transaction(function () use ($model): void {
+            // Time tables hold a FK to programs without cascade delete.
+            $model->time_tables()->delete();
+            $model->delete();
+        });
 
         return response()->json([
             'message' => 'Program deleted successfully',

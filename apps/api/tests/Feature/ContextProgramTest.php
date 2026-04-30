@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 uses(RefreshDatabase::class);
 
@@ -152,4 +153,42 @@ test('cannot show program from another institution', function () {
 
     $this->getJson('/api/programs/'.$foreign->id, programSpaHeaders())
         ->assertNotFound();
+});
+
+test('deleting a program also removes timetable rows linked by foreign key', function () {
+    $user = User::factory()->create([
+        'email' => 'prog-delete-timetable@example.com',
+        'password' => 'password123',
+    ]);
+
+    $institution = Institution::factory()->create();
+    $user->institutions()->attach($institution->id);
+
+    $program = Program::factory()->create([
+        'institution_id' => $institution->id,
+    ]);
+
+    DB::table('time_tables')->insert([
+        'id' => (string) str()->ulid(),
+        'program_id' => $program->id,
+        'semester' => 1,
+        'academic_year' => 2026,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    $this->withCredentials();
+    $this->postJson('/api/login', [
+        'email' => 'prog-delete-timetable@example.com',
+        'password' => 'password123',
+    ], programSpaHeaders())->assertOk();
+    Auth::forgetGuards();
+    $this->withCredentials();
+
+    $this->deleteJson('/api/programs/'.$program->id, [], programSpaHeaders())
+        ->assertOk()
+        ->assertJsonPath('message', 'Program deleted successfully');
+
+    expect(Program::query()->whereKey($program->id)->exists())->toBeFalse();
+    expect(DB::table('time_tables')->where('program_id', $program->id)->exists())->toBeFalse();
 });

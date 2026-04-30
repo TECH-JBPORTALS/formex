@@ -46,19 +46,21 @@ class RoomReportController
             'semester' => 'required|integer|min:1',
             'strength' => 'required|integer|min:1',
             'present' => 'required|integer|min:1',
-            'attendance_register' => 'required|in: maintained, not_maintained',
-            'student_attendance' => 'required|in: present, absent',
+            'attendance_register' => 'required|in:maintained,not_maintained',
+            'student_attendance' => 'sometimes|nullable|in:present,absent',
             'topic_planned' => 'required|string|max:255',
             'topic_taught' => 'required|string|max:255',
             'pedagogy_used' => 'required|string|max:255',
             'aids_used' => 'required|string|max:255',
-            'teaching_skill' => 'required|in: satisfactory,good',
+            'teaching_skill' => 'required|in:satisfactory,good',
             'interaction' => 'required|in:satisfactory,good',
-            'learning_outcome' => 'required|in: achieved,not_achieved',
+            'learning_outcome' => 'required|in:achieved,not_achieved',
             'valuation' => 'required|in:done,not_done',
             'principal_remarks' => 'required|string|max:255',
             'report_date' => 'required|date',
         ]);
+
+        $validated['student_attendance'] = $validated['student_attendance'] ?? 'present';
 
         /** @var Program $program */
         $program = $institution->programs()->whereKey($validated['program_id'])->firstOrFail();
@@ -110,7 +112,7 @@ class RoomReportController
             'strength' => 'sometimes|required|integer|min:1',
             'present' => 'sometimes|required|integer|min:1',
             'attendance_register' => 'sometimes|required|in:maintained,not_maintained',
-            'student_attendance' => 'sometimes|required|in:present,absent',
+            'student_attendance' => 'sometimes|nullable|in:present,absent',
             'topic_planned' => 'sometimes|required|string|max:255',
             'topic_taught' => 'sometimes|required|string|max:255',
             'pedagogy_used' => 'sometimes|required|string|max:255',

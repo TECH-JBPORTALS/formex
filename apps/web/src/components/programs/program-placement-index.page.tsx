@@ -109,7 +109,7 @@ export function ProgramPlacementIndexPage() {
               Showing placement index for academic year {currentAcademicYear}.
             </p>
             <Button asChild>
-              <Link href={`/p/${programId}/placement-index-data`}>
+              <Link href={`/p/${programId}/placement-index`}>
                 Manage Placement Index Data
               </Link>
             </Button>

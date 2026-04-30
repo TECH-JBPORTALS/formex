@@ -41,9 +41,9 @@ import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { useSearchStudent } from "@/lib/api/hooks/useSearchStudent";
 import { useSkillProgramStore } from "@/lib/api/generated/skill-program/skill-program";
-import type { Student } from "@/lib/api/generated/models";
+import type { SkillProgram, Student } from "@/lib/api/generated/models";
 import { SkillProgramStoreBody } from "@/lib/api/generated/skill-program/skill-program.zod";
-import z, { unknown } from "zod";
+import z from "zod";
 import {
   isoFromDateTimeLocal,
   skillProgramCreateDefaults,
@@ -81,16 +81,20 @@ export function CreateSkillProgramSheet({
     {
       mutation: {
         onSuccess: async (res) => {
-          if (res.status >= 400) {
+          if (res.status < 200 || res.status >= 300) {
             toast.error("Could not create skill program");
             return;
           }
-          if (res.status == 200) {
-            await invalidateSkillProgramCaches(queryClient, res.data.data);
-            toast.success("Skill program created");
-            resetFlow();
-            setOpen(false);
-          }
+
+          const body = res.data as { data?: SkillProgram } | undefined;
+          const created = body?.data;
+          await invalidateSkillProgramCaches(queryClient, created ?? {
+            program_id: programId,
+            semester: selectedStudent?.semester ?? 1,
+          });
+          toast.success("Skill program created");
+          resetFlow();
+          setOpen(false);
         },
         onError: (err) => {
           toast.error(

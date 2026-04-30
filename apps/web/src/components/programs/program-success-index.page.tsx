@@ -381,7 +381,7 @@ export function ProgramSuccessIndexPage() {
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-base font-semibold">Placement Index</h2>
               <Button asChild>
-                <Link href={`/p/${programId}/placement-index-data`}>
+                <Link href={`/p/${programId}/placement-index`}>
                   Manage Placement Index Data
                 </Link>
               </Button>
