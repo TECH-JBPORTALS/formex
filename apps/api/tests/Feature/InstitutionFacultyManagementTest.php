@@ -238,3 +238,74 @@ test('only principal can access faculty management routes', function (): void {
     $this->getJson('/api/institutions/current/faculty', facultySpaHeaders())
         ->assertForbidden();
 });
+
+test('removing faculty is soft delete and faculty can be reactivated', function (): void {
+    $principal = User::factory()->create([
+        'email' => 'principal-soft-delete@example.com',
+        'password' => 'password123',
+    ]);
+    $faculty = User::factory()->create();
+    $institution = Institution::factory()->create();
+    $principal->institutions()->attach($institution->id, ['role' => 'principal']);
+
+    $program = Program::factory()->create([
+        'institution_id' => $institution->id,
+    ]);
+    $subject = Subject::query()->create([
+        'name' => 'Soft Delete Subject',
+        'short_name' => 'SDS',
+        'type' => 'theory',
+        'semester' => 2,
+        'scheme' => 'C25',
+        'institution_id' => $institution->id,
+        'program_id' => $program->id,
+    ]);
+
+    facultyLogin($this, $principal);
+
+    $this->postJson('/api/user/current-institution', [
+        'institution_id' => $institution->id,
+    ], facultySpaHeaders())->assertOk();
+
+    $this->postJson('/api/institutions/current/faculty', [
+        'user_id' => $faculty->id,
+        'role' => 'course_coordinator',
+        'subject_ids' => [$subject->id],
+    ], facultySpaHeaders())->assertCreated();
+
+    $this->deleteJson("/api/institutions/current/faculty/{$faculty->id}", [], facultySpaHeaders())
+        ->assertOk()
+        ->assertJsonPath('message', 'Faculty removed successfully.');
+
+    $this->assertDatabaseHas('institution_user', [
+        'institution_id' => $institution->id,
+        'user_id' => $faculty->id,
+    ]);
+    $this->assertDatabaseMissing('institution_user', [
+        'institution_id' => $institution->id,
+        'user_id' => $faculty->id,
+        'deleted_at' => null,
+    ]);
+
+    $this->getJson('/api/institutions/current/faculty', facultySpaHeaders())
+        ->assertOk()
+        ->assertJsonFragment([
+            'id' => $faculty->id,
+            'is_active' => false,
+        ]);
+
+    $this->postJson('/api/institutions/current/faculty', [
+        'user_id' => $faculty->id,
+        'role' => 'course_coordinator',
+        'subject_ids' => [$subject->id],
+    ], facultySpaHeaders())
+        ->assertCreated()
+        ->assertJsonPath('data.id', $faculty->id)
+        ->assertJsonPath('data.is_active', true);
+
+    $this->assertDatabaseHas('institution_user', [
+        'institution_id' => $institution->id,
+        'user_id' => $faculty->id,
+        'deleted_at' => null,
+    ]);
+});

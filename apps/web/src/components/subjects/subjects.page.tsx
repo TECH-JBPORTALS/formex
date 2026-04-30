@@ -10,7 +10,7 @@ import type React from "react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { z } from "zod";
+import { z } from "zod/v4";
 import Container from "@/components/container";
 import { DataTable } from "@/components/data-table";
 import Header from "@/components/header";
@@ -53,7 +53,6 @@ import {
   useSubjectListbysemester,
   useSubjectStore,
 } from "@/lib/api/generated/subject/subject";
-import { SubjectStoreBody } from "@/lib/api/generated/subject/subject.zod";
 import { useProgramsShow } from "@/lib/api/hooks/useProgramsShow";
 import { SpinnerPage } from "../spinner-page";
 import {
@@ -158,13 +157,19 @@ export function SubjectsPage() {
   );
 }
 
-const CreateSubjectSchema = SubjectStoreBody.omit({ semester: true });
+const CreateSubjectSchema = z.object({
+  name: z.string().min(1, "Name is required").max(255),
+  short_name: z.string().min(1, "Short name is required").max(10),
+  code: z.string().min(1, "Code is required").max(50),
+  type: z.enum(["theory", "practical"]),
+  scheme: z.string().min(1, "Scheme is required").max(50),
+});
 type CreateSubjectFormValues = z.infer<typeof CreateSubjectSchema>;
 
 const createSubjectDefaults: CreateSubjectFormValues = {
   code: "",
   name: "",
-  scheme: "C25",
+  scheme: "",
   short_name: "",
   type: "theory",
 };
@@ -299,6 +304,23 @@ export function CreateSubjectDialog({
                       <SelectItem value="practical">Practical</SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="scheme"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Scheme</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="e.g. C25, R23"
+                      maxLength={50}
+                      {...field}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

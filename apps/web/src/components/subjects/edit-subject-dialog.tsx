@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { z } from "zod";
+import { z } from "zod/v4";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -36,9 +36,14 @@ import {
   getSubjectListbysemesterQueryKey,
   useSubjectsUpdate,
 } from "@/lib/api/generated/subject/subject";
-import { SubjectStoreBody } from "@/lib/api/generated/subject/subject.zod";
 
-const EditSubjectFormSchema = SubjectStoreBody.omit({ semester: true });
+const EditSubjectFormSchema = z.object({
+  name: z.string().min(1, "Name is required").max(255),
+  short_name: z.string().min(1, "Short name is required").max(10),
+  code: z.string().min(1, "Code is required").max(50),
+  type: z.enum(["theory", "practical"]),
+  scheme: z.string().min(1, "Scheme is required").max(50),
+});
 type EditSubjectFormValues = z.infer<typeof EditSubjectFormSchema>;
 
 function subjectToFormValues(subject: Subject): EditSubjectFormValues {
@@ -51,7 +56,7 @@ function subjectToFormValues(subject: Subject): EditSubjectFormValues {
     short_name: subject.short_name,
     code: subject.code ?? subject.short_name,
     type,
-    scheme: "C25",
+    scheme: subject.scheme ?? "",
   };
 }
 
@@ -194,6 +199,23 @@ export function EditSubjectDialog({
                       <SelectItem value="practical">Practical</SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="scheme"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Scheme</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="e.g. C25, R23"
+                      maxLength={50}
+                      {...field}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

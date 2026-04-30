@@ -16,7 +16,9 @@ class Institution extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withPivot('role');
+        return $this->belongsToMany(User::class)
+            ->withPivot(['role', 'deleted_at'])
+            ->wherePivotNull('deleted_at');
     }
 
     public function programs(): HasMany

@@ -9,12 +9,14 @@ type FacultyColumnsOptions = {
   canManage: boolean;
   onEdit: (faculty: InstitutionFaculty) => void;
   onDelete: (faculty: InstitutionFaculty) => void;
+  onReactivate: (faculty: InstitutionFaculty) => void;
 };
 
 export function getFacultyColumns({
   canManage,
   onEdit,
   onDelete,
+  onReactivate,
 }: FacultyColumnsOptions): ColumnDef<InstitutionFaculty>[] {
   return [
     {
@@ -33,6 +35,16 @@ export function getFacultyColumns({
 
         return <Badge variant="outline">{role.toUpperCase()}</Badge>;
       },
+    },
+    {
+      accessorKey: "is_active",
+      header: "Status",
+      cell: ({ row }) =>
+        row.original.is_active ? (
+          <Badge variant="secondary">Active</Badge>
+        ) : (
+          <Badge variant="outline">Inactive</Badge>
+        ),
     },
     {
       accessorKey: "programs",
@@ -64,6 +76,18 @@ export function getFacultyColumns({
           return <span className="text-muted-foreground">Restricted</span>;
         }
 
+        if (!row.original.is_active) {
+          return (
+            <Button
+              type="button"
+              size="sm"
+              onClick={() => onReactivate(row.original)}
+            >
+              Reactivate
+            </Button>
+          );
+        }
+
         return (
           <div className="flex gap-2">
             <Button
@@ -80,7 +104,7 @@ export function getFacultyColumns({
               variant="destructive"
               onClick={() => onDelete(row.original)}
             >
-              Delete
+              Deactivate
             </Button>
           </div>
         );

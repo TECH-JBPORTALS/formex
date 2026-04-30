@@ -56,6 +56,13 @@ class Subject extends Model
     {
         return $this->belongsToMany(User::class, 'institution_user_subject', 'subject_id', 'user_id')
             ->withPivot('institution_id')
+            ->whereExists(function ($query): void {
+                $query->selectRaw('1')
+                    ->from('institution_user')
+                    ->whereColumn('institution_user.user_id', 'users.id')
+                    ->whereColumn('institution_user.institution_id', 'institution_user_subject.institution_id')
+                    ->whereNull('institution_user.deleted_at');
+            })
             ->withTimestamps();
     }
 

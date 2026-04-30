@@ -12,6 +12,8 @@ export interface InstitutionFaculty {
   name: string;
   email: string;
   role: string;
+  is_active: boolean;
+  deleted_at: string | null;
   programs: FacultyProgram[];
   subjects: FacultySubject[];
 }

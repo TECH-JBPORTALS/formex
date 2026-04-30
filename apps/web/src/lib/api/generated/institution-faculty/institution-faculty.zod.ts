@@ -16,6 +16,8 @@ export const FacultyIndexResponse = zod.object({
   "name": zod.string(),
   "email": zod.string(),
   "role": zod.string(),
+  "is_active": zod.boolean(),
+  "deleted_at": zod.string().nullable(),
   "programs": zod.array(zod.object({
   "id": zod.string(),
   "name": zod.string(),
@@ -58,6 +60,8 @@ export const FacultyUpdateResponse = zod.object({
   "name": zod.string(),
   "email": zod.string(),
   "role": zod.string(),
+  "is_active": zod.boolean(),
+  "deleted_at": zod.string().nullable(),
   "programs": zod.array(zod.object({
   "id": zod.string(),
   "name": zod.string(),

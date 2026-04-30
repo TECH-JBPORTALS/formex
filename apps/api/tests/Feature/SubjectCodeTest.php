@@ -51,20 +51,24 @@ test('subject supports code on create update and list', function (): void {
         'code' => 'CS-401',
         'type' => 'theory',
         'semester' => 4,
-        'scheme' => 'C25',
+        'scheme' => 'R23',
     ], subjectCodeSpaHeaders())
         ->assertCreated()
-        ->assertJsonPath('data.code', 'CS-401');
+        ->assertJsonPath('data.code', 'CS-401')
+        ->assertJsonPath('data.scheme', 'R23');
 
     $subjectId = (string) $create->json('data.id');
 
     $this->putJson("/api/subjects/{$subjectId}", [
         'code' => 'CS-401A',
+        'scheme' => 'C25',
     ], subjectCodeSpaHeaders())
         ->assertOk()
-        ->assertJsonPath('data.code', 'CS-401A');
+        ->assertJsonPath('data.code', 'CS-401A')
+        ->assertJsonPath('data.scheme', 'C25');
 
     $this->getJson("/api/programs/{$program->id}/subjects/4", subjectCodeSpaHeaders())
         ->assertOk()
-        ->assertJsonPath('data.0.code', 'CS-401A');
+        ->assertJsonPath('data.0.code', 'CS-401A')
+        ->assertJsonPath('data.0.scheme', 'C25');
 });

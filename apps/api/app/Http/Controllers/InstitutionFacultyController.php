@@ -21,13 +21,15 @@ class InstitutionFacultyController
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
 
-        $members = $institution->users()
-            ->wherePivotIn('role', ['program_coordinator', 'course_coordinator'])
+        $members = DB::table('institution_user')
+            ->join('users', 'users.id', '=', 'institution_user.user_id')
+            ->where('institution_user.institution_id', $institution->id)
+            ->whereIn('institution_user.role', ['program_coordinator', 'course_coordinator'])
             ->orderBy('users.name')
-            ->get();
+            ->get(['users.id']);
 
-        $data = $members->map(function (User $user) use ($institution): array {
-            return $this->membershipPayload($institution->id, $user->id);
+        $data = $members->map(function ($member) use ($institution): array {
+            return $this->membershipPayload($institution->id, $member->id);
         })->values();
 
         return InstitutionFacultyResource::collection($data);
@@ -52,20 +54,26 @@ class InstitutionFacultyController
         $user = User::query()->findOrFail($validated['user_id']);
         [$programIds, $subjectIds] = $this->resolveAssignments($institution->id, $validated);
 
-        $existingMembership = $institution->users()
-            ->where('users.id', $user->id)
+        $existingMembership = DB::table('institution_user')
+            ->where('institution_id', $institution->id)
+            ->where('user_id', $user->id)
             ->first();
 
-        if ($existingMembership !== null && $existingMembership->pivot->role === 'principal') {
+        if ($existingMembership !== null && $existingMembership->role === 'principal') {
             throw ValidationException::withMessages([
                 'role' => ['Principal cannot be updated from faculty management.'],
             ]);
         }
 
         if ($existingMembership !== null) {
-            $institution->users()->updateExistingPivot($user->id, [
-                'role' => $validated['role'],
-            ]);
+            DB::table('institution_user')
+                ->where('institution_id', $institution->id)
+                ->where('user_id', $user->id)
+                ->update([
+                    'role' => $validated['role'],
+                    'deleted_at' => null,
+                    'updated_at' => now(),
+                ]);
         } else {
             $institution->users()->attach($user->id, [
                 'role' => $validated['role'],
@@ -85,15 +93,16 @@ class InstitutionFacultyController
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
 
-        $membership = $institution->users()
-            ->where('users.id', $faculty->id)
+        $membership = DB::table('institution_user')
+            ->where('institution_id', $institution->id)
+            ->where('user_id', $faculty->id)
             ->first();
 
         if ($membership === null) {
             abort(404);
         }
 
-        if ($membership->pivot->role === 'principal') {
+        if ($membership->role === 'principal') {
             throw ValidationException::withMessages([
                 'role' => ['Principal cannot be updated from faculty management.'],
             ]);
@@ -109,9 +118,14 @@ class InstitutionFacultyController
 
         [$programIds, $subjectIds] = $this->resolveAssignments($institution->id, $validated);
 
-        $institution->users()->updateExistingPivot($faculty->id, [
-            'role' => $validated['role'],
-        ]);
+        DB::table('institution_user')
+            ->where('institution_id', $institution->id)
+            ->where('user_id', $faculty->id)
+            ->update([
+                'role' => $validated['role'],
+                'deleted_at' => null,
+                'updated_at' => now(),
+            ]);
         $this->syncAssignments($institution->id, $faculty->id, $programIds, $subjectIds);
 
         return InstitutionFacultyResource::make(
@@ -126,22 +140,28 @@ class InstitutionFacultyController
     {
         $institution = CurrentInstitutionSession::requireInstitution($request);
 
-        $membership = $institution->users()
-            ->where('users.id', $faculty->id)
+        $membership = DB::table('institution_user')
+            ->where('institution_id', $institution->id)
+            ->where('user_id', $faculty->id)
             ->first();
 
         if ($membership === null) {
             abort(404);
         }
 
-        if ($membership->pivot->role === 'principal') {
+        if ($membership->role === 'principal') {
             throw ValidationException::withMessages([
                 'role' => ['Principal cannot be removed from faculty management.'],
             ]);
         }
 
-        $institution->users()->detach($faculty->id);
-        $this->syncAssignments($institution->id, $faculty->id, [], []);
+        DB::table('institution_user')
+            ->where('institution_id', $institution->id)
+            ->where('user_id', $faculty->id)
+            ->update([
+                'deleted_at' => now(),
+                'updated_at' => now(),
+            ]);
 
         return response()->json([
             'message' => 'Faculty removed successfully.',
@@ -234,16 +254,12 @@ class InstitutionFacultyController
      */
     private function membershipPayload(string $institutionId, string $userId): array
     {
-        $member = User::query()
-            ->whereKey($userId)
-            ->with([
-                'institutions' => function ($query) use ($institutionId): void {
-                    $query->where('institutions.id', $institutionId);
-                },
-            ])
-            ->firstOrFail();
+        $member = User::query()->whereKey($userId)->firstOrFail();
 
-        $membership = $member->institutions->first();
+        $membership = DB::table('institution_user')
+            ->where('institution_id', $institutionId)
+            ->where('user_id', $member->id)
+            ->first();
         if ($membership === null) {
             abort(404);
         }
@@ -294,7 +310,9 @@ class InstitutionFacultyController
             'id' => $member->id,
             'name' => $member->name,
             'email' => $member->email,
-            'role' => $membership->pivot->role,
+            'role' => $membership->role,
+            'is_active' => $membership->deleted_at === null,
+            'deleted_at' => $membership->deleted_at,
             'programs' => $programs,
             'subjects' => $subjects,
         ];

@@ -92,7 +92,7 @@ class SubjectController
             'code' => 'required|string|max:50',
             'type' => 'required|in:theory,practical',
             'semester' => 'required|integer|min:1',
-            'scheme' => 'required|in:C25',
+            'scheme' => 'required|string|max:50',
         ]);
 
         $subject = $program->subjects()->create([...$validated, 'institution_id' => $program->institution_id, 'program_id' => $program->id]);
@@ -121,7 +121,7 @@ class SubjectController
             'code' => 'sometimes|required|string|max:50',
             'type' => 'sometimes|required|in:theory,practical',
             'semester' => 'sometimes|required|integer|min:1',
-            'scheme' => 'sometimes|required|in:C25',
+            'scheme' => 'sometimes|required|string|max:50',
         ]);
         $subject->update($validated);
 

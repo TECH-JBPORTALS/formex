@@ -55,6 +55,7 @@ import { FacultyInvitationStoreBody } from "@/lib/api/generated/faculty-invitati
 import {
   facultyDestroy,
   facultyIndex,
+  facultyStore,
   facultyUpdate,
 } from "@/lib/api/generated/institution-faculty/institution-faculty";
 import {
@@ -64,6 +65,7 @@ import {
 import type { InstitutionFaculty } from "@/lib/api/generated/models";
 import { useSession } from "@/lib/api/hooks/useSession";
 import { canManageFaculty } from "@/lib/auth/roles";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getFacultyColumns } from "./columns";
 
 const inviteFacultySchema = FacultyInvitationStoreBody;
@@ -197,7 +199,7 @@ export default function Page() {
       }
     },
     onSuccess: () => {
-      toast.success("Faculty deleted successfully.");
+      toast.success("Faculty moved to inactive.");
       setDeleteOpen(false);
       setSelectedFaculty(null);
       queryClient.invalidateQueries({ queryKey: ["faculty-index"] });
@@ -205,6 +207,33 @@ export default function Page() {
     onError: (error) => {
       const message =
         error instanceof Error ? error.message : "Failed to delete faculty.";
+      toast.error(message);
+    },
+  });
+
+  const reactivateMutation = useMutation({
+    mutationFn: async (faculty: InstitutionFaculty): Promise<void> => {
+      await ensureSanctumCsrf();
+      const response = await facultyStore({
+        user_id: faculty.id,
+        role:
+          faculty.role === "program_coordinator"
+            ? "program_coordinator"
+            : "course_coordinator",
+        program_ids: faculty.programs.map((program) => program.id),
+        subject_ids: faculty.subjects.map((subject) => subject.id),
+      });
+      if (response.status !== 201) {
+        throw new Error(response.data?.message ?? "Failed to reactivate faculty.");
+      }
+    },
+    onSuccess: () => {
+      toast.success("Faculty reactivated successfully.");
+      queryClient.invalidateQueries({ queryKey: ["faculty-index"] });
+    },
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "Failed to reactivate faculty.";
       toast.error(message);
     },
   });
@@ -227,12 +256,15 @@ export default function Page() {
           setSelectedFaculty(faculty);
           setDeleteOpen(true);
         },
+        onReactivate: (faculty) => {
+          reactivateMutation.mutate(faculty);
+        },
       }),
-    [canManage, editForm],
+    [canManage, editForm, reactivateMutation],
   );
 
   const faculty = facultyQuery.data ?? [];
-  const visibleFaculty = useMemo(() => {
+  const filteredFaculty = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) {
       return faculty;
@@ -252,6 +284,14 @@ export default function Page() {
       return haystack.includes(q);
     });
   }, [faculty, search]);
+  const activeFaculty = useMemo(
+    () => filteredFaculty.filter((row) => row.is_active),
+    [filteredFaculty],
+  );
+  const inactiveFaculty = useMemo(
+    () => filteredFaculty.filter((row) => !row.is_active),
+    [filteredFaculty],
+  );
 
   return (
     <>
@@ -362,7 +402,22 @@ export default function Page() {
               Failed to load faculty data.
             </div>
           ) : (
-            <DataTable columns={columns} data={visibleFaculty} />
+            <Tabs defaultValue="active" className="w-full">
+              <TabsList>
+                <TabsTrigger value="active">
+                  Active ({activeFaculty.length})
+                </TabsTrigger>
+                <TabsTrigger value="inactive">
+                  Inactive ({inactiveFaculty.length})
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="active">
+                <DataTable columns={columns} data={activeFaculty} />
+              </TabsContent>
+              <TabsContent value="inactive">
+                <DataTable columns={columns} data={inactiveFaculty} />
+              </TabsContent>
+            </Tabs>
           )}
         </Protect>
 
@@ -445,11 +500,11 @@ export default function Page() {
         >
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Delete faculty</DialogTitle>
+              <DialogTitle>Deactivate faculty</DialogTitle>
               <DialogDescription>
                 {selectedFaculty
-                  ? `Remove ${selectedFaculty.name} from this institution?`
-                  : "Remove this faculty member from this institution?"}
+                  ? `Move ${selectedFaculty.name} to inactive staff?`
+                  : "Move this faculty member to inactive staff?"}
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -466,7 +521,7 @@ export default function Page() {
                 disabled={deleteMutation.isPending}
                 onClick={() => deleteMutation.mutate()}
               >
-                {deleteMutation.isPending ? "Deleting..." : "Delete"}
+                {deleteMutation.isPending ? "Removing..." : "Move to Inactive"}
               </Button>
             </DialogFooter>
           </DialogContent>
